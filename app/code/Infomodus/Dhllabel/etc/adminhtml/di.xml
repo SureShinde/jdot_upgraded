@@ -1,0 +1,27 @@
+<?xml version="1.0"?>
+<!--
+/**
+ * Copyright © 2015 Magento. All rights reserved.
+ * See COPYING.txt for license details.
+ */
+-->
+<config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:framework:ObjectManager/etc/config.xsd">
+    <type name="\Magento\Backend\Block\Widget\Button\Toolbar">
+        <plugin name="add_dhllabel_button_sales_views" type="\Infomodus\Dhllabel\Plugin\AddToolbarButtons" />
+    </type>
+    <type name='\Magento\Framework\Data\Form\Element\AbstractElement'>
+        <plugin
+                name='Infomodus\Dhllabel\Data\Form\Element\AbstractElementPlugin'
+                type='Infomodus\Dhllabel\Data\Form\Element\AbstractElementPlugin'
+                sortOrder='100'
+        />
+    </type>
+    <type name="\Magento\Shipping\Controller\Adminhtml\Order\Shipment\Save">
+        <plugin name="infomodus_dhllabel_orderShipmentSaveAfter" type="Infomodus\Dhllabel\Observer\ShipmentSaveActionAfter"
+                sortOrder="200"/>
+    </type>
+    <type name="\Magento\Sales\Controller\Adminhtml\Order\Creditmemo\Save">
+        <plugin name="infomodus_dhllabel_orderCreditmemoSaveAfter" type="Infomodus\Dhllabel\Observer\CreditmemoSaveActionAfter"
+                sortOrder="300"/>
+    </type>
+</config>

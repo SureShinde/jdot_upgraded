@@ -1,0 +1,17 @@
+{
+    "name": "plumrocket/module-sizechart",
+    "description": "N/A",
+    "require": {
+        "plumrocket/module-plumbase": "2.*"
+    },
+    "type": "magento2-module",
+    "version": "2.2.1",
+    "autoload": {
+        "files": [
+            "registration.php"
+        ],
+        "psr-4": {
+            "Plumrocket\\SizeChart\\": ""
+        }
+    }
+}

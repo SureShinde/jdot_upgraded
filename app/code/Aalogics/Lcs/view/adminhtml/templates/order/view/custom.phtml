@@ -1,0 +1,72 @@
+<?php 
+
+$citiesOptions = $block->_getCitiesOption()
+
+?>
+
+<div class="shipModal">
+    <div id="shipModal">
+        <div><?php echo __('Are you sure you want to ship selected items using LCS?'); ?></div>
+        <form id="form-validate" enctype="multipart/form-data" autocomplete="off" data-mage-init='{"validation":{}}' data-hasrequired="<?php echo __('* Required Fields') ?>">
+            <div class="admin__field field required"> 
+                <label class="label admin__field-label"><span>Select Destination City</span></label>
+                <div class="admin__field-control control">
+                    <select name="city_field" class="required-entry select admin__control-select">
+                        <option value="">Please Select..</option>
+                        <?php foreach ($citiesOptions as $field) { ?>
+                        <option value="<?php echo $field['value']; ?>"><?php echo $field['label']; ?></option>
+                        <?php } ?>
+                    </select>
+                </div>
+            </div>
+        </form>
+
+    </div>
+    
+</div>
+
+<script>
+require(
+    [
+        'jquery',
+        'Magento_Ui/js/modal/modal'
+    ],
+    function($,modal) {
+        var options = {
+            type: 'popup',
+            responsive: true,
+            innerScroll: true,
+            title: 'LCS shipment',
+            clickableOverlay: true,
+            buttons: [{
+                text: $.mage.__('Submit'),
+                class: '',
+                click: function (data) {
+                    data.preventDefault();
+                    var $form = $('#form-validate');
+                    var data = $('#form-validate').serialize();
+                    if(!$form.valid()){
+                        return false;
+                    } 
+                    $.ajax({
+                        url: '<?php echo $block->getLCSUrl(); ?>',
+                        type:'POST',
+                        showLoader: true,
+                        dataType:'json',
+                        data: data,
+                        complete: function(response) {
+                           location.href = response.responseJSON['returnUrl'];
+                        },
+                        error: function (xhr, status, errorThrown) {
+                            console.log('Error happens. Try again.');
+                        }
+                    });
+
+                    this.closeModal();
+                }
+            }]
+        };
+        var popup = modal(options, $('#shipModal'));
+    }
+);
+</script>

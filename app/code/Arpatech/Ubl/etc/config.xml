@@ -1,0 +1,16 @@
+<?xml version="1.0"?>
+<config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:module:Magento_Store:etc/config.xsd">
+    <default>
+        <payment>
+                <ubl>
+                    <active>1</active>
+                    <title>Ubl</title>
+                    <order_status>pending</order_status>
+                    <instructions>Instruction.</instructions>
+                    <payment_action>Sale</payment_action>
+                    <model>Arpatech\Ubl\Model\PaymentMethod</model>
+                </ubl>
+                <!-- payment-config -->
+        </payment>
+    </default>
+</config>

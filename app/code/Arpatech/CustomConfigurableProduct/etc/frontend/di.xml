@@ -1,0 +1,10 @@
+<?xml version="1.0"?>
+<config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:framework:ObjectManager/etc/config.xsd">
+    <type name="Magento\ConfigurableProduct\Block\Product\View\Type\Configurable">
+        <plugin name="arpatech_customconfigurable_product" type="Arpatech\CustomConfigurableProduct\Block\Product\View\Type\Configurable" sortOrder="1"/>
+    </type>
+    <type name="Magento\ConfigurableProduct\Model\ResourceModel\Attribute\OptionSelectBuilderInterface">
+        <plugin name="Magento_ConfigurableProduct_Plugin_Model_ResourceModel_Attribute_InStockOptionSelectBuilder" disabled="true"/>
+        <plugin name="Arpatech_CustomConfigurable_Product_InStockOptionSelectBuilder" type="Arpatech\CustomConfigurableProduct\Plugin\Model\ResourceModel\Attribute\InStockOptionSelectBuilder"/>
+    </type>
+</config>

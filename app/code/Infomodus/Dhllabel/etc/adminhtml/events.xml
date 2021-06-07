@@ -1,0 +1,18 @@
+<?xml version="1.0"?>
+<!--
+/**
+ * Copyright © 2015 Magento. All rights reserved.
+ * See COPYING.txt for license details.
+ */
+-->
+<config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:framework:Event/etc/events.xsd">
+    <!--<event name="checkout_submit_before">
+        <observer name="braintree" instance="Magento\Braintree\Observer\ProcessBraintreeAddress" />
+    </event>-->
+    <event name="sales_order_shipment_save_after">
+        <observer name="dhllabel_shipment_save_after" instance="Infomodus\Dhllabel\Observer\ShipmentSaveAfter" shared="false"/>
+    </event>
+    <event name="sales_order_creditmemo_save_after">
+        <observer name="dhllabel_creditmemo_save_after" instance="Infomodus\Dhllabel\Observer\CreditmemoSaveAfter" shared="false"/>
+    </event>
+</config>

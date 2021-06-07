@@ -1,0 +1,5 @@
+<config>
+<type name="\Magento\ConfigurableProduct\Pricing\Render\FinalPriceBox">
+    <plugin name="arpatech_tempFixConfigurableProduct_pricing_render_finalpricebox" type="Arpatech\TempFixConfigurableProduct\Plugin\FinalPricePlugin" />
+</type>
+</config>

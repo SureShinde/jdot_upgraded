@@ -1,0 +1,241 @@
+<?php
+        $shipment_id = $this->getRequest()->getParam('shipment_id');
+        $shipment = $this->getLoadedShipment();
+	$order = $shipment->getOrder();
+	$shipment_date = $shipment->getCreatedAt();
+	$address = $order->getShippingAddress();
+	$full_name = trim($address->getFirstname() . ' ' . $address->getLastname());
+	$first_name = $address->getFirstname();
+	$last_name = $address->getLastname();
+	$street = trim($address->getStreetLine(1) . ' ' . $address->getStreetLine(2));
+	$city = $address->getCity();
+	$region = $address->getRegionCode() ?: $address->getRegion();
+	$region_code = $address->getRegionCode();
+	$post_code = $address->getPostcode();
+	$country = $address->getCountryId();
+	$company = $address->getCompany();
+	$fulladdress =  $full_name."<br>".$company." ".$street." ".$city.", ".$region.", ".$post_code." ".$country;
+        $mobile = $address->getTelephone();
+	$currency = 'USD';//trim($order->getOrderCurrencyCode());
+	$invoice_number = $order->getCustomInvoiceNo();
+	foreach ($shipment->getTracks() as $track) {
+                $awbInfo = $track->getTrackNumber();
+        }
+	
+?>
+
+ <style type="text/css">
+    .bold-font {
+       font-weight:bold;
+    }
+    .bottom {
+        border-bottom: 2px solid black;
+    }
+    .border-right {
+        border-right: 1px solid #666;
+    }
+	input{
+		width:75px !important;
+		padding:5px!important;
+		margin:5px;
+	}
+	
+ </style>
+<div id="printableArea">
+    <table border="0" cellspacing="0" cellpadding="5" width="600px" style="margin-left: 50px;">
+        <tr>
+            <td>
+                <table border="0" cellspacing="0" cellpadding="5" width="100%">
+                    <tr>
+                        <td width="25%">
+                            <img src="<?php echo $this->getLogoUrl(); ?>" width="150"/>
+                        </td>
+                        <td width="75%" colspan="4" align="center">
+                            <?php echo $this->getStoreAddress();?>
+                        </td>
+                        <td>
+                        </td>
+                        <td colspan="3" width="15%">&nbsp;
+
+                        </td>
+                    </tr>
+                </table>
+                <!--head-->
+                <div class="header-wrapper">
+                    <table border="0" cellpadding="5" cellspacing="0" width="100%">
+                        <tr class="formcont">
+                            <td class="bold-font" width="25%">Invoice No:</td>
+                            <td width="25%">
+                                <span>
+					<input style="width:130px !important" type="text" value="<?php echo $invoice_number;?>" name="invoice_number">
+                                </span>
+                            </td>
+                            <td width="25%" >
+                                <span class="bold-font">Order No:</span>
+                                <span>
+                                    <?php echo $order->getIncrementId(); ?>
+                                </span>
+                            </td>
+                            <td width="25%">
+                                <span class="bold-font">Date :</span> 
+                                <span>
+                                    <?php
+                                    if (!empty($shipment_date)) {
+                                        echo date('d-m-Y', strtotime($shipment_date));
+                                    } else {
+                                        echo 'N/a';
+                                    }
+                                    ?>
+                                </span>
+                            </td>
+                        </tr>
+                        <tr class="formcont">
+                            <td class="bold-font" >Invoice of:</td>
+                            <td>
+                                <span>Ethnic wear for personal use</span>
+								<br ><b>(Non Commercial Value)</b>
+                            </td>
+                            <td class="bold-font">From Karachi to:</td>
+                             <td>
+                                <span><?php echo $country; ?></span>
+                            </td>
+                        </tr>
+                        <tr class="formcont">
+                            <td  class="bold-font">Shipped per:</td>
+                            <td><span>DHL</span></td>
+                            <td class="bold-font">For Amount:</td>
+                            <td><?php echo $currency; ?></td>
+                        </tr>
+                        <tr class="formcont">
+                            <td  colspan="2" class="bold-font" width="%">By Order and For Amount and Risk of:</td>
+                            <td  colspan="2" width="%">
+                                <div><?php echo $fulladdress; ?></div>
+                                <div>
+                                    <span  class="bold-font">Telephone: </span>
+                                    <span><?php echo $mobile;?></span>
+                                </div>
+                            </td>
+                        </tr>
+                    </table>
+                </div>
+                <!--head end-->
+            </td>
+        </tr>
+        <tr>
+            <td style="padding-top: 10px;">
+                <table border="0" cellspacing="0" cellpadding="3" width="100%" class="brdr bottom">
+                    <tr>
+                        <td class="formlbl-list" width="10%" align="center">
+                            Quantity
+                        </td>
+                        <td class="formlbl-list" width="50%" align="left">
+                            Description
+                        </td>
+                        <td class="formlbl-list" width="20%" align="center">
+                            Unit Price (<span class="currency"><?php echo $currency?></span>)
+                        </td>
+                        <td class="formlbl-list" width="20%" align="center" style="border-right: 1px solid #666;">
+                            Amount (<span class="currency"><?php echo $currency?></span>)
+                        </td>
+                    </tr>
+
+                    <?php
+                    $package = 0;
+                    $overall_total = 0;
+		    $customs_value = 0;
+                    foreach ($shipment->getPackages() as $package) {
+			$package = new \Magento\Framework\DataObject($package);
+			foreach ($package->getItems() as $itemId => $item) {
+			$item = new \Magento\Framework\DataObject($item);
+			$customs_value = $item->getCustomsValue();
+			//$customs_value = $item->getData('price');
+			$item_price = number_format($customs_value,2);
+			$qty =  $item->getQty();
+			$total_price = $customs_value  * $qty;
+			$overall_total = $overall_total + $total_price;
+                        ?>
+                        <tr>
+                            <td class="formcont-list" align="center">
+                                <?php
+                                    echo $qty;
+                                ?>
+                            </td>
+                            <td class="formcont-list" align="left">
+                                 <?php echo $item->getData('name'); ?> (<?php echo $item->getData('sku'); ?>)
+                            </td>
+                            <td class="formcont-list" align="center">
+                                <div>
+                                    <span class="currency"><?php echo $currency;?></span>
+                                   <span>
+                                        <input name="unit-price" value="<?php echo number_format($customs_value,2);?>" />
+                                   </span>
+                                </div>
+                            </td>
+                            <td class="formcont-list" align="center" style="border-right: 1px solid #666;">
+                                <span class="currency"><?php echo $currency;?></span>
+                                <span><input name="amount" value="<?php  echo number_format($total_price,2);?>"/></span>
+                            </td>
+                        </tr>
+                        <?php
+                        $package++;
+			}
+                    }
+                    ?>
+                    <tr>
+                        <td class="formcont-list" align="center"></td>
+                        <td class="formcont-list" align="left"></td>
+                        <td class="formcont-list" align="center"><b>Total</b></td>
+                        <td class="formcont-list" align="center" style="border-right: 1px solid #666;">
+                            <b>
+				<span id="lbl_GrandTotal">
+                            	<span class="currency"><?php echo $currency;?></span>
+                 	       		<input name="total-amount" value="<?php echo number_format($overall_total,2); ?>"/>
+                 		</span>
+			    </b>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td class="formcont-list" align="center"></td>
+                        <td class="formcont-list" align="center"></td>
+                        <td colspan="2" class="formcont-list" align="left" style="border-right: 1px solid #666;"></td>
+                    </tr>
+                    <tr>
+                        <td class="formlbl-list" align="center"> AWB#</td>
+                        <td class="formlbl-list" align="left"> 
+                            <input name="awb" style="width:auto !important;" value="<?php echo $awbInfo;?>" />
+                        </td>
+                        <td colspan="2" class=" formlbl-list border-right" align="left"> For Junaidjamshed (Private) Limited</td>
+                    </tr>
+                </table>
+            </td>
+        </tr>
+    </table>
+</div>
+<div id="printBtn">
+    <input type="button" id="click-me" value="Print" class="scalable save"/>
+</div>
+
+<script>
+    require([
+        'jquery'
+    ],function ($){
+        'use strict';
+        $("#click-me").on('click',function(){
+            var printContents = document.getElementById('printableArea').innerHTML;
+            var originalContents = document.body.innerHTML;
+            $('#printBtn').hide();
+            window.print();
+            $('#printBtn').show();
+        });
+    });
+</script>
+<script type="text/javascript">
+    function getCurrency(){
+        var carrier = document.getElementById("carrier").value;
+        var currencies = document.getElementsByClassName("currency");
+        for(var i=0; i < currencies.length; i++) {
+            var t = currencies[i];
+            t.innerHTML = carrier;
+        }
+    }
+</script>

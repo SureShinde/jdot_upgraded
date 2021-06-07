@@ -1,0 +1,324 @@
+<?php
+$shipment_id = $this->getRequest()->getParam('shipment_id');
+if($shipment_id)
+{
+    $shipment = $this->getLoadedShipment();
+    if($shipment)
+    {
+        $shipping_address_id = $shipment->getShippingAddressId();
+        $shipment_date = $shipment->getCreatedAt();
+        $orderId = $shipment->getOrderId();
+        $customerId = $shipment->getCustomerId();
+        $shipment_number = $shipment->getIncrementId();
+        //echo $shipping_address_id."|".$shipment_date."|".$order_id."|".$customer_id;
+
+        $shipping_address = $shipment->getShippingAddress();
+        $address = $shipping_address->getStreetFull();
+
+        $full_name = $shipping_address->getFirstname()." ".$shipping_address->getLastname();
+        $company = $shipping_address->getCompany();
+        $city = $shipping_address->getCity();
+        $region = $shipping_address->getRegion();
+        $post_code = $shipping_address->getPostcode();
+        $country = $shipping_address->getCountryId();
+        $customer_mobile = $shipping_address->getTelephone();
+        $phone = $shipping_address->getFax();
+
+        $full_address = $full_name."<br>".$company." ".$address."<br>".$city.", ".$region.", ".$post_code." ".$country;
+        $customer = $this->getLoadedCustomer();
+        //$customer_mobile = $customer->getMobileNumber();
+        //$customer_name = $customer->getFirstname()." ".$customer->getLastname();
+
+        $order = $this->getLoadedOrder();
+        $orderIncrementId = $order->getIncrementId();
+        $priceHelper = $this->getPriceHelper();
+        $total = $priceHelper->currency($order->getGrandTotal(), true, false);
+        $customer_name = $order->getCustomerFirstname()." ".$order->getCustomerLastname();
+
+        if ($order->hasInvoices()) {
+            $invIncrementIDs = array();
+            foreach ($order->getInvoiceCollection() as $inv) {
+                $invIncrementIDs[] = $inv->getIncrementId();
+            }
+        }
+
+        $invoice_number = '';
+        if(!empty($invIncrementIDs))
+        {
+            $invoice_number = $invIncrementIDs[0];
+        }
+		if(!$invoice_number || $invoice_number==""){
+			$invoice_number = $order->getCustomInvoiceId();
+		}
+        $payment_method = $order->getPayment()->getMethodInstance()->getTitle();
+        $payment_method_code = $order->getPayment()->getMethodInstance()->getCode();
+        ?>
+
+       <div id="printableArea">
+            <table border="0" cellspacing="0" cellpadding="5" width="600px" style="margin-left: 50px;">
+                <tr>
+                    <td>
+                        <table border="0" cellspacing="0" cellpadding="5" width="100%">
+                            <tr>
+                                <td width="15%">
+                                    <img src="<?php echo $this->getLogoUrl(); ?>" width="108" height="114" />
+                                </td>
+                                <td width="70%" colspan="4" align="center">
+                                    <?php echo $this->getStoreAddress();?>
+                                </td>
+                                <td>
+                                </td>
+                                <td colspan="3" width="15%">&nbsp;
+
+                                </td>
+                            </tr>
+                        </table>
+                        <!--head-->
+                        <div class="header-wrapper">
+                            <table border="0" cellspacing="0" cellpadding="5" width="100%">
+                                <tr>
+                                    <td class="auto-style1">MOP</td>
+                                    <td class="formcont">
+                                <span id="lbl_tcs_cod" style="font-weight:bold;">
+                                    <?php echo $payment_method; ?>
+                                </span>
+                                    </td>
+                                    <td class="auto-style2">
+                                        <span id="lbl_tcs"></span>
+                                    </td>
+                                    <?php if($payment_method_code=="cashondelivery") { ?>
+                                        <td class="auto-style3">Amount</td>
+                                        <td class="formcont" colspan="3">
+                                <span id="lbl_amount" style="font-weight:bold;">
+                                    <?php echo $total; ?>
+                                </span>
+                                        </td>
+                                    <?php } ?>
+                                </tr>
+                                <tr>
+                                    <td class="auto-style1">Consignee:</td>
+                                    <td class="formcont" colspan="5">
+                                <span id="lbl_consignee" style="font-weight:bold;">
+                                    <?php echo $customer_name; ?>
+                                </span>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td class="auto-style1">Address:</td>
+                                    <td class="formcont" colspan="5">
+                                <span id="lbl_address">
+                                    <?php echo $full_address; ?>
+                                </span>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td class="auto-style1">City:</td>
+                                    <td class="formcont" colspan="5">
+                                <span id="lbl_city" style="font-weight:bold;">
+                                    <?php echo $city; ?>
+                                </span>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td class="auto-style1">Phone:</td>
+                                    <td class="formcont" >
+                                        <span id="lbl_phone"><?php echo $phone; ?></span>
+                                    </td>
+                                    <td class="auto-style2">Mobile:</td>
+                                    <td class="formcont" colspan="3">
+                                        <span id="lbl_mobile"><?php echo $customer_mobile; ?></span>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td class="auto-style1">
+                                        Invoice No:
+                                    </td>
+                                    <td class="auto-style2">
+                                <span id="lbl_invoiceNo" style="font-weight:bold;">
+                                     <input style="width:130px !important" type="text" value="<?php echo $invoice_number; ?>" id="invoice_number" name="invoice_number">
+                                </span>
+                                    </td>
+                                    <td class="auto-style3">
+                                        Order No:
+                                    </td>
+                                    <td class="formcont">
+                                <span id="lbl_orderNo" style="font-weight:bold;">
+                                    <?php echo $orderIncrementId; ?>
+                                </span>
+                                    </td>
+                                    <td class="formcont">
+                                        <strong>Date:</strong></td>
+                                    <td class="formcont">
+                                <span id="lbl_dispatchDate" style="font-weight:bold;">
+                                    <?php if(!empty($invoice_date)) { ?>
+                                        <strong><?php echo date('d-m-Y', strtotime($invoice_date)); ?><strong>
+                                    <?php } else { $dd = explode(' ',$order->getCreatedAt());  echo  $dd[0]; } ?>
+                                </span>
+                                    </td>
+                                </tr>
+                            </table>
+                        </div>
+                        <!--head end-->
+                    </td>
+                </tr>
+                <tr>
+                    <td style="padding-top: 10px;">
+                        <table border="0" cellspacing="0" cellpadding="3" width="100%" class="brdr">
+                            <tr>
+                                <td class="formlbl-list" width="10%" align="center">
+                                    Quantity
+                                </td>
+                                <td class="formlbl-list" width="60%" align="left">
+                                    Product Code
+                                </td>
+                                <td class="formlbl-list" width="15%" align="right">
+                                    Price (PKR)
+                                </td>
+                                <td class="formlbl-list" width="15%" align="right" style="border-right: 1px solid #666;">
+                                    Total (PKR)
+                                </td>
+                            </tr>
+
+                            <?php
+                            $orderedItems = $order->getAllVisibleItems();
+                            $package = 0;
+                            $overall_total = 0;
+                            foreach ($orderedItems as $item) {
+                                ?>
+                                <tr>
+                                    <td class="formcont-list" align="center">
+                                        <?php
+                                        $qty = (int) $item->getData('qty_ordered');
+                                        echo $qty;
+                                        ?>
+                                    </td>
+                                    <td class="formcont-list" align="left">
+                                        <?php echo $item->getData('sku'); ?>
+                                    </td>
+                                    <td class="formcont-list" align="center">
+                                        <?php echo  $priceHelper->currency($item->getData('price'), true, false); ?>
+                                    </td>
+                                    <td class="formcont-list" align="center" style="border-right: 1px solid #666;">
+                                        <?php
+                                        $price = $item->getData('price');
+                                        $total_price = ($price * $qty);
+                                        $overall_total = $overall_total + $total_price;
+                                        echo  $priceHelper->currency($total_price, true, false);
+                                        ?>
+                                    </td>
+                                </tr>
+                                <?php
+                                $package++;
+                            }
+                            ?>
+                            <tr>
+                                <td class="formcont-list" align="center">
+                                </td>
+                                <td class="formcont-list" align="left">
+                                    <!--<b>No of Pkgs: <?php /*echo $package; */?></b>-->
+                                </td>
+                                <td class="formcont-list" align="center">
+                                    <b>Total</b>
+                                </td>
+                                <td class="formcont-list" align="center" style="border-right: 1px solid #666;">
+                                    <b><span id="lbl_GrandTotal">
+                                <?php echo $priceHelper->currency($overall_total, true, false); ?>
+                            </span></b>
+                                </td>
+                            </tr>
+							<?php if($order->getDiscountAmount()!=""){?>
+								<tr>
+									<td class="formcont-list" align="center">
+									</td>
+									<td class="formcont-list" align="left">
+										<!--<b>No of Pkgs: <?php /*echo $package; */?></b>-->
+									</td>
+										<td class="formcont-list" align="center">
+											<b>Discount</b>
+										</td>
+										<td class="formcont-list" align="center" style="border-right: 1px solid #666;">
+											<b><span id="lbl_GrandTotal">
+										<?php echo $priceHelper->currency($order->getDiscountAmount(), true, false); ?>
+											</span></b>
+										</td>
+									</tr>
+									<tr>
+									<td class="formcont-list" align="center">
+									</td>
+									<td class="formcont-list" align="left">
+										<!--<b>No of Pkgs: <?php /*echo $package; */?></b>-->
+									</td>
+										<td class="formcont-list" align="center">
+											<b>Grand Total</b>
+										</td>
+										<td class="formcont-list" align="center" style="border-right: 1px solid #666;">
+											<b><span id="lbl_GrandTotal">
+										<?php echo $priceHelper->currency($order->getGrandTotal(), true, false); ?>
+											</span></b>
+										</td>
+									</tr>
+								<?php }?>
+                            <tr>
+                                <td class="formcont-list" align="center">
+                                </td>
+                                <td class="formcont-list" align="center">
+                                </td>
+                                <td colspan="2" class="formcont-list" align="left" style="border-right: 1px solid #666;">
+                                    <!--<b>For Junaidjamshed <br />(Private) Limited.</b>-->
+                                </td>
+                            </tr>
+                        </table>
+                    </td>
+                </tr>
+            </table>
+       </div>
+<div id="printBtn" style="margin-top:10px;">
+    <input type="button" id="click-me" value="Print" class="scalable save"/>
+</div>
+
+<script>
+require([
+    'jquery'
+],function ($){
+    'use strict';
+    $("#click-me").on('click',function(){
+        var printContents = document.getElementById('printableArea').innerHTML;
+        var originalContents = document.body.innerHTML;
+        $('#printBtn').hide();
+        window.print();
+        $('#printBtn').show();
+    });
+});
+</script>
+
+
+        <?php
+    } else {
+        ?>
+        <div>
+            <table border="0" cellspacing="0" cellpadding="5" width="600px" style="margin-left: 50px;">
+                <tr>
+                    <td>
+                        Sorry, no data available for this invoice.
+                    </td>
+                </tr>
+            </table>
+        </div>
+        <?php
+    }
+}
+else
+{
+    ?>
+    <div>
+        <table border="0" cellspacing="0" cellpadding="5" width="600px" style="margin-left: 50px;">
+            <tr>
+                <td>
+                    Something is missing, invalid request.
+                </td>
+            </tr>
+        </table>
+    </div>
+    <?php
+}
+?>

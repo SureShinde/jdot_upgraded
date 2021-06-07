@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:module:Magento_Store:etc/config.xsd">
+	<default>
+		<aalcs>
+			<lcs_cod>
+				<enable>0</enable>
+				<debug>1</debug>
+				<api_url>http://new.leopardscod.com/webservice/</api_url>
+				<sandbox>1</sandbox>
+				<api_format>json</api_format>
+				<tracking_url><![CDATA[http://leopards.com.pk/tracking/index.php?cn_number=]]></tracking_url>
+			</lcs_cod>
+		</aalcs>
+		 <carriers>
+            <aalcs>
+                <active>1</active>
+                <sallowspecific>0</sallowspecific>
+                <model>Aalogics\Lcs\Model\Carrier\Lcs</model>
+                <name>LCS Shipping</name>
+                <price>0</price>
+                <title>LCS</title>
+                <type>I</type>
+                <specificerrmsg>This shipping method is not available. To use this shipping method, please contact us.</specificerrmsg>
+            </aalcs>
+        </carriers>
+	</default>
+</config>

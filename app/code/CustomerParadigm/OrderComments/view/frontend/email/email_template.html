@@ -1,0 +1,22 @@
+<!--@subject Customer Order Comment@-->
+<!--@vars {
+"var data.comment":"Test",
+"var data.email":"Sender Email",
+"var data.name":"Sender Name"
+} @-->
+
+
+<br>
+<br>
+<br>
+Hello,
+<br>
+<br>
+<br>
+{{trans "You just received customer comment for order# %orderId" orderId=$data.IncrementId}}
+<br>
+<br>
+<h3>Customer Order Comment</h3>
+{{trans " %comment" comment=$history.comment}}
+
+

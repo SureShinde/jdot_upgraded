@@ -1,0 +1,20 @@
+<?xml version="1.0"?>
+<!--
+/**
+ * Copyright © 2016 Magento. All rights reserved.
+ * See COPYING.txt for license details.
+ */
+-->
+<page xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:framework:View/Layout/etc/page_configuration.xsd">
+    <body>
+        <referenceContainer name="content">
+            <!--<block class="Magento\Sales\Block\Order\View" name="order.comments" template="order/order_comments.phtml" before="sales.order.info.links"/>-->
+            <block class="CustomerParadigm\OrderComments\Block\Order\ChildView" name="order.comments.form" template="order/order_comments_form.phtml" after="order.comments"/>
+        </referenceContainer>
+        <referenceBlock name="order.comments">
+            <action method="setTemplate">
+                <argument name="template" xsi:type="string">CustomerParadigm_OrderComments::order/order_comments.phtml</argument>
+            </action>
+        </referenceBlock>
+    </body>
+</page>

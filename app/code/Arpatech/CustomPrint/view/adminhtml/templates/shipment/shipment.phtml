@@ -1,0 +1,248 @@
+<?php
+ $shipment_id = $this->getRequest()->getParam('shipment_id');
+if($shipment_id) {
+        $shipment = $this->getLoadedShipment();
+        if ($shipment) {
+            $shipping_address_id = $shipment->getShippingAddressId();
+            $shipment_date = $shipment->getCreatedAt();
+            $orderId = $shipment->getOrderId();
+            $customerId = $shipment->getCustomerId();
+            $shipment_number = $shipment->getIncrementId();
+            //echo $shipping_address_id."|".$shipment_date."|".$orderId."|".$customerId;
+            //exit();
+            $shipping_address = $shipment->getShippingAddress();
+            $address = $shipping_address->getStreetFull();
+
+            $full_name = $shipping_address->getFirstname() . " " . $shipping_address->getLastname();
+            $company = $shipping_address->getCompany();
+            $city = $shipping_address->getCity();
+            $region = $shipping_address->getRegion();
+            $post_code = $shipping_address->getPostcode();
+            $country = $shipping_address->getCountryId();
+            $customer_mobile = $shipping_address->getTelephone();
+
+            $full_address = $full_name . "<br>" . $company . " " . $address . "<br>" . $city . ", " . $region . ", " . $post_code . " " . $country;
+            $customer = $this->getLoadedCustomer();
+            //$customer_mobile = $customer->getMobileNumber();
+            $phone = $shipping_address->getFax();
+            $customer_name = $customer->getFirstname() . " " . $customer->getLastname();
+
+            $order = $this->getLoadedOrder();
+            $customer_name = $order->getCustomerFirstname() . ' ' . $order->getCustomerLastname();
+
+            $orderIncrementId = $order->getIncrementId();
+            $priceHelper = $this->getPriceHelper(); // Instance of Pricing Helper
+
+            $total = $priceHelper->currency($order->getGrandTotal(), true, false);
+
+            if ($order->hasInvoices()) {
+                $invIncrementIDs = array();
+                foreach ($order->getInvoiceCollection() as $inv) {
+                    $invIncrementIDs[] = $inv->getIncrementId();
+                }
+            }
+
+            $invoice_number = '';
+            if (!empty($invIncrementIDs)) {
+                $invoice_number = $invIncrementIDs[0];
+            }
+            if (!$invoice_number || $invoice_number == "") {
+                $invoice_number = $order->getCustomInvoiceId();
+            }
+            $payment_method = $order->getPayment()->getMethodInstance()->getTitle();
+            $payment_method_code = $order->getPayment()->getMethodInstance()->getCode();
+
+            ?>
+            <div id="printableArea">
+                <table border="0" cellspacing="0" cellpadding="5" width="600px" style="margin-left: 50px;">
+                    <tr>
+                        <td>
+                            <table border="0" cellspacing="0" cellpadding="5" width="100%">
+                                <tr>
+                                    <td width="15%">
+                                        <img
+                                            src="<?php echo $this->getLogoUrl();?>"
+                                            width="108" height="114"/>
+                                    </td>
+                                    <td width="70%" colspan="4" align="center">
+                                        <h3><?php echo $this->getStoreAddress(); ?></h3>
+                                    </td>
+                                    <td>
+                                    </td>
+                                    <td colspan="3" width="15%">
+                                        &nbsp;
+                                    </td>
+                                </tr>
+                            </table>
+                            <!--head-->
+                            <div class="header-wrapper" style="margin-top: 10px;">
+                                <table border="0" cellspacing="0" cellpadding="5" width="100%">
+                                    <tr>
+                                        <?php if ($invoice_number != '') { ?>
+                                            <td class="formlbl">
+                                                Invoice No:
+                                            </td>
+                                            <td id="tdInvoiceNo" class="formcont" colspan="2">
+                                                <input style="width:130px !important" type="text"
+                                                       value="<?php echo $invoice_number; ?>" name="invoice_number">
+                                            </td>
+                                        <?php } else { ?>
+                                            <td class="formlbl">
+                                                Shipment No:
+                                            </td>
+                                            <td id="tdInvoiceNo" class="formcont" colspan="2">
+                                                <?php echo $shipment_number; ?>
+                                            </td>
+                                        <?php } ?>
+
+                                        <td class="formlbl">
+                                            Order No:
+                                        </td>
+                                        <td id="tdOrderNo" class="formcont"
+                                            colspan="3"><?php echo $orderIncrementId; ?></td>
+
+                                        <td class="formlbl">
+                                            Date:
+                                        </td>
+                                        <td id="tdDate" class="formcont">
+                                            <?php
+                                            if (!empty($shipment_date)) {
+                                                echo date('d-m-Y', strtotime($shipment_date));
+                                            } else {
+                                                echo 'N/a';
+                                            }
+
+                                            ?>
+                                        </td>
+                                    </tr>
+                                    <?php
+                                    if (strpos($order->getShippingDescription(), 'Shipping Charges - Domestic Courie') !== false) {
+                                        ?>
+                                        <tr>
+                                            <td class="formlbl">
+                                                Weight:
+                                            </td>
+                                            <td id="tdPaymentMethod" class="formcont" colspan="2">
+                                                <?php echo number_format($order->getWeight(), 2); ?>
+                                            </td>
+                                            <td class="formlbl">
+                                                Number of Pieces:
+                                            </td>
+                                            <td id="tdCustomerName" class="formcont" colspan="5">
+                                                <?php echo number_format($order->getTotalQtyOrdered(), 2); ?>
+                                            </td>
+                                        </tr>
+                                    <?php } ?>
+                                    <tr>
+                                        <td class="formlbl">
+                                            Payment Method:
+                                        </td>
+                                        <td id="tdPaymentMethod" class="formcont" colspan="2">
+                                            <?php echo $payment_method; ?>
+                                        </td>
+                                        <td class="formlbl">
+                                            Consignee:
+                                        </td>
+                                        <td id="tdCustomerName" class="formcont" colspan="5">
+                                            <strong><?php echo $customer_name; ?></strong>
+                                        </td>
+                                    </tr>
+                                    <?php if ($payment_method_code == "cashondelivery") { ?>
+                                        <tr>
+                                            <td class="formlbl">
+                                                Amount:
+                                            </td>
+                                            <td id="tdAmount" class="formcont" colspan="8">
+                                                <strong><?php echo $total; ?></strong>
+                                            </td>
+                                        </tr>
+                                    <?php } ?>
+                                    <tr>
+                                        <td class="formlbl">
+                                            Address:
+                                        </td>
+                                        <td id="tdbillingadd" class="formcont" colspan="8">
+                                            <?php echo $full_address; ?>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td class="formlbl">
+                                            City:
+                                        </td>
+                                        <td id="tdbillingadd" class="formcont" colspan="8">
+                                            <?php echo $city; ?>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td class="formlbl">
+                                            Phone:
+                                        </td>
+                                        <td id="tdbillingadd" class="formcont" colspan="2">
+                                            <?php echo $phone; ?>
+                                        </td>
+                                        <td class="formlbl">
+                                            Mobile:
+                                        </td>
+                                        <td id="tdbillingadd" class="formcont" colspan="5">
+                                            <?php echo $customer_mobile; ?>
+                                        </td>
+                                    </tr>
+                                </table>
+                            </div>
+                            <!--head end-->
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>
+                            &nbsp;
+                        </td>
+                    </tr>
+                </table>
+            </div>
+            <div id="printBtn">
+                <input type="button" id="click-me" value="Print" class="scalable save"/>
+            </div>
+            <script>
+                require([
+                    'jquery'
+                ],function ($){
+                    'use strict';
+                    $("#click-me").on('click',function(){
+                        var printContents = document.getElementById('printableArea').innerHTML;
+                        var originalContents = document.body.innerHTML;
+                        $('#printBtn').hide();
+                        window.print();
+                        $('#printBtn').show();
+                    });
+                });
+            </script>
+            <?php
+        } else {
+            ?>
+            <div>
+                <table border="0" cellspacing="0" cellpadding="5" width="600px" style="margin-left: 50px;">
+                    <tr>
+                        <td>
+                            Sorry, no data available for this shipment.
+                        </td>
+                    </tr>
+                </table>
+            </div>
+            <?php
+        }
+}
+else
+{
+    ?>
+    <div>
+        <table border="0" cellspacing="0" cellpadding="5" width="600px" style="margin-left: 50px;">
+            <tr>
+                <td>
+                    Something is missing, invalid request.
+                </td>
+            </tr>
+        </table>
+    </div>
+    <?php
+}
+?>

@@ -1,0 +1,20 @@
+body {
+	font-family:Arial, Helvetica, sans-serif;font-size:8pt;margin:0px;padding:0px;
+	/*background:url(../images/bg.jpg) repeat-y;*/
+	}
+h3{ font-size:18pt;font-weight:normal;margin:0px;padding:0px;}
+h5{ font-size:18pt;font-weight:normal;margin:0px;padding:0px;}
+.formlbl { border-bottom: 1px dotted #666; color: gray; font-size: 12px; font-weight: bold; padding: 10px 7px;}
+.formcont { border-bottom: 1px dotted gray; color: gray; line-height: 0.8;}
+.header-wrapper {-webkit-border-radius: 20px;	-moz-border-radius: 20px;	border-radius: 20px;padding:5px;border:1px solid #999}
+#printBtn .scalable.save { background: #f1f1f1 none repeat scroll 0 0; border: medium none; border-radius: 6px; color: #888; font-size: 15px; font-weight: bold; padding: 10px 0; text-transform: uppercase; width: 70px; box-shadow: 0 3px 0 #ddd; transition: all 0.25s ease-out;}
+#printBtn .scalable.save:hover { background: #8963c2 none repeat scroll 0 0; color: #fff; box-shadow: 0 3px 0 #573689;}
+#lbl_invoiceNo input { color: #888; padding: 5px 0;}
+.auto-style1 { color: #888; font-size: 12px;}
+.header-wrapper tr { height: 30px;}
+.brdr td { color: #888; font-size: 12px; height: 25px;}
+.brdr { /*border-right:1px solid #666;*/}
+.formlbl-list {border-bottom:1px solid #666;font-weight:bold;border-top:1px solid #666;border-left:1px solid #666;}
+.formcont-list {border-top:1px solid #666;border-left:1px solid #666;}
+.formcont div { font-size: 12px; line-height: 165%;}
+.formcont span { font-size: 12px; line-height: 165%;}

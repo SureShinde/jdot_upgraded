@@ -1,0 +1,42 @@
+<script>
+
+function enableSyncButton() {
+    Form.Element.enable('synchronize_button');
+    $('synchronize_button').removeClassName('disabled');
+}
+
+function disableSyncButton() {
+    Form.Element.disable('synchronize_button');
+    $('synchronize_button').addClassName('disabled');
+}
+
+require([
+    'jquery',
+    'prototype',
+], function(jQuery){
+    function syncronize() {
+        new Ajax.Request('<?php echo $block->getAjaxSyncUrl() ?>', {
+            loaderArea:     false,
+            asynchronous:   true,
+            onSuccess: function(data) {
+                var response = JSON.parse(data.responseText);
+                $('sync_span').addClassName('no-display');
+                $('sync_message_span').update(response.message);
+                enableSyncButton();
+            }
+        });
+    }
+
+    jQuery('#synchronize_button').click(function () {
+        $('sync_span').removeClassName('no-display');
+        disableSyncButton();
+        syncronize();
+    });
+});
+</script>
+
+<?php echo $block->getButtonHtml() ?>
+<span class="sync-indicator no-display" id="sync_span">
+    <img alt="Synchronize" style="margin:0 5px" src="<?=  $block->getViewFileUrl('images/process_spinner.gif') ?>"/>
+</span>
+<span style="margin: 0 5px; font-weight: bold; font-size: 12px;" id="sync_message_span"></span>

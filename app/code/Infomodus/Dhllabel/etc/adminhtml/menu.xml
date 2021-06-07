@@ -1,0 +1,16 @@
+<?xml version="1.0"?>
+<!--
+/**
+ * Copyright © 2015 Magento. All rights reserved.
+ * See COPYING.txt for license details.
+ */
+-->
+<config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:module:Magento_Backend:etc/menu.xsd">
+    <menu>
+        <add id="Infomodus_Dhllabel::base" title="Infomodus" module="Infomodus_Dhllabel" sortOrder="30" dependsOnModule="Infomodus_Dhllabel" parent="Magento_Sales::sales" resource="Infomodus_Dhllabel::dhllabel_acl"/>
+        <add id="Infomodus_Dhllabel::dhllabel" title="DHL Labels" module="Infomodus_Dhllabel" sortOrder="10" action="infomodus_dhllabel/items/" parent="Infomodus_Dhllabel::base" resource="Infomodus_Dhllabel::items"/>
+        <add id="Infomodus_Dhllabel::account" title="DHL Third party shippers" module="Infomodus_Dhllabel" sortOrder="20" action="infomodus_dhllabel/account/" parent="Infomodus_Dhllabel::base" resource="Infomodus_Dhllabel::account_items"/>
+        <add id="Infomodus_Dhllabel::boxes" title="DHL Boxes" module="Infomodus_Dhllabel" sortOrder="40" action="infomodus_dhllabel/boxes/" parent="Infomodus_Dhllabel::base" resource="Infomodus_Dhllabel::boxes_items"/>
+        <add id="Infomodus_Dhllabel::address" title="DHL Addresses" module="Infomodus_Dhllabel" sortOrder="50" action="infomodus_dhllabel/address/" parent="Infomodus_Dhllabel::base" resource="Infomodus_Dhllabel::address_items"/>
+    </menu>
+</config>

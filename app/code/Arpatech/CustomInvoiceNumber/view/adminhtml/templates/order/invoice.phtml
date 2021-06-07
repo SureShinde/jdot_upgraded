@@ -1,0 +1,18 @@
+<?php if ($block->isReadonly()): ?>
+    <?php $_readonly = ' disabled="disabled" '; ?>
+<?php else: ?>
+    <?php $_readonly = ''; ?>
+<?php endif; ?>
+<section class="admin__page-section">
+    <div class="admin__page-section-title">
+        <span class="title"><?php /* @escapeNotVerified */ echo __('ERP Invoice Number') ?></span>
+    </div>
+    <div class="admin__page-section-item-content">
+        <input class="input-text admin__control-text"
+               type="text"
+               id="shipment_custom_invoice"
+               name="shipment_custom_invoice"
+               value="<?php echo  $block->getCustomInvoiceNumber()?>"
+            <?php /* @escapeNotVerified */ echo $_readonly;?>/>
+    </div>
+</section>

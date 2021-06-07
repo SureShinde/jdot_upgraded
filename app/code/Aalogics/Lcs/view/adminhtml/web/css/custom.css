@@ -1,0 +1,6 @@
+.order-shipping-address a, .order-billing-address a{
+display:block !important;
+}
+.action-select-wrap .action-menu-items>.action-menu .action-submenu{
+    bottom: -34% !important;
+}

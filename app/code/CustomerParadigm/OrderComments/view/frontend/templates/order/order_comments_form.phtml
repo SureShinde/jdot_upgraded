@@ -1,0 +1,9 @@
+<form enctype="multipart/form-data" method="post" action="<?php echo $this->getUrl('orderrequest/index/save', ['order_id' => $block->getOrder()->getId()])?>" id="order-view-add-request">
+    <div class="customer-order-request">
+        <div class="field customer-order-view-addrequest">
+            <label for="customer_order_request"><?php echo "Comment"; ?></label>
+            <textarea id="comment-code" name="comment-code" class="required-entry"></textarea>
+        </div>
+        <button class="scalable save" type="submit" id="save-order-request"><span><?php echo "Submit Comment" ?></span></button>
+    </div>
+</form>
