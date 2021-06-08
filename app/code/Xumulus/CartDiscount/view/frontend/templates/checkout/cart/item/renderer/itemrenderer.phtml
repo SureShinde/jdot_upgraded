@@ -1,0 +1,25 @@
+<?php
+$tierPriceModel = $this->getItem();
+$tierPrices = $tierPriceModel->getProduct();
+$cartRuls = $this->getCartRules();
+$html = $this->getDefaultGroup($tierPrices);
+$cartRuls = $this->getCartRules();
+$catalogRuls = $this->getCatalogRules();
+$lineItemTitle = $this->getLineItemTitle();
+?>
+
+<?php if( $html != '' || $catalogRuls != ''): ?>
+	<div class="xulumus-cart-special-price">
+	<label><?php echo __($lineItemTitle)?></label>
+		<?php  if($html): ?>
+		<div class="tire-price-box <?php if($cartRuls != '' || $catalogRuls != '') {echo 'pading';}?>">
+			<?php echo $html; ?>
+		</div>
+		<?php endif; ?>
+		<?php  if($catalogRuls): ?>
+			<div class="cat-rule-box <?php if($html != '') {echo 'seprater';}?> <?php if($cartRuls != '') {echo 'pading';}?>">
+			<?php echo $catalogRuls; ?>
+			</div>
+		<?php endif; ?>
+	</div>
+<?php endif; ?>

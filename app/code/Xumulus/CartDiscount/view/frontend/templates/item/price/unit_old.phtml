@@ -1,0 +1,178 @@
+<?php
+/**
+ * Copyright © 2013-2017 Magento, Inc. All rights reserved.
+ * See COPYING.txt for license details.
+ */
+
+// @codingStandardsIgnoreFile
+
+/** @var $block \Magento\Weee\Block\Item\Price\Renderer */
+
+$item = $block->getItem();
+$product = $item->getProduct();
+$helper = $this->helper('Xumulus\CartDiscount\Helper\Data');
+$productRateId = $product->getData('tax_class_id');
+$objectManager = \Magento\Framework\App\ObjectManager::getInstance();
+$priceHelper = $objectManager->create('Magento\Framework\Pricing\Helper\Data');
+$bundleObj = $objectManager->create('Xumulus\CartDiscount\Model\Cartprice');
+$taxCalculation = $objectManager->create('Magento\Tax\Model\Calculation\Rate')->load($productRateId);
+$rate = $taxCalculation->getRate();
+$save = 0;
+?>
+<?php if ($block->displayPriceInclTax() || $block->displayBothPrices()): ?>
+    <!-- Special Price Display-->
+        <?php if($product->getTypeId() === 'bundle'):?>
+            <span class="price-excluding-tax 1">
+                <span class="cart-price">
+                    <?php $bundlePrice = $bundleObj->optionProduct($item ,true);
+                        if(isset($bundlePrice['totalDiscount']) && $bundlePrice['totalDiscount'] > 0){
+                            if($bundlePrice['actualPrice'] > $bundlePrice['totalDiscount']){
+
+                                $formattedCurrencyValue = $priceHelper->currency($bundlePrice['actualPrice'], true, false);
+                                $priceCal = ($bundlePrice['totalDiscount'] * 100) / $bundlePrice['actualPrice'];
+                                $save = 100 - $priceCal;
+                            }
+                        }
+                    ?>
+                        <span class="price"><strike><?php echo $formattedCurrencyValue; ?></strike></span>
+                        <?php if($save > 0):?>
+                            <span class="saved"><?php echo '(Saved '.number_format($save,2).'%)' ?></span>
+                        <?php endif;?>
+
+                </span>
+            </span>
+        <?php else:?>
+            <?php
+                $priceCal = ($item->getPrice() * 100) / $product->getData('price');
+                $save = 100 - $priceCal;
+            ?>
+            <?php //if($product->getData('price') != $product->getData('quote_item_price') && $product->getData('price') > 0):?>
+            <?php if($product->getData('price') != $item->getPrice() && $product->getData('price') > $item->getPrice()):?>
+                <span class="price-excluding-tax 1">
+                    <span class="cart-price">
+                        <?php
+                        if($helper->getConfig('tax/calculation/price_includes_tax')){
+                            $priceIncludingTax = $product->getPrice() / (1 + ($rate / 100));
+                            $formattedCurrencyValue = $priceHelper->currency($priceIncludingTax, true, false);
+                        } else {
+                            $formattedCurrencyValue = $priceHelper->currency($product->getData('price'), true, false);
+                        }
+                        ?>
+                            <span class="price"><strike><?php echo $formattedCurrencyValue; ?></strike></span>
+
+                    </span>
+                </span>
+            <?php endif;?>
+        <?php endif;?>
+    <!-- Special Price end-->
+    <span class="price-including-tax" data-label="<?php echo $block->escapeHtml(__('Incl. Tax')); ?>">
+        <?php if ($block->displayPriceWithWeeeDetails()): ?>
+            <span class="cart-tax-total"
+                data-mage-init='{"taxToggle": {"itemTaxId" : "#unit-item-tax-details<?php /* @escapeNotVerified */ echo $item->getId(); ?>"}}'>
+        <?php else: ?>
+            <span class="cart-price">
+        <?php endif; ?>
+            <?php /* @escapeNotVerified */ echo $block->formatPrice($block->getUnitDisplayPriceInclTax()); ?>
+            </span>
+            <?php if($save > 0):?>
+                    <span class="saved"><?php echo '(Saved '.number_format($save,2).'%)' ?></span>
+            <?php endif;?>
+
+        <?php if ($this->helper('Magento\Weee\Helper\Data')->getApplied($item)): ?>
+            <span class="cart-tax-info" id="unit-item-tax-details<?php /* @escapeNotVerified */ echo $item->getId(); ?>" style="display: none;">
+                <?php foreach ($this->helper('Magento\Weee\Helper\Data')->getApplied($item) as $tax): ?>
+                    <span class="weee" data-label="<?php /* @escapeNotVerified */ echo $tax['title']; ?>">
+                        <?php /* @escapeNotVerified */ echo $block->formatPrice($tax['amount_incl_tax'], true, true); ?>
+                    </span>
+                <?php endforeach; ?>
+            </span>
+
+            <?php if ($block->displayFinalPrice()): ?>
+                <span class="cart-tax-total"
+                    data-mage-init='{"taxToggle": {"itemTaxId" : "#unit-item-tax-details<?php /* @escapeNotVerified */ echo $item->getId(); ?>"}}'>
+                    <span class="weee" data-label="<?php echo $block->escapeHtml(__('Total Incl. Tax')); ?>">
+                        <?php /* @escapeNotVerified */ echo $block->formatPrice($block->getFinalUnitDisplayPriceInclTax()); ?>
+                    </span>
+                </span>
+            <?php endif; ?>
+        <?php endif; ?>
+    </span>
+<?php endif; ?>
+
+<?php if ($block->displayPriceExclTax() || $block->displayBothPrices()): ?>
+    <!-- Special Price Display-->
+        <?php if($product->getTypeId() === 'bundle'):?>
+            <span class="price-excluding-tax 2">
+                <span class="cart-price">
+                    <?php $bundlePrice = $bundleObj->optionProduct($item ,true);
+                        if(isset($bundlePrice['totalDiscount']) && $bundlePrice['totalDiscount'] > 0){
+                            if($bundlePrice['actualPrice'] > $bundlePrice['totalDiscount']){
+
+                                $formattedCurrencyValue = $priceHelper->currency($bundlePrice['actualPrice'], true, false);
+                                $priceCal = ($bundlePrice['totalDiscount'] * 100) / $bundlePrice['actualPrice'];
+                                $save = 100 - $priceCal;
+                            }
+                        }
+                    ?>
+                        <span class="price"><strike><?php echo $formattedCurrencyValue; ?></strike></span>
+                </span>
+            </span>
+        <?php else:?>
+            <?php
+                $priceCal = ($item->getPrice() * 100) / $product->getData('price');
+                $save = 100 - $priceCal;
+            ?>
+            <?php // if($product->getData('price') != $product->getData('quote_item_price') && $product->getData('price') > 0):?>
+            <?php if($product->getData('price') != $item->getPrice() && $product->getData('price') > $item->getPrice()):?>
+                <span class="price-excluding-tax 2">
+                    <span class="cart-price">
+                        <?php
+                        if($helper->getConfig('tax/calculation/price_includes_tax')){
+                            $priceIncludingTax = $product->getPrice() / (1 + ($rate / 100));
+                            $formattedCurrencyValue = $priceHelper->currency($priceIncludingTax, true, false);
+                        } else {
+                            $formattedCurrencyValue = $priceHelper->currency($product->getData('price'), true, false);
+                        }
+                        ?>
+                        <?php echo 'test=>'.$product->getPriceInfo()->getPrice('final_price')->getAmount();?>
+                            <span class="price"><strike><?php echo $formattedCurrencyValue; ?></strike></span>
+
+                    </span>
+                </span>
+            <?php endif;?>
+        <?php endif;?>
+    <!-- Special Price end-->
+    <span class="price-excluding-tax" data-label="<?php echo $block->escapeHtml(__('Excl. Tax')); ?>">
+        <?php if ($block->displayPriceWithWeeeDetails()): ?>
+            <span class="cart-tax-total"
+                data-mage-init='{"taxToggle": {"itemTaxId" : "#eunit-item-tax-details<?php /* @escapeNotVerified */ echo $item->getId(); ?>"}}'>
+        <?php else: ?>
+            <span class="cart-price">
+        <?php endif; ?>
+                <?php /* @escapeNotVerified */ echo $block->formatPrice($block->getUnitDisplayPriceExclTax()); ?>
+            </span>
+            <?php if($save > 0):?>
+                    <span class="saved"><?php echo '(Saved '.number_format($save,2).'%)' ?></span>
+            <?php endif;?>
+
+        <?php if ($this->helper('Magento\Weee\Helper\Data')->getApplied($item)): ?>
+            <span class="cart-tax-info" id="eunit-item-tax-details<?php /* @escapeNotVerified */ echo $item->getId(); ?>"
+                style="display: none;">
+                <?php foreach ($this->helper('Magento\Weee\Helper\Data')->getApplied($item) as $tax): ?>
+                    <span class="weee" data-label="<?php /* @escapeNotVerified */ echo $tax['title']; ?>">
+                        <?php /* @escapeNotVerified */ echo $block->formatPrice($tax['amount'], true, true); ?>
+                    </span>
+                <?php endforeach; ?>
+            </span>
+
+            <?php if ($block->displayFinalPrice()): ?>
+                <span class="cart-tax-total"
+                      data-mage-init='{"taxToggle": {"itemTaxId" : "#eunit-item-tax-details<?php /* @escapeNotVerified */ echo $item->getId(); ?>"}}'>
+                    <span class="weee" data-label="<?php echo $block->escapeHtml(__('Total')); ?>">
+                        <?php /* @escapeNotVerified */ echo $block->formatPrice($block->getFinalUnitDisplayPriceExclTax()); ?>
+                    </span>
+                </span>
+            <?php endif; ?>
+        <?php endif; ?>
+    </span>
+<?php endif; ?>

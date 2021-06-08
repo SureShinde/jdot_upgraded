@@ -1,0 +1,20 @@
+<?xml version="1.0"?>
+<config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:module:Magento_Store:etc/config.xsd">
+    <default>
+        <discount>
+            <general>
+                <listprice>Original Price</listprice>
+                <savings>You Saved</savings>
+                <cart_line_item_title>Special Offer(s)</cart_line_item_title>
+                <shopping_cart_sidebar_title>Applied Rule</shopping_cart_sidebar_title>
+            </general>
+            <cart>
+                <show_promotion_oncart>1</show_promotion_oncart>
+                <header_html><![CDATA[<p style="text-align: center;">Special Offers</p>]]></header_html>
+                <footer_html><![CDATA[<p>* Items in <span style="color: #2bb01c;">green</span> will show at checkout</p>]]></footer_html>
+                <active_coupon_color>2BB01C</active_coupon_color>
+                <coupon_show>6</coupon_show>
+            </cart>
+        </discount>
+    </default>
+</config>

@@ -1,0 +1,49 @@
+<?xml version="1.0"?>
+<page xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" layout="1column" xsi:noNamespaceSchemaLocation="urn:magento:framework:View/Layout/etc/page_configuration.xsd">
+    <body>
+        <referenceBlock name="checkout.cart.totals">
+            <arguments>
+                <argument name="jsLayout" xsi:type="array">
+                    <item name="components" xsi:type="array">
+                        <item name="block-totals" xsi:type="array">
+                            <item name="children" xsi:type="array">
+                                <item name="discountcart_summery" xsi:type="array">
+                                    <item name="component"  xsi:type="string">Xumulus_CartDiscount/js/view/checkout/cart/totals/cartrulesummery</item>
+                                    <item name="sortOrder" xsi:type="string">1</item>
+                                    <item name="config" xsi:type="array">
+                                         <item name="template" xsi:type="string">Xumulus_CartDiscount/checkout/cart/totals/cartrulesummery</item>
+                                        <item name="title" xsi:type="helper" helper="Xumulus\CartDiscount\Helper\Data::getCartRuleSummery"/>
+                                    </item>
+                                </item>
+                                <item name="discountcart_totalprice" xsi:type="array">
+                                    <item name="component"  xsi:type="string">Xumulus_CartDiscount/js/view/checkout/cart/totals/customprice</item>
+                                    <item name="sortOrder" xsi:type="string">2</item>
+                                    <item name="config" xsi:type="array">
+                                         <item name="template" xsi:type="string">Xumulus_CartDiscount/checkout/cart/totals/customprice</item>
+                                        <item name="title" xsi:type="helper" helper="Xumulus\CartDiscount\Helper\Data::getListprice"/>
+                                    </item>
+                                </item>
+                                 <item name="discountcart_savings" xsi:type="array">
+                                    <item name="component"  xsi:type="string">Xumulus_CartDiscount/js/view/checkout/cart/totals/savings</item>
+                                    <item name="sortOrder" xsi:type="string">3</item>
+                                    <item name="config" xsi:type="array">
+                                         <item name="template" xsi:type="string">Xumulus_CartDiscount/checkout/cart/totals/savings</item>
+                                        <item name="title" xsi:type="helper" helper="Xumulus\CartDiscount\Helper\Data::getSavings"/>
+                                    </item>
+                                </item>
+                            </item>
+                        </item>
+                    </item>
+                </argument>
+            </arguments>
+        </referenceBlock>
+        <referenceContainer name="content">  
+           <block class="Xumulus\CartDiscount\Block\Checkout\Cartinfo" name="additional.product.info.checkout.cart" before="-" template="Xumulus_CartDiscount::checkout/cart/item/renderer/cartinfo.phtml">
+           </block>
+       </referenceContainer>
+        <referenceBlock name="additional.product.info">
+           <block class="Xumulus\CartDiscount\Block\Checkout\Cart" name="additional.product.info.CartDiscount" template="Xumulus_CartDiscount::checkout/cart/item/renderer/itemrenderer.phtml">
+           </block>
+       </referenceBlock>
+    </body>
+</page>

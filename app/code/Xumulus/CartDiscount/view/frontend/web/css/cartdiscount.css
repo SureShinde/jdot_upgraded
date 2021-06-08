@@ -1,0 +1,208 @@
+.custom-price-checkout {
+    font-size: 1.6rem;
+    font-weight: 400;
+    text-decoration: line-through;
+}
+
+.savings {
+    color: #810511 !important; 
+}
+
+.strike_line {
+    text-decoration: line-through;
+}
+
+.checkout-index-index .opc-block-summary .product-item .subtotal 
+{
+    display: list-item
+}
+
+/*.tire-price-custom-display ul{padding: 0; margin: 0;}
+.tire-price-custom-display ul li{list-style: none; margin: 0; color: red; font-weight: bold;}
+.tire-price-custom-row {font-size: 1.4rem; white-space: normal;}
+.tire-price-custom-row label{font-weight: bold;}
+.tire-price-custom-row .saved-amount{color: red;}
+.tire-price-custom-row ul{padding: 0; margin: 0;}
+.tire-price-custom-row ul li{list-style: none; display: inline-block; word-break: break-word;}*/
+.cart.item .xulumus-cart-special-price{
+     background-color: #f0f0f0;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    box-shadow: 1px 1px 1px 0 rgba(158, 149, 158, 0.4);
+    padding: 15px;
+}
+.cart.item .xulumus-cart-special-price label{
+    color: #333333;
+    font-size: 1.6rem;
+    font-weight: 600;
+}
+.cart.item .xulumus-cart-special-price .tire-price-box ul{
+    padding: 0;
+    margin: 0;
+}
+
+.cart.item .xulumus-cart-special-price .tire-price-box.pading,.cart.item .xulumus-cart-special-price .cat-rule-box{
+    padding-bottom: 10px;
+}
+.cart.item .xulumus-cart-special-price .tire-price-box ul li:before { content: "★ "; }
+
+.cart.item .xulumus-cart-special-price .tire-price-box ul li{
+    color: red;
+    font-size: 13px;
+    font-weight: 600;
+    list-style: none;
+    margin: 0;
+}
+.cart.item .xulumus-cart-special-price  span.note{
+    color: #000;
+    font-size: 12px;
+}
+
+.cart.item .xulumus-cart-special-price .cat-rule-box.seprater{
+    padding-top: 10px;
+    border-top: 1px solid #5c615c;
+}
+.xulumus-saved-amount{
+    color: red;
+    font-size: 13px;
+    font-weight: 600;
+    margin: 0;
+}
+.cart.item .price .saved{font-size: 13px; display: block;}
+.cart.item .xulumus-cart-special-price  .cart-rule-text:before { content: "★ "; }
+.cart.item .xulumus-cart-special-price  .cat-rule-box .catalog-label:before { content: "★ "; }
+
+.cart.item .xulumus-cart-special-price  .cart-rule-text{
+    color: red;
+    font-size: 13px;
+    font-weight: 600;
+    list-style: none;
+    margin: 0;
+}
+
+.cart.item .xulumus-cart-special-price .coupon-label,.cart.item .xulumus-cart-special-price .catalog-label{
+    color: red;
+    font-size: 13px;
+    font-weight: 600;
+    list-style: none;
+    margin: 0;
+    display: block;
+}
+
+.xulumus-cart-special-offer{
+     background-color: #f0f0f0;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    box-shadow: 1px 1px 1px 0 rgba(158, 149, 158, 0.4);
+    padding: 7px;
+    display: inline-block;
+    
+}
+.xulumus-cart-special-offer .cat-rule-box{
+    text-transform: uppercase;
+    text-align: center;
+    display: inline-block;
+}
+.xulumus-cart-special-offer .coupon-label{
+    box-shadow: 0 1px 21px #888888;
+    height: 200px;
+    margin: 7px;
+    position: relative;
+    width: 200px;
+    background: #fff;
+    display: inline-block;
+    vertical-align: top;
+}
+/*.xulumus-cart-special-offer .coupon-label.selected{
+    background: #228B22;
+    color: #fff;
+}*/
+
+.xulumus-cart-special-offer .coupon-label .lable-text{
+    display: block;
+    height: 180px;
+    margin: 10px;
+    border: 1px dashed #ccc;
+}
+.xulumus-cart-special-offer .coupon-label.selected{
+    background: #228B22;
+}
+.xulumus-cart-special-offer .coupon-label.selected .lable-text{
+    background: #fff;
+    border: 1px dashed #228B22;
+}
+.xulumus-cart-special-offer .coupon-label span{
+    display: block;
+}
+.xulumus-cart-special-offer .coupon-label span.name{
+   font-weight: bold;
+    padding: 5px;
+}
+.xulumus-cart-special-offer .coupon-label span.offer-message{
+   font-size: 11px;
+}
+.xulumus-cart-special-offer .coupon-label span.offer-text{
+    color: red;
+    font-size: 20px;
+    margin: 5px 0;
+   
+}
+.xulumus-cart-special-offer .coupon-label span.offer-expire{
+    font-size: 11px;
+    font-weight: bold;
+   
+}
+
+.xulumus-cart-special-price .tooltip {
+  position: relative;
+  display: inline-block;
+}
+.xulumus-cart-special-price .tooltip .design{
+    padding: 0px 4px;
+    border-radius: 50% 50%;
+    border: 1px solid #aaa;
+    margin-left: 5px;
+    color: #000;
+    font-weight: bold;
+    background: #ddd;
+    display: inline-block;
+    line-height: 12px;
+}
+/* Tooltip text */
+.xulumus-cart-special-price .tooltip .tooltiptext {
+    visibility: hidden;
+    width: 120px;
+    background-color: #fff;
+    text-align: center;
+    padding: 5px 0;
+    border-radius: 6px;
+    position: absolute;
+    z-index: 1;
+    color: #333;
+    border: 1px solid #ccc;
+}
+/* Show the tooltip text when you mouse over the tooltip container */
+.xulumus-cart-special-price .tooltip:hover .tooltiptext {
+  visibility: visible;
+}
+
+.checkout-appalied-cart-list{display: inline-block; width: 100%; border-bottom: 1px solid #ccc;  padding-bottom: 5px;}
+table tr th.cart-rule-summery{width: 100%; border-bottom: 1px solid #ccc;  padding-bottom: 5px; border-top: 0; padding-top:0;}
+.checkout-appalied-cart-list .lable-title,.cart-rule-summery .lable-title{display: block; font-weight: bold;}
+.checkout-appalied-cart-list .lable-text,.cart-rule-summery .lable-text{display: inline-block; width: 100%;}
+.checkout-appalied-cart-list .lable-text .name,.cart-rule-summery .lable-text .name{display: inline-block; color: red; font-weight: bold;font-size: 12px;}
+.checkout-appalied-cart-list .lable-text .name:before,.cart-rule-summery .lable-text .name:before { content: "★ "; }
+.opc-block-summary .product-item .subtotal .custom-price-checkout,
+.opc-block-summary .product-item .subtotal .savedpercent{display: block;}
+.opc-block-summary .product-item .subtotal .savedpercent{font-size: 12px}
+.checkout-appalied-cart-list .lable-text span,.cart-rule-summery .lable-text span{display: block;}
+.checkout-appalied-cart-list .lable-text span.offer-expire,.cart-rule-summery .lable-text span.offer-expire{color: red;font-size: 11px; padding-left: 12px; font-weight:normal;}
+.checkout-appalied-cart-list .lable-text span.offer-expire:before,.cart-rule-summery .lable-text span.offer-expire:before{content: "-- ";}
+.cart-special-offer-container .cat-header-box{margin: 7px;
+    box-shadow: 0 1px 21px #888888;
+    padding: 5px;
+    background: #fff;}
+.cart-special-offer-container .cat-footer-box{margin: 7px;
+    box-shadow: 0 1px 21px #888888;
+    padding: 5px;
+    background: #fff;}

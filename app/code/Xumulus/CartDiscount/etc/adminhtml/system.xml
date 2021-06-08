@@ -1,0 +1,84 @@
+<?xml version="1.0"?>
+<config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="../../../Config/etc/system_file.xsd">
+    <system>
+        <tab id="xumulus" translate="label" sortOrder="200" >
+            <label>Xumulus</label>
+        </tab>
+        <section id="discount" translate="label" type="text" sortOrder="320" showInDefault="1" showInWebsite="1" showInStore="1">
+           <label>Cart Discount</label>
+           <tab>xumulus</tab>
+           <resource>Xumulus_CartDiscount::config</resource>
+             <group id="general" translate="label" type="text" sortOrder="1" showInDefault="1" showInWebsite="1" showInStore="1">
+                <label>General Settings</label>
+                <field id="version" translate="label" type="label" sortOrder="1" showInDefault="1" showInWebsite="1" showInStore="1">
+                    <label>Version</label>
+                    <frontend_model>Xumulus\CartDiscount\Block\System\Config\Form\Field\Version</frontend_model>
+                </field>
+                <field id="listprice" translate="label" type="text" sortOrder="40" showInDefault="1" showInWebsite="1" showInStore="1">
+                    <label>Regular Price Text On Cart/Checkout</label>
+                    <validate>validate-no-empty</validate>
+                    <comment><![CDATA[Enter the Regular Price Title.]]></comment>
+                </field>
+                <field id="savings" translate="label" type="text" sortOrder="41" showInDefault="1" showInWebsite="1" showInStore="1">
+                    <label>Savings Text On Cart/Checkout</label>
+                    <validate>validate-no-empty</validate>
+                    <comment><![CDATA[Enter the Savings Title]]></comment>
+                </field>
+                <field id="cart_line_item_title" translate="label" type="text" sortOrder="50" showInDefault="1" showInWebsite="1" showInStore="1">
+                    <label>Cart line item title</label>
+                    <comment><![CDATA[Enter cart line item title i.e 'Applicable Offer']]></comment>
+                </field>
+                <field id="shopping_cart_sidebar_title" translate="label" type="text" sortOrder="60" showInDefault="1" showInWebsite="1" showInStore="1">
+                    <label>Cart Appiled Summery Title</label>
+                    <comment><![CDATA[Enter shopping cart appiled summery title on sidebar i.e 'Applied Rule']]></comment>
+                </field>
+                <field id="show_saved_percent" translate="label" type="select" sortOrder="70" showInDefault="1" showInWebsite="1" showInStore="1">
+                    <label>Show saved percent(%)</label>
+                    <source_model>Magento\Config\Model\Config\Source\Yesno</source_model>
+                    <comment><![CDATA[Shows saved amount in percentage in minicart and cart page.]]></comment>
+                </field>
+            </group>
+            <group id="cart" translate="label" type="text" sortOrder="10" showInDefault="1" showInWebsite="1" showInStore="1">
+                <label>Cart Coupon Settings</label>
+                <field id="show_promotion_oncart" translate="label" type="select" sortOrder="10" showInDefault="1" showInWebsite="1" showInStore="1">
+                    <label>Applicable Coupons on cart</label>
+                    <source_model>Magento\Config\Model\Config\Source\Yesno</source_model>
+                    <comment><![CDATA[Show list of cart rule block on checkout cart page]]></comment>
+                </field>
+                <field id="cart_item_box" translate="label" type="text" sortOrder="15" showInDefault="1" showInWebsite="1" showInStore="1">
+                    <label>Cart Item Box Size</label>
+                    <comment><![CDATA[Enter cart box item size Width x Height i.e '200x200']]></comment>
+                </field>
+                 <field id="header_html" translate="label" type="editor" sortOrder="20" showInDefault="1" showInWebsite="1" showInStore="1">
+                    <label>Applicable Coupon Heading</label>
+                    <frontend_model>Xumulus\CartDiscount\Block\System\Config\Form\Field\Header</frontend_model>
+                    <depends>
+                        <field id="discount/cart/show_promotion_oncart">1</field>
+                    </depends>
+                </field>
+                
+                <field id="footer_html" translate="label" type="editor" sortOrder="30" showInDefault="1" showInWebsite="1" showInStore="1">
+                    <label>Applicable Coupon Footer</label>
+                    <frontend_model>Xumulus\CartDiscount\Block\System\Config\Form\Field\Footer</frontend_model>
+                    <depends>
+                        <field id="discount/cart/show_promotion_oncart">1</field>
+                    </depends>
+                </field>
+                <field id="active_coupon_color" translate="label" type="text" sortOrder="40" showInDefault="1" showInWebsite="1" showInStore="1">
+                    <label>Active Coupon color</label>
+                    <backend_model>Xumulus\CartDiscount\Model\Config\Backend\Design\Color\Validatetransparent</backend_model>
+                    <frontend_model>Xumulus\CartDiscount\Block\System\Config\Form\Field\Color</frontend_model>
+                    <depends>
+                        <field id="discount/cart/show_promotion_oncart">1</field>
+                    </depends>
+                </field>
+                <field id="coupon_show" translate="label" type="text" sortOrder="50" showInDefault="1" showInWebsite="1" showInStore="1">
+                    <label>Number of coupon show</label>
+                    <depends>
+                        <field id="discount/cart/show_promotion_oncart">1</field>
+                    </depends>
+                </field>
+            </group>
+        </section>
+    </system>
+</config>

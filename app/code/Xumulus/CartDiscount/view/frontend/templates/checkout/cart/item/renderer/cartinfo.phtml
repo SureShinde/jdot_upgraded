@@ -1,0 +1,35 @@
+<?php $cartRuls = $this->getCartRules(); ?>
+<?php if( $cartRuls != ''): ?>
+<div class="cart-special-offer-container">
+<style type="text/css">
+	.xulumus-cart-special-offer .coupon-label.selected{
+		background: <?php echo $this->getActiveCouponColor();?>;
+	}
+	.xulumus-cart-special-offer .coupon-label.selected .lable-text{
+		border: 1px dashed <?php echo $this->getActiveCouponColor();?>;
+	}
+	<?php $cartBox = $this->getCartItemBoxSize(); ?>
+	.xulumus-cart-special-offer .coupon-label{
+		width: <?php echo $cartBox['width']?>px;
+		height: <?php echo $cartBox['height']?>px;
+	}
+	.xulumus-cart-special-offer .coupon-label .lable-text{
+		height: <?php echo $cartBox['height']-20?>px;
+	}
+</style>
+	
+	<div class="xulumus-cart-special-offer">
+		<?php   if($cartRuls): ?>
+			<?php if(strlen($this->getHeaderHtml())>8):?>
+				<div class="cat-header-box"><?php echo $this->getHeaderHtml();?></div>
+			<?php endif;?>
+			<div class="cat-rule-box">
+			<?php echo $cartRuls; ?>
+			</div>
+			<?php  if(strlen($this->getFooterHtml())>8):?>
+				<div class="cat-footer-box"><?php echo $this->getFooterHtml();?></div>
+			<?php endif;?>
+		<?php endif;  ?>
+	</div>
+</div>
+<?php endif; ?>
