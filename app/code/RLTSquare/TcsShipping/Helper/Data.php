@@ -91,10 +91,10 @@ class Data extends \Magento\Framework\App\Helper\AbstractHelper
     {
         if ($this->getDebugStatus() ) {
             if ($useSeparator) {
-                $this->_logger->addDebug(str_repeat('=', 100));
+                $this->_logger->debug(str_repeat('=', 100));
             }
 
-            $this->_logger->addDebug($message);
+            $this->_logger->debug($message);
         }
     }
 }
