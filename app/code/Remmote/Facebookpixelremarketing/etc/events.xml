@@ -1,0 +1,12 @@
+<?xml version="1.0"?>
+<config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:framework:Event/etc/events.xsd">
+    <event name="checkout_cart_product_add_after">
+       <observer name="remmote_facebookpixelremarketing_addproduct" instance="Remmote\Facebookpixelremarketing\Observer\AddProduct" />
+    </event>
+    <event name="sales_order_place_after">
+       <observer name="remmote_facebookpixelremarketing_purchase" instance="Remmote\Facebookpixelremarketing\Observer\Purchase" />
+    </event>
+    <event name="sales_quote_payment_import_data_before">
+       <observer name="remmote_facebookpixelremarketing_paymentinfo" instance="Remmote\Facebookpixelremarketing\Observer\PaymentInfo" />
+    </event>
+</config>

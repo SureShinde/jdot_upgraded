@@ -1,0 +1,47 @@
+<?php echo $block->getButtonHtml();
+?>
+
+<span class="collect-indicator" id="collect_span">
+    <img class="processing" hidden="hidden" alt="Collecting" style="margin:0 5px" src="<?php echo $block->getViewFileUrl('images/process_spinner.gif') ?>"/>
+    <img class="collected" hidden="hidden" alt="Collected" style="margin:-3px 5px" src="<?php echo $block->getViewFileUrl('images/rule_component_apply.gif') ?>"/>
+    <span id="collect_message_span"></span>
+</span>
+<script>
+    var areaId = '<?php echo $block->getAreaId();?>';
+
+    require([
+        'jquery',
+        'prototype'
+    ], function(jQuery){
+        jQuery('#city_area').click(function () {
+            require([
+                "jquery"
+            ], function ($) {
+               var city_id = $('#callcouriertabsection_callcouriergroup_shippercity').val();
+                var param = 'city_id='+city_id;
+                $.ajax({
+                    showLoader: true,
+                    url: "<?php echo $block->getAjaxUrl() ?>",
+                    data: param,
+                    type: "POST",
+                    dataType: 'json'
+                }).done(function (transport) {
+                    var select = document.getElementById("callcouriertabsection_callcouriergroup_shipperorigin");
+                    select.innerHTML = '';
+                    $.each(transport.data, function(key, value) {
+                        select.options[select.options.length] = new Option(value, key);
+                    });
+                    select.value = areaId;
+                });
+            });
+        });
+        var cityTriggered = 0;
+        jQuery(document).ajaxStop(function () {
+            if(jQuery('#callcouriertabsection_callcouriergroup_shipperorigin option').size() == 0 && cityTriggered == 0) {
+                jQuery('#city_area').trigger('click');
+                cityTriggered = 1;
+            }
+        });
+    });
+
+</script>

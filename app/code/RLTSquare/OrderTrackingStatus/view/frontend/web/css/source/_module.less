@@ -1,0 +1,213 @@
+.track-orderstatus-status {
+  .page-title-wrapper {
+    text-align: center;
+    h1 {
+      font-size: 20px !important;
+      font-family: 'Poppins',sans-serif;
+    }
+  }
+  .wrap-headStats {
+    padding: 15px 0;
+    position: relative;
+    float: left;
+    width: 100%;
+    &:after {
+      background: #000;
+      content: '';
+      width: 100%;
+      height: 4px;
+      z-index: 11;
+      position: absolute;
+      top: 100%;
+      left: 0;
+    }
+    .col-headStats {
+      width: 20%;
+      float: left;
+      position: relative;
+      &:last-child {
+        text-align: right;
+        width: calc(~'100% - 20%');
+        span {
+          padding-right: 6px;
+        }
+      }
+      &.completed{
+        position: relative;
+        &:after {
+          content: '';
+          background: #0c89f7;
+          width: 14px;
+          height: 14px;
+          left: 0;
+          top: -20px;
+          position: absolute;
+          z-index: 16;
+          border-radius: 50%;
+          -webkit-border-radius: 50%;
+        }
+      }
+      &:last-child.completed:after {
+        right: 0;
+        left: auto;
+      }
+      strong {
+        font-size: 16px;
+        display: block;
+      }
+      span {
+        font-size: 14px;
+        color: #0c89f7;
+      }
+    }
+  }
+  .left-panel {
+    float: left;
+    width: 336px;
+    margin-top: 50px;
+    .order-deliveredStatus {
+      float: left;
+      width: 100%;
+      padding-bottom: 10px;
+      border-bottom: 1px solid #ddd;
+      font-family: 'Poppins',sans-serif;
+      .stat-ord {
+        float: left;
+        width: 70%;
+        padding-right: 5px;
+      }
+      .dt-delivered {
+        float: left;
+        width: 30%;
+        text-align: center;
+        span {
+          font-weight: bold;
+          color: #0c89f7;
+          text-align: center;
+        }
+      }
+      strong {
+        font-size: 18px;
+        font-weight: bold;
+        color: #333;
+        display: block;
+        margin: 0 0 5px;
+      }
+      span {
+        font-size: 32px;
+        color: #333;
+        display: block;
+        margin: 0 0 5px;
+        text-transform: uppercase;
+      }
+    }
+    .trck-OrderStatus {
+      position: relative;
+      width: 100%;
+      margin-top: 20px;
+      float: left;
+      padding-left: 18px;
+      font-size: 14px;
+      line-height: 1.6;
+      font-family: 'Poppins',sans-serif;
+      overflow: hidden;
+      &:before {
+        content: '';
+        border-bottom: 16px solid #000;
+        border-left: 6px solid transparent;
+        border-right: 6px solid transparent;
+        position: absolute;
+        top: 0;
+        left: 0;
+        z-index: 12;
+      }
+      &:after {
+        background: #000;
+        content: '';
+        width: 4px;
+        height: calc(~'100% - 80px');
+        z-index: 11;
+        position: absolute;
+        top: 4px;
+        left: 4px;
+      }
+      .title-orderStatus {
+        font-size: 20px;
+        font-weight: bold;
+        float: left;
+        width: 100%;
+        margin: 0 0 15px;
+      }
+      .val-trackerWrapper {
+        margin: 0 0 35px;
+        float: left;
+        width: 100%;
+        position: relative;
+        &:after {
+          content: '';
+          background: #0c89f7;
+          width: 10px;
+          height: 10px;
+          left: -17px;
+          top: 2px;
+          position: absolute;
+          z-index: 16;
+          border-radius: 50%;
+          -webkit-border-radius: 50%;
+        }
+        .title-orderStatusTrack {
+          font-size: 22px;
+          font-weight: 600;
+          margin: 0 0 20px;
+        }
+        .inner-wrapper {
+          display: none;
+          &:nth-child(5),
+          &:nth-child(3),
+          &:nth-child(1) {
+            display: block;
+            margin: 0 0 10px;
+          }
+          &:nth-child(1) {
+            font-weight: bold;
+            text-transform: capitalize;
+          }
+          &:nth-child(3) {
+            color: #0c89f7;
+          }
+          &:nth-last-child {
+            margin: 0;
+          }
+          .value-wrapper {
+            line-height: 1.2;
+            display: block;
+          }
+        }
+      }
+    }
+  }
+}
+/* Order Tracking note*/
+.track-orderstatus-status .right-panel {
+  float: right;
+  width: 50%;
+  margin-top: 55px;
+}
+.track-orderstatus-status .right-panel p {
+  text-align: center;
+}
+.track-orderstatus-status .right-panel h2 {
+  margin: 0 0 10px 0;
+  font-size: 18px;
+  font-weight: 700;
+  color: #333;
+  display: block;
+  margin: 0 0 5px;
+}
+/* Order Tracking note*/
+@media screen and (max-width:767px){
+  .track-orderstatus-status .right-panel {
+    width: 100%;
+    margin-top: 20px;
+  }
+}

@@ -1,0 +1,256 @@
+<?php
+$shipmentInfo = $block->getShipmentInfo();
+$tracking = $block->getTracking();
+?>
+<section class="admin__page-section order-view-call-courier-booking-tracking">
+    <div class="admin__page-section-title">
+        <span class="title"><?= __('Call Courier Shipment Booking & Tracking') ?></span>
+    </div>
+    <div class="admin__page-section-item-content">
+        <table class="admin__table-secondary order-information-table">
+            <tbody>
+            <tr>
+                <td>
+                    <button id="create_shipment" title="Create Shipment" type="button"
+                            class="action-default scalable edit primary create-cc-shipmment"
+                            onclick=""
+                            data-ui-id="sales-order-edit-order-edit-button">
+                        <span>Create Shipment</span>
+                    </button>
+                    <?php if (is_array($tracking) && count($tracking) > 0) { ?>
+                        <button id="create_shipment" title="Create Shipment" type="button"
+                                class="action-default scalable edit primary create-cc-shipmment"
+                                onclick=""
+                                data-ui-id="sales-order-edit-order-edit-button">
+                        <span>
+                            <a style="color:white;" href="<?php echo $block->getTrackingLink() . $tracking['cn'] ?>"
+                               target="_blank">Print</a>
+                        </span>
+                        </button>
+                    <?php } ?>
+                </td>
+            </tr>
+            </tbody>
+        </table>
+        <?php if (is_array($tracking) && count($tracking) > 0) { ?>
+            <br>
+            <br>
+            <table class="admin__table-secondary order-information-table">
+                <caption>Tracking Summary #<?php echo $tracking['cn'] ?></caption>
+                <thead>
+                <tr>
+                    <th>Date</th>
+                    <th>Status</th>
+                    <th>Location</th>
+                </tr>
+                </thead>
+                <tbody>
+                <?php foreach ($tracking['data'] as $row) { ?>
+                    <tr>
+                        <td style="text-align: left"><?php echo $row->TransactionDate; ?></td>
+                        <td style="text-align: left"><?php echo $row->ProcessDescForPortal; ?></td>
+                        <td style="text-align: left"><?php echo $row->HomeBranch; ?></td>
+                    </tr>
+                <?php } ?>
+                </tbody>
+            </table>
+        <?php } ?>
+    </div>
+</section>
+<div id="call-courier-popup">
+    <form id="call-courier-for">
+        <input name="form_key" id="form_key" type="hidden" value="<?php echo $block->getFormKey(); ?>">
+        <table class="data-table admin__table-primary edit-order-table">
+            <thead>
+            <tr>
+                <th colspan="2">
+                    Create shipment
+                </th>
+            </tr>
+            </thead>
+            <tbody class="even">
+            <tr>
+                <td><label class="cc-label">Consignee Name</label></td>
+                <td><input class="control-cc admin__control-text" type="text" required="required" id="ConsigneeName"
+                           name="ConsigneeName"
+                           value="<?php echo $shipmentInfo['ConsigneeName'] ?>"></td>
+            </tr>
+            <tr>
+                <td><label class="cc-label">Consignee Ref#</label></td>
+                <td><input class="control-cc admin__control-text" class="admin__control-text" type="text"
+                           required="required"
+                           id="ConsigneeRefNo" name="ConsigneeRefNo"
+                           value="<?php echo $shipmentInfo['ConsigneeRefNo'] ?>"></td>
+            </tr>
+            <tr>
+                <td><label class="cc-label">Consignee Cell No#</label></td>
+                <td><input class="control-cc admin__control-text" type="text" required="required" id="ConsigneeCellNo"
+                           name="ConsigneeCellNo"
+                           value="<?php echo $shipmentInfo['ConsigneeCellNo'] ?>"></td>
+            </tr>
+            <tr>
+                <td><label class="cc-label">Address</label></td>
+                <td>
+                        <textarea id="Address" class="control-cc admin__control-textarea" required="required"
+                                  name="Address">
+                            <?php echo trim($shipmentInfo['Address']); ?>
+                        </textarea>
+                </td>
+            </tr>
+            <tr>
+                <td><label class="cc-label">Service Type</label></td>
+                <td>
+                    <select id="ServiceTypeId" name="ServiceTypeId" required="required"
+                            class="control-cc admin__control-select">
+                        <?php foreach ($block->getServiceTypeList() as $id => $serviceType): ?>
+                        <?php if ($shipmentInfo['payment'] == 'banktransfer' && $id == 1) { ?>
+                            <option value="<?php echo $id ?>"><?php echo $serviceType; ?></option>
+                            <?php }elseif ($shipmentInfo['payment'] == 'etisalatpay' && $id == 1) { ?>
+                                <option value="<?php echo $id ?>"><?php echo $serviceType; ?></option>
+                        <?php }elseif ($shipmentInfo['payment'] == 'cashondelivery' && $id == 7) { ?>
+                        <option value="<?php echo $id ?>"><?php echo $serviceType; ?></option>
+                        <?php } ?>
+                        <?php endforeach; ?>
+                    </select>
+                </td>
+            </tr>
+            <tr>
+                <td><label class="cc-label">Destination City</label></td>
+                <td>
+                    <select name="DestCityId" id="DestCityId" required="required"
+                            class="control-cc admin__control-select">
+                        <?php foreach ($block->getCallCourierCitiesList() as $id => $city): ?>
+                            <?php if($city == $shipmentInfo['city']): ?>
+                                <option selected value="<?php echo $id ?>"><?php echo $city; ?></option>
+                            <?php else: ?>
+                                <option value="<?php echo $id ?>"><?php echo $city; ?></option>
+                            <?php endif; ?>
+                        <?php endforeach; ?>
+                    </select>
+                </td>
+            </tr>
+            <tr>
+                <td><label class="cc-label">Piece</label></td>
+                <td>
+                    <input class="control-cc admin__control-text" type="text" required="required" id="Pcs" name="Pcs"
+                           value="<?php echo $shipmentInfo['Pcs']; ?>"/>
+                </td>
+            </tr>
+            <tr>
+                <td><label class="cc-label">Weight</label></td>
+                <td>
+                    <input class="admin__control-text" type="text" required="required" id="Weight" name="Weight"
+                           value="<?php echo $shipmentInfo['Weight']; ?>">
+                </td>
+            </tr>
+            <tr>
+                <td><label class="cc-label">Description</label></td>
+                <td>
+                    <textarea class="control-cc admin__control-textarea" name="Description" id="Description"
+                              required="required"><?php echo $shipmentInfo['Description']; ?></textarea>
+                </td>
+            </tr>
+            <tr>
+                <td><label class="cc-label">COD Amount</label></td>
+                <td>
+                    <input class="control-cc admin__control-text" type="text" name="CodAmount" id="CodAmount"
+                        <?php if ($shipmentInfo['payment'] == 'banktransfer' || $shipmentInfo['payment'] == 'etisalatpay' ) { ?>
+                           value="<?php echo 0 ?>"/></td>
+                <?php } else {?>
+                           value="<?php echo $shipmentInfo['CodAmount']; ?>"/></td>
+                <?php } ?>
+            </tr>
+            <tr>
+                <td><label class="cc-label">Remarks</label></td>
+                <td>
+                    <textarea id="Remarks" class="control-cc admin__control-textarea" name="Remarks"
+                              placeholder="Kindly enter remarks"><?php echo $block->getRemarks(); ?></textarea>
+                </td>
+            </tr>
+            </tbody>
+        </table>
+    </form>
+    <div id="show_success" style="display: none"><h1>Shipment is created successfully</h1></div>
+</div>
+<style>
+    .example-table-1 {
+    . lib-table();
+    }
+</style>
+<script>require(['jquery', 'Magento_Ui/js/modal/modal', '!domReady'], function ($, modal) {
+        var modalCallCourierShipment = {
+            // Elements
+            button: $('#create_shipment'),
+            popup: $('#call-courier-popup'),
+
+            init: function () {
+                this.modalCallCourierShipment();
+                this.bindUIActions();
+            },
+            modalCallCourierShipment: function () {
+                this.popup.modal({
+                    buttons: [{
+                        text: 'Create Shipment',
+                        class: 'action-primary',
+                        click: function () {
+                            var data = {
+                                'form_key': $('#form_key').val(),
+                                'ConsigneeName': $('#ConsigneeName').val(),
+                                'ConsigneeRefNo': $('#ConsigneeRefNo').val(),
+                                'ConsigneeCellNo': $('#ConsigneeCellNo').val(),
+                                'Address': $('#Address').val(),
+                                'ServiceTypeId': $('#ServiceTypeId').val(),
+                                'DestCityId': $('#DestCityId').val(),
+                                'Pcs': $('#Pcs').val(),
+                                'Weight': $('#Weight').val(),
+                                'Description': $('#Description').val(),
+                                'CodAmount': $('#CodAmount').val(),
+                                'Remarks': $('#Remarks').val()
+                            };
+                            $.ajax({
+                                url: '<?php echo $block->getSingleBookingUrl(); ?>',
+                                showLoader: true,
+                                data: data,
+                                type: "POST",
+                                dataType: "json",
+                                success: function (result) {
+                                    if (!result.error) {
+                                        $('#show_success').find('h1').text(result.message)
+                                        window.location.reload();
+                                    }
+                                    $('#call-courier-for').toggle();
+                                    $('#show_success').toggle();
+                                    if (result.error) {
+                                        setTimeout(function () {
+                                            $('#call-courier-popup').modal('closeModal');
+                                        }, 1000);
+                                    }
+                                }
+                            });
+                        }
+                    }]
+                })
+            },
+            bindUIActions: function () {
+                var self = this;
+                this.button.on('click', function (e) {
+                    e.preventDefault();
+                    self.modalOpen();
+                });
+            },
+            modalOpen: function () {
+                this.popup.modal("openModal");
+            }
+        };
+        modalCallCourierShipment.init();
+    });
+</script>
+<style>
+    .control-cc {
+        width: 100%;
+    }
+
+    .cc-label {
+        font-weight: bold;
+    }
+</style>

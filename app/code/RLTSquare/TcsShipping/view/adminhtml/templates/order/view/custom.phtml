@@ -1,0 +1,48 @@
+<?php
+/** @var $block \RLTSquare\TcsShipping\Block\Adminhtml\Order\View */
+?>
+<div class="tcsModal">
+    <div id="tcsModal">
+        <div><?= __('Are you sure you want to ship selected items using TCS?'); ?></div>
+    </div>
+</div>
+<script>
+require(
+    [
+        'jquery',
+        'Magento_Ui/js/modal/modal'
+    ],
+    function($,modal) {
+
+        var options = {
+            type: 'popup',
+            responsive: true,
+            innerScroll: true,
+            title: 'TCS shipment',
+            clickableOverlay: true,
+            buttons: [{
+                text: $.mage.__('Submit'),
+                class: '',
+                click: function (data) {
+                    data.preventDefault();
+                    $.ajax({
+                        url: '<?php echo $block->getUrl('tcs/*/ship'); ?>',
+                        type:'GET',
+                        showLoader: true,
+                        dataType:'json',
+                        complete: function(response) {
+                            location.href = response.responseJSON['returnUrl'];
+                        },
+                        error: function (xhr, status, errorThrown) {
+                            console.log('Error happens. Try again.');
+                        }
+                    });
+
+                    this.closeModal();
+                }
+            }]
+        };
+        var popup = modal(options, $('#tcsModal'));
+    }
+);
+</script>

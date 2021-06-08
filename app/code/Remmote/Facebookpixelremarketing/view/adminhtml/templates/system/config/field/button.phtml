@@ -1,0 +1,26 @@
+<?php
+    $onclick = $block->getOnclick();
+    $disabled = $block->getDisabled();
+?>
+<?php if (!$disabled) { ?>
+<script type="text/javascript">
+//<![CDATA[
+function export_catalog(){
+    new Ajax.Request('<?php echo $block->escapeHtml($block->getAjaxExportcatalogUrl()) ?>', {
+        method: 'get',
+        parameters: {
+            websiteId: '<?php echo $block->escapeHtml($block->getWebsiteId()) ?>'
+        },
+        onSuccess: function(transport){
+            window.location.reload();
+        }
+    });
+}
+//]]>
+</script>
+<?php } ?>
+<button id="<?php echo $block->escapeHtml($block->getId()) ?>"
+        <?php if ($onclick) { ?> onclick="<?php echo $block->escapeHtml($onclick) ?>"<?php } ?>
+        <?php if ($disabled) { ?> disabled="<?php echo $block->escapeHtml($disabled) ?>"<?php } ?> >
+    <span><?php echo $block->escapeHtml($block->getButtonLabel()); ?></span>
+</button>

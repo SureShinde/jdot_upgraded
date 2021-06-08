@@ -1,0 +1,93 @@
+<?xml version="1.0" ?>
+<config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xsi:noNamespaceSchemaLocation="urn:magento:module:Magento_Config:etc/system_file.xsd">
+    <system>
+        <tab id="callcouriertab" sortOrder="999" translate="label">
+            <label>Call Courier Extensions</label>
+        </tab>
+        <section id="callcouriertabsection" showInDefault="1" showInStore="0" showInWebsite="0" sortOrder="10"
+                 translate="label">
+            <label>Call Courier C.O.D</label>
+            <tab>callcouriertab</tab>
+            <resource>Pentalogy_Callcourier::config_pentalogy_callcourier</resource>
+            <group id="callcouriergroup" showInDefault="1" showInStore="0" showInWebsite="0" sortOrder="10"
+                   translate="label">
+                <label>Call Courier (C.O.D) API Setting</label>
+                <field id="apikey" showInDefault="1" showInStore="0" showInWebsite="0" sortOrder="10" translate="label"
+                       type="text">
+                    <label>API KEY</label>
+                    <comment>C.O.D Portal Login ID is API KEY</comment>
+                </field>
+                <field id="shippername" showInDefault="1" showInStore="0" showInWebsite="0" sortOrder="10"
+                       translate="label"
+                       type="text">
+                    <label>Shipper Name</label>
+                    <comment/>
+                </field>
+                <field id="shippercity" showInDefault="1" showInStore="0" showInWebsite="0" sortOrder="10"
+                       translate="label"
+                       type="select">
+                    <label>Shipper City</label>
+                    <source_model>Pentalogy\Callcourier\Model\Config\Source\Cities</source_model>
+                    <comment/>
+                </field>
+                <field id="getshipperoriginapi" showInDefault="1" showInStore="0" showInWebsite="0" sortOrder="10"
+                       translate="label" type="button">
+                    <label></label>
+                    <frontend_model>Pentalogy\Callcourier\Block\System\Config\Collect</frontend_model>
+                    <comment> Click on "Get City Area" to get "City Area" form Call Couriers API</comment>
+                </field>
+                <field id="shipperorigin" showInDefault="1" showInStore="0" showInWebsite="0" sortOrder="10"
+                       translate="label" type="select">
+                    <label>Shipper Area</label>
+                    <comment/>
+                </field>
+                <field id="shipperaddress" showInDefault="1" showInStore="0" showInWebsite="0" sortOrder="10"
+                       translate="label" type="text">
+                    <label>Shipper Address</label>
+                    <comment/>
+                </field>
+                <field id="shipperemail" showInDefault="1" showInStore="0" showInWebsite="0" sortOrder="10"
+                       translate="label" type="text">
+                    <label>Shipper Email</label>
+                    <comment/>
+                </field>
+                <field id="shippercellno" showInDefault="1" showInStore="0" showInWebsite="0" sortOrder="10"
+                       translate="label" type="text">
+                    <label>Shipper Cell No.</label>
+                    <comment/>
+                </field>
+                <field id="shipperlandlineno" showInDefault="1" showInStore="0" showInWebsite="0" sortOrder="10"
+                       translate="label" type="text">
+                    <label>Shipper Land Line No.</label>
+                    <comment/>
+                </field>
+            </group>
+            <group id="callcourier_bulk_shipment" showInDefault="1" showInStore="0" showInWebsite="0" sortOrder="11"
+                   translate="label">
+                <label>Bulk Shipment Setting</label>
+                <field id="service_type" showInDefault="1" showInStore="0" showInWebsite="0" sortOrder="10"
+                       translate="label"
+                       type="select">
+                    <label>Service Type</label>
+                    <source_model>Pentalogy\Callcourier\Model\Config\Source\Servicetype</source_model>
+
+                </field>
+                <field id="remarks" showInDefault="1" showInStore="0" showInWebsite="0" sortOrder="10"
+                       translate="label" type="textarea">
+                    <label>Remarks</label>
+                    <comment>Remarks for bulk shipment (e.g Kindly call to customer before delivery )</comment>
+                </field>
+               <!-- <field id="before_booking_order_status" translate="label" type="multiselect" sortOrder="20" showInDefault="1" showInWebsite="0" showInStore="0">
+                    <label>Order statuses before shipment booking</label>
+                    <source_model>Magento\Sales\Model\Config\Source\Order\Status</source_model>
+                </field>
+                <field id="after_booking_order_status" translate="label" type="select" sortOrder="20" showInDefault="1" showInWebsite="0" showInStore="0">
+                    <label>Order status after shipment booking</label>
+                    <source_model>Magento\Sales\Model\Config\Source\Order\Status</source_model>
+                    <comment>Selected order status will mark after shipment booking (Optional)</comment>
+                </field>-->
+            </group>
+        </section>
+    </system>
+</config>

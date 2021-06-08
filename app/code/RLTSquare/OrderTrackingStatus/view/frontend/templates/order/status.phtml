@@ -1,0 +1,97 @@
+<?php /** @var $block RLTSquare\OrderTrackingStatus\Block\OrderStatus\Status */ ?>
+<?php $orderStatusData = array() ?>
+<?php $orderStatusData = $block->orderTracking(); ?>
+
+<?php if ($orderStatusData['isOrderIdValid']): ?>
+    <div style="text-align: center;">
+        <div>
+            <h2 style="margin-top: 10px; font-weight: 400;"
+                class="page-title"><?= $orderStatusData['orderIncrementId']; ?></h2>
+        </div>
+    </div>
+    <div class="wrap-headStats">
+        <div class="col-headStats">
+            <strong>Shipped</strong>
+            <span><?php echo empty($orderStatusData['shipped']['date']) ? $orderStatusData['shipped']['status'] : date('d-m-Y', $orderStatusData['shipped']['date']) ?></span>
+        </div>
+        <div class="col-headStats">
+            <strong>Delivered</strong>
+            <span><?php echo empty($orderStatusData['delivered']['date']) ? $orderStatusData['delivered']['status'] : date('d-m-Y', $orderStatusData['delivered']['date']) ?></span>
+        </div>
+    </div>
+    <?php if (!empty($orderStatusData['shipped']['date'])): ?>
+        <div class="wrap-headStats">
+            <div class="col-headStats">
+                <strong>Courier</strong>
+                <span><?= $orderStatusData['shipped']['courier']; ?></span>
+            </div>
+            <div class="col-headStats">
+                <strong>Tracking #</strong>
+                <span><?= $orderStatusData['shipped']['trackNum']; ?></span>
+            </div>
+        </div>
+    <?php endif; ?>
+    <div class="left-panel">
+        <?php if (!empty($orderStatusData['delivered']['date'])): ?>
+            <div class="order-deliveredStatus">
+                <div class="stat-ord">
+                    <strong>Delivered</strong>
+                    <span><?php
+                        echo date("l", $orderStatusData['delivered']['date']); # l for full week day name
+                        ?></span>
+                </div>
+                <div class="dt-delivered">
+                    <strong>Month</strong>
+                    <span><?php echo date("m", $orderStatusData['delivered']['date']); ?></span>
+                </div>
+            </div>
+        <?php endif; ?>
+        <div class="trck-OrderStatus" style="z-index: 8;">
+            <div class="title-orderStatus">
+                <?= /* @escapeNotVerified */
+                __("Order Status: "); ?>
+            </div>
+            <div>
+                <?php if (array_key_exists('tracking_info', $orderStatusData)) {
+                    foreach ($orderStatusData['tracking_info'] as $status) { ?>
+                        <?php if(strlen($status['status']) < 50) : ?>
+                            <div class="val-trackerWrapper">
+                            <div class="inner-wrapper">
+                            <span class="value-wrapper">
+                                <b>Status: </b>
+                                <?php echo $status['status'] ; ?>
+                            </span>
+                                <span class="value-wrapper">
+                                <b>Date: </b>
+                                <?php echo date("d-m-Y", $status['date']); ?>
+                            </span>
+                                <?php if (!empty($status['location'])): ?>
+                                    <span class="value-wrapper">
+                                    <b>Location: </b>
+                                    <?php echo $status['location']; ?>
+                                </span>
+                                <?php endif; ?>
+                            </div>
+                        </div>
+                        <?php endif; ?>
+                        <?php
+                    }
+                } ?>
+            </div>
+        </div>
+    </div>
+    <div class="right-panel">
+        <h2>Note</h2>
+        <?= $this->getLayout()
+            ->createBlock('Magento\Cms\Block\Block')
+            ->setBlockId('order_tracking_note')
+            ->toHtml(); ?>
+    </div>
+<?php else: ?>
+    <div style="text-align: center;">
+        <div>
+            <h2 class="page-title">This Order Id is invalid</h2>
+        </div>
+    </div>
+<?php endif; ?>
+

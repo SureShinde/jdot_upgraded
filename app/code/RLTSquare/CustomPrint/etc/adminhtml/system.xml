@@ -1,0 +1,25 @@
+<?xml version="1.0"?>
+<config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:module:Magento_Config:etc/system_file.xsd">
+    <system>
+        <tab id="dhl" translate="label" sortOrder="10">
+            <label>DHL</label>
+        </tab>
+        <section id="general" translate="label" sortOrder="130" showInDefault="1" showInWebsite="1" showInStore="1">
+<!--            <class>separator-top</class>-->
+<!--            <label>Custom Print</label>-->
+<!--            <tab>dhl</tab>-->
+<!--            <resource>RLTSquare_CustomPrint::customprint_config</resource>-->
+            <group id="general" translate="label" type="text" sortOrder="10" showInDefault="1" showInWebsite="0" showInStore="0">
+                <label>DHL Custom Print Configuration</label>
+                <field id="reference_id" translate="label" type="text" sortOrder="1" showInDefault="1" showInWebsite="0" showInStore="0">
+                    <label>Reference Id</label>
+                    <comment>Reference Id.</comment>
+                </field>
+                <field id="company_name" translate="label" type="text" sortOrder="2" showInDefault="1" showInWebsite="0" showInStore="0">
+                    <label>Company Name</label>
+                    <comment>Company Name.</comment>
+                </field>
+            </group>
+        </section>
+    </system>
+</config>

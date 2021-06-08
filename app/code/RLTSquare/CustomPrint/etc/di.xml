@@ -1,0 +1,13 @@
+<?xml version="1.0"?>
+<config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:framework:ObjectManager/etc/config.xsd">
+    <preference for="Magento\Dhl\Model\Carrier" type="RLTSquare\CustomPrint\Model\Carrier" />
+    <preference for="Magento\Dhl\Block\Adminhtml\Unitofmeasure" type="RLTSquare\CustomPrint\Block\Adminhtml\Unitofmeasure" />
+    <preference for="Magento\Dhl\Model\Source\Method\Generic" type="RLTSquare\CustomPrint\Model\Source\Method\Generic" />
+    <preference for="Magento\Dhl\Model\Source\Method\Size" type="RLTSquare\CustomPrint\Model\Source\Method\Size" />
+    <preference for="Magento\Dhl\Model\Source\Method\Unitofmeasure" type="RLTSquare\CustomPrint\Model\Source\Method\Unitofmeasure" />
+    <preference for="Magento\Dhl\Model\Source\Method\AbstractMethod" type="RLTSquare\CustomPrint\Model\Source\Method\AbstractMethod" />
+    <preference for="Magento\Dhl\Model\Source\Method\Nondoc" type="RLTSquare\CustomPrint\Model\Source\Method\Nondoc" />
+    <preference for="Magento\Dhl\Model\Source\Method\Doc" type="RLTSquare\CustomPrint\Model\Source\Method\Doc" />
+    <preference for="Magento\Dhl\Model\Source\Method\Freedoc" type="RLTSquare\CustomPrint\Model\Source\Method\Freedoc" />
+    <preference for="Magento\Dhl\Model\Source\Method\Freenondoc" type="RLTSquare\CustomPrint\Model\Source\Method\Freenondoc" />
+</config>

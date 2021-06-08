@@ -1,0 +1,12 @@
+<?xml version="1.0"?>
+<config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:framework:Event/etc/events.xsd">
+    <event name="wishlist_add_product">
+       <observer name="remmote_facebookpixelremarketing_addwishlist" instance="Remmote\Facebookpixelremarketing\Observer\AddWishlist" />
+    </event>
+    <event name="customer_register_success">
+       <observer name="remmote_facebookpixelremarketing_completeregistration" instance="Remmote\Facebookpixelremarketing\Observer\CompleteRegistration" />
+    </event>
+    <event name="newsletter_subscriber_save_before">
+       <observer name="remmote_facebookpixelremarketing_completeregistrationnewsletter" instance="Remmote\Facebookpixelremarketing\Observer\CompleteRegistrationNewsletter" />
+    </event>
+</config>

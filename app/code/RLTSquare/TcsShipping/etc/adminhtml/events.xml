@@ -1,0 +1,28 @@
+<?xml version="1.0"?>
+<!--
+ * NOTICE OF LICENSE
+ * You may not sell, distribute, sub-license, rent, lease or lend complete or portion of software to anyone.
+ *
+ * DISCLAIMER
+ * Do not edit or add to this file if you wish to upgrade to newer
+ * versions in the future.
+ *
+ * @package   RLTSquare_TcsShipping
+ * @copyright Copyright (c) 2018 RLTSquare (https://www.rltsquare.com)
+ * @contacts  support@rltsquare.com
+ * @license  See the LICENSE.md file in module root directory
+  -->
+<config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:framework:Event/etc/events.xsd">
+    <!--<event name="sales_order_shipment_save_before">-->
+        <!--<observer name="rltsquare_tcs_sales_order_shipment_save_before" instance="RLTSquare\TcsShipping\Observer\RegisterShipment" />-->
+    <!--</event>-->
+
+    <event name="rltsquare_tcs_ship">
+        <observer name="rltsquare_tcs_ship_observer" instance="RLTSquare\TcsShipping\Observer\Sales\Tcs\Ship" />
+    </event>
+
+    <event name="rltsquare_tcs_invoice">
+        <observer name="rltsquare_tcs_invoice_observer" instance="RLTSquare\TcsShipping\Observer\Sales\Tcs\Invoice" />
+    </event>
+
+</config>
