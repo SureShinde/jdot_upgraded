@@ -1,0 +1,78 @@
+<?php
+/**
+ * Product list template
+ *
+ * @var $block \Magento\Backend\Block\Template
+ */
+?>
+<form class="formdynamic" method="post" action="#" data-hasrequired="<?= $block->escapeHtmlAttr(__('* Required Fields')) ?>" enctype="multipart/form-data" style=" width: 50%;
+    margin: 0px auto;
+    padding-top: 40px;">
+    <label for="phone">Enter Phone#:</label>
+    <input type="text" id="phone" required style=" width: 100%; margin-top: 10px; height: 34px;"><br><br>
+    <button type="submit" id="btnsave" class="action submit primary" style="margin-bottom: 100px;">
+        <span >Submit</span>
+    </button>
+</form>
+<div id="popup-modal" class="modal">
+</div>
+
+
+<script  type="text/javascript">
+    require(
+        [
+            'jquery',
+            'Magento_Ui/js/modal/modal'
+        ],
+        function(
+            $,
+            modal
+        ) {
+
+            $("#btnsave").on("click", function(e) {
+                var phonenumber = $("#phone").val();
+                e.preventDefault();
+                $.ajax({
+                    type: "POST",
+                    url: "<?php echo $block->getUrl('consigneerating/consignee/rating'); ?>",
+                    dataType: "json",
+                    data: {
+                        phone: phonenumber
+                    },
+                    success: function(result) {
+                        var obj = jQuery.parseJSON(result.response);
+                        var rating = obj[0].Rating;
+                        $("#popup-modal").append("<label for='phone'>Rating:</label>")
+                        $("#popup-modal").append("<p id='subtask' class='results'></p>");
+                        if(rating != null)
+                        {
+                            $('.results').html(rating);
+                        }else {
+                            $('.results').html("0.00");
+                        }
+                        var options = {
+                            type: 'popup',
+                            responsive: true,
+                            innerScroll: true,
+                            title: 'Consignee Rating',
+                            buttons: [{
+                                text: $.mage.__('Close'),
+                                class: '',
+                                click: function () {
+                                    this.closeModal();
+                                }
+                            }]
+                        };
+                        var popup = modal(options, $('#popup-modal'));
+                        $('#popup-modal').modal('openModal');
+                        $('#popup-modal').on('modalclosed', function() {
+                            location.reload();
+                        });
+                    },
+                    error: function(result) {
+                        alert("error");
+                    }
+                });
+            });
+        });
+</script>

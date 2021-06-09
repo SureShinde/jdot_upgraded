@@ -1,0 +1,37 @@
+<?php
+$orderData = $block->getData('order_data');
+?>
+<?php if ($orderData['success']):?>
+<div class="thankyou-wrapper" style="text-align: center;">
+    <div class="checkout-page-title-wrapper thank-you-page">
+        <h1 class="page-title">Thank you for confirming your order</h1>
+    </div>
+    <div class="checkout-success">
+        <p>Your order number is: <strong><?= $orderData['order_id'] ?></strong>.</p>
+        <p>We really appreciate your patience</p>
+        <p>We will get your order delivered as soon as situation gets better.</p>
+        <div class="cmsblock-container"><div class="call-us-header2"><span>If you have any questions or concerns, please call us: 021 111 112 111 or email us: eshop@junaidjamshed.com</span></div><style></style></div>
+        <div class="actions-toolbar" style="text-align: center;">
+            <div class="primary" style="float:none!important; margin-top: 20px;">
+                <a class="action primary continue" href="https://www.junaidjamshed.com/"><span>Continue Shopping</span></a>
+            </div>
+        </div>
+    </div>
+</div>
+<?php else: ?>
+    <div class="thankyou-wrapper" style="text-align: center;">
+        <div class="checkout-page-title-wrapper thank-you-page">
+            <h1 class="page-title">This link is invalid</h1>
+        </div>
+        <div class="checkout-success">
+            <div class="actions-toolbar" style="text-align: center";>
+                <div class="primary" style="float:none;margin-top: 20px;">
+                    <a class="action primary continue" href="https://www.junaidjamshed.com/"><span>Continue Shopping</span></a>
+                </div>
+            </div>
+        </div>
+    </div>
+<?php endif; ?>
+
+
+
