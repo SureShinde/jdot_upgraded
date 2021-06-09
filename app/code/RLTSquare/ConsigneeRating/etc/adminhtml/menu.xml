@@ -1,0 +1,6 @@
+<?xml version="1.0"?>
+<config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:module:Magento_Backend:etc/menu.xsd">
+    <menu>
+        <add id="RLTSquare_ConsigneeRating::consigneerating" title="Consignee Rating" module="RLTSquare_ConsigneeRating" sortOrder="15" action="consigneerating/Consignee/Index" resource="RLTSquare_ConsigneeRating::consigneerating" parent="Magento_Sales::sales"/>
+    </menu>
+</config>
