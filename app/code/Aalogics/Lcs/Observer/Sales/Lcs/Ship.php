@@ -291,7 +291,7 @@ class Ship implements ObserverInterface
             //$shipment->setTracks($this->_trackCollectionFactory->create()->setShipmentFilter($shipment->getId()));
 
             $shipment->getOrder()->setIsInProcess(true);
-            $shipment->getOrder()->setState(\Magento\Sales\Model\Order::STATE_COMPLETE)->setStatus(\Magento\Sales\Model\Order::STATE_COMPLETE);
+            //$shipment->getOrder()->setState(\Magento\Sales\Model\Order::STATE_COMPLETE)->setStatus(\Magento\Sales\Model\Order::STATE_COMPLETE);
             $shipment->getOrder()->setStatus('complete');
             $this->_saveShipment($shipment);
 
