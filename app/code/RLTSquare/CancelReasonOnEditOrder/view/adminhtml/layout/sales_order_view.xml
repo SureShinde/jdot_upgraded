@@ -1,0 +1,9 @@
+<?xml version="1.0"?>
+
+<page xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:framework:View/Layout/etc/page_configuration.xsd">
+    <body>
+        <referenceContainer name="content">
+            <block class="RLTSquare\CancelReasonOnEditOrder\Block\Adminhtml\Order\View" name="sales_order_custom_edit_order" template="order/view/order_edit_popup.phtml"/>
+        </referenceContainer>
+    </body>
+</page>

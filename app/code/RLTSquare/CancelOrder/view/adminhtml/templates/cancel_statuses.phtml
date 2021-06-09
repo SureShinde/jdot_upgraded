@@ -1,0 +1,101 @@
+<?php
+/** @var \RLTSquare\CancelOrder\Block\Adminhtml\Order\CancelStatuses $block */
+
+$cancelstatuses = $block->getOrderCancelStatusesConfig();
+//echo "hi";
+
+$inventorystatuses = $block->getInventoryStatuses();
+
+//$this->getRequest()->getParams();
+
+$orderedProds = $block->getOrderedProducts();
+//echo "<pre>";
+//print_r($orderedProds);
+//echo "<pre>";
+//print_r($orderedProds);
+//exit;
+//foreach ($orderedProds as $orderedProd) {
+//    echo $orderedProd['name'] . "<br>";
+//    echo $orderedProd['product_id'] . "<br>";
+//}
+//exit;
+//$inventorystatuses_length = count($inventorystatuses);
+
+//echo "<pre>";
+//print_r($inventorystatuses);
+
+//echo $inventorystatuses[0]['label'];
+
+
+// Extraction options from string
+$options = [];
+$temp = "";
+for ($i = 0; $i < strlen($cancelstatuses); $i++){
+    if ($cancelstatuses[$i] != ","){
+        $temp .= $cancelstatuses[$i];
+    }
+    else{
+        array_push($options, $temp);
+        $temp = "";
+    }
+    if ($i == (strlen($cancelstatuses)-1)){
+        array_push($options, $temp);
+        $temp = "";
+    }
+}
+
+// Creating options dropdown
+$optionsHtml = "";
+foreach ($options as $option){
+    $optionsHtml .= '<option value="'.$option.'">'.$option.'</option>\n';
+}
+
+$optionsStatuses = "";
+foreach($inventorystatuses as $inventorystatus) {
+    //echo "<pre>";
+    //print_r($value);
+    $optionsStatuses .= '<option value="'.$inventorystatus['value'].'">'.$inventorystatus['label'].'</option>\n';
+}
+
+$optionsProducts = "";
+foreach($orderedProds as $orderedProd) {
+    $optionsProducts .= '<option value="'.$orderedProd['value'].'">'.$orderedProd['name'].'</option>\n';
+}
+
+    //exit;
+
+$form = '<div class="field name required">\n'.
+    '         <label class="label" for="title"><span>Reason for cancel</span></label>\n'.
+    '            <div class="control">\n' .
+    '                <div class="field">\n' .
+    '                    <div class="control">\n' .
+    '                        <select id="orderCancelComment" name="reason">                     \n' .
+                                   $optionsHtml .
+    '                         </select>\n' .
+    '                    </div>\n' .
+    '                 </div>\n' .
+    '            </div>\n' .
+    '     </div>\n' .
+    '     <div class="field">\n' .
+    '         <label class="label" for="content"><span>Description</span></label>\n' .
+    '         <div class="control">\n' .
+    '              <textarea name="coment" id="orderCancelDescription" rows="4" cols="50" class="input-text"></textarea>\n' .
+    '         </div>\n' .
+    '    </div>\n' .
+    '     <div class="field name required">\n' .
+    '         <label class="label" for="title"><span>Products Restock Partially</span></label>\n' .
+    '         <div class="control">\n' .
+    '              <div class="field">\n' .
+    '                   <div class="control">\n' .
+    '                         <select id="orderProductsRestock" name="products_restock" multiple>         \n' .
+                                    $optionsProducts .
+    '                         </select>\n' .
+    '                   </div>\n' .
+    '              </div>\n' .
+    '         </div>\n' .
+    '    </div>';
+
+?>
+<script type="text/javascript">
+    window.orderCancelStatuses = '<?php echo $form; ?>';
+</script>

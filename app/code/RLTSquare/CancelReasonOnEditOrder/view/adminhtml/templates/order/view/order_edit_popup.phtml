@@ -1,0 +1,89 @@
+<?php
+/** @var $block \RLTSquare\CancelReasonOnEditOrder\Block\Adminhtml\Order\View */
+
+$cancelstatuses = $block->getOrderCancelStatuses();
+
+$order = $block->getOrderByIncrementId();
+
+$action = $block->getUrl('cancelreasononeditorder/order_edit/start');
+
+// Extraction options from string
+$options = [];
+$temp = "";
+for ($i = 0; $i < strlen($cancelstatuses); $i++){
+    if ($cancelstatuses[$i] != ","){
+        $temp .= $cancelstatuses[$i];
+    }
+    else{
+        array_push($options, $temp);
+        $temp = "";
+    }
+    if ($i == (strlen($cancelstatuses)-1)){
+        array_push($options, $temp);
+        $temp = "";
+    }
+}
+
+// Creating options dropdown
+$optionsHtml = "";
+foreach ($options as $option){
+    $optionsHtml .= '<option value="'.$option.'">'.$option.'</option>\n';
+}
+
+?>
+<div class="editModal">
+    <div id="editModal" style="display:none;">
+        <div class="order-edit-form">
+            <form id="order-edit-reason-form" action="<?php echo $block->getUrl('cancelreasononeditorder/order_edit/start'); ?>" method="post" class="order-edit-reason">
+                <input name="form_key" type="hidden" value="<?php /* @escapeNotVerified */ echo $block->getFormKey() ?>">
+                <div class="field name required">
+                    <label class="label" for="title"><span>Reason for edit order</span></label>
+                        <div class="control">
+                            <div class="field">
+                                <div class="control">
+                                    <select id="orderEditReason" name="reason_edit_order">
+                                        <?php echo $optionsHtml ?>
+                                    </select>
+                                </div>
+                            </div>
+                        </div>
+                </div>
+                <div class="field">
+                    <label class="label" for="content"><span>Description</span></label>
+                        <div class="control">
+                            <textarea name="coment_edit_order" id="orderEditDescription" rows="4" cols="50" class="input-text"></textarea>
+                        </div>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+<?php if($order->getPayment()->getMethod() == "etisalatpay") : ?>
+<script>
+    require(
+        [
+            'jquery',
+            'Magento_Ui/js/modal/modal'
+        ],
+        function($,modal) {
+
+            var options = {
+                type: 'popup',
+                responsive: true,
+                innerScroll: true,
+                title: 'Quick Edit',
+                clickableOverlay: true,
+                buttons: [{
+                    text: $.mage.__('Submit'),
+                    class: '',
+                    click: function () {
+                        $('#order-edit-reason-form').submit();
+                        this.closeModal();
+                    }
+                }]
+            };
+            var popup = modal(options, $('#editModal'));
+        }
+    );
+</script>
+<?php endif; ?>

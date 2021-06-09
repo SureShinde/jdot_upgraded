@@ -1,0 +1,14 @@
+{
+    "sales_order": {
+        "column": {
+            "order_edit_reason": true,
+            "order_edit_description": true
+        }
+    },
+    "sales_order_grid": {
+        "column": {
+            "order_edit_reason": true,
+            "order_edit_description": true
+        }
+    }
+}

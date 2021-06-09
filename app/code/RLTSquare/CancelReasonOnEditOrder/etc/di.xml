@@ -1,0 +1,17 @@
+<?xml version="1.0"?>
+<config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:framework:ObjectManager/etc/config.xsd">
+    <type name="Magento\Sales\Block\Adminhtml\Order\View">
+        <plugin name="sales_order_adminhtml_view_custom_button_plugin" type="RLTSquare\CancelReasonOnEditOrder\Plugin\Sales\Block\Adminhtml\Order\View"/>
+    </type>
+
+    <preference for="Magento\Sales\Controller\Adminhtml\Order\Edit\Start" type="RLTSquare\CancelReasonOnEditOrder\Controller\Adminhtml\Order\Edit\Start" />
+
+    <virtualType name="Magento\Sales\Model\ResourceModel\Order\Grid" type="Magento\Sales\Model\ResourceModel\Grid">
+        <arguments>
+            <argument name="columns" xsi:type="array">
+                <item name="order_edit_reason" xsi:type="string">sales_order.order_edit_reason</item>
+                <item name="order_edit_description" xsi:type="string">sales_order.order_edit_description</item>
+            </argument>
+        </arguments>
+    </virtualType>
+</config>

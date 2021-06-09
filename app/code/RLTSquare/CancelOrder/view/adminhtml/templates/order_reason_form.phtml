@@ -1,0 +1,48 @@
+<?php
+/**
+ * @var $block \RLTSquare\CancelOrder\Block\Adminhtml\Order\CancelStatuses
+ */
+$isShowForm = $block->checkOrderPaymentMethod();
+
+if ($isShowForm){
+    $cancelstatuses = $block->getOrderCancelStatusesConfig();
+
+    // Extraction options from string
+    $options = [];
+    $temp = "";
+    for ($i = 0; $i < strlen($cancelstatuses); $i++){
+        if ($cancelstatuses[$i] != ","){
+            $temp .= $cancelstatuses[$i];
+        }
+        else{
+            array_push($options, $temp);
+            $temp = "";
+        }
+        if ($i == (strlen($cancelstatuses)-1)){
+            array_push($options, $temp);
+            $temp = "";
+        }
+    }
+
+    // Creating options dropdown
+    $optionsHtml = "";
+    foreach ($options as $option){
+        $optionsHtml .= '<option value="'.$option.'">'.$option.'</option>\n';
+    }
+    ?>
+
+    <div class="admin__field field required _required">
+        <label class="label admin__field-label"><span>Reason for cancel</span></label>
+        <div class="admin__field-control control">
+            <select id="orderCancelReason" name="order[reason]" class="required-entry select admin__control-select _required">
+                <?php echo $optionsHtml?>
+            </select>
+        </div>
+    </div>
+    <div class="admin__field field required _required">
+        <label class="label admin__field-label"><span>Description</span></label>
+        <div class="admin__field-control control">
+            <textarea name="order[reason_detail]" id="orderCancelDescription" rows="3" cols="40" class="required-entry maximum-length-255 minimum-length-1 validate-length input-text admin__control-text required-entry _required"></textarea>
+        </div>
+    </div>
+<?php } ?>
