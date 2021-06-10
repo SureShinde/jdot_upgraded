@@ -1,21 +1,33 @@
 <?php
 /**
- * Copyright  © 2013-2017 Magento, Inc. All rights reserved.
+ * Copyright © Magento, Inc. All rights reserved.
  * See COPYING.txt for license details.
  */
 namespace Arpatech\CityDropdown\Block\Checkout;
 
+use Magento\Checkout\Block\Checkout\LayoutProcessorInterface;
 use Magento\Checkout\Helper\Data;
+use Magento\Customer\Model\AttributeMetadataDataProvider;
+use Magento\Customer\Model\Options;
+use Magento\Eav\Api\Data\AttributeInterface;
 use Magento\Framework\App\ObjectManager;
-class LayoutProcessor extends \Magento\Checkout\Block\Checkout\LayoutProcessor
+use Magento\Shipping\Model\Config;
+use Magento\Store\Model\StoreManagerInterface;
+use Magento\Ui\Component\Form\AttributeMapper;
+use Magento\Checkout\Block\Checkout\AttributeMerger;
+
+/**
+ * Checkout Layout Processor
+ */
+class LayoutProcessor implements LayoutProcessorInterface
 {
     /**
-     * @var \Magento\Customer\Model\AttributeMetadataDataProvider
+     * @var AttributeMetadataDataProvider
      */
     private $attributeMetadataDataProvider;
 
     /**
-     * @var \Magento\Ui\Component\Form\AttributeMapper
+     * @var AttributeMapper
      */
     protected $attributeMapper;
 
@@ -25,7 +37,7 @@ class LayoutProcessor extends \Magento\Checkout\Block\Checkout\LayoutProcessor
     protected $merger;
 
     /**
-     * @var \Magento\Customer\Model\Options
+     * @var Options
      */
     private $options;
 
@@ -45,18 +57,22 @@ class LayoutProcessor extends \Magento\Checkout\Block\Checkout\LayoutProcessor
     private $shippingConfig;
 
     /**
-     * @param \Magento\Customer\Model\AttributeMetadataDataProvider $attributeMetadataDataProvider
-     * @param \Magento\Ui\Component\Form\AttributeMapper $attributeMapper
+     * @param AttributeMetadataDataProvider $attributeMetadataDataProvider
+     * @param AttributeMapper $attributeMapper
      * @param AttributeMerger $merger
+     * @param Options $options
+     * @param Data $checkoutDataHelper
+     * @param Config $shippingConfig
+     * @param StoreManagerInterface $storeManager
      */
     public function __construct(
-        \Magento\Customer\Model\AttributeMetadataDataProvider $attributeMetadataDataProvider,
-        \Magento\Ui\Component\Form\AttributeMapper $attributeMapper,
-        \Magento\Checkout\Block\Checkout\AttributeMerger $merger,
-        \Magento\Customer\Model\Options $options,
-        \Magento\Checkout\Helper\Data $checkoutDataHelper,
-        \Magento\Shipping\Model\Config $shippingConfig,
-        \Magento\Store\Model\StoreManagerInterface $storeManagerInterface
+        AttributeMetadataDataProvider $attributeMetadataDataProvider,
+        AttributeMapper $attributeMapper,
+        AttributeMerger $merger,
+        Options $options,
+        Data $checkoutDataHelper,
+        Config $shippingConfig,
+        StoreManagerInterface $storeManager
     ) {
         $this->attributeMetadataDataProvider = $attributeMetadataDataProvider;
         $this->attributeMapper = $attributeMapper;
@@ -64,67 +80,17 @@ class LayoutProcessor extends \Magento\Checkout\Block\Checkout\LayoutProcessor
         $this->options = $options;
         $this->checkoutDataHelper = $checkoutDataHelper;
         $this->shippingConfig = $shippingConfig;
-        $this->storeManager = $storeManagerInterface;
-        parent::__construct($attributeMetadataDataProvider,$attributeMapper,$merger, $options, $checkoutDataHelper, $shippingConfig, $storeManagerInterface);
+        $this->storeManager = $storeManager;
     }
 
-    public function process(
-        $jsLayout
-    ) {
-        $attributesToConvert = [
-            'prefix' => [$this->getOptions(), 'getNamePrefixOptions'],
-            'suffix' => [$this->getOptions(), 'getNameSuffixOptions'],
-        ];
-
-        $elements = $this->getAddressAttributes();
-        $elements = $this->convertElementsToSelect($elements, $attributesToConvert);
-        // The following code is a workaround for custom address attributes
-        if (isset($jsLayout['components']['checkout']['children']['steps']['children']['billing-step']['children']
-            ['payment']['children']
-        )) {
-            $jsLayout['components']['checkout']['children']['steps']['children']['billing-step']['children']
-            ['payment']['children'] = $this->processPaymentChildrenComponents(
-                $jsLayout['components']['checkout']['children']['steps']['children']['billing-step']['children']
-                ['payment']['children'],
-                $elements
-            );
-        }
-
-        if (isset($jsLayout['components']['checkout']['children']['steps']['children']['shipping-step']
-            ['children']['shippingAddress']['children']['shipping-address-fieldset']['children']
-        )) {
-            $fields = $jsLayout['components']['checkout']['children']['steps']['children']['shipping-step']
-            ['children']['shippingAddress']['children']['shipping-address-fieldset']['children'];
-            $jsLayout['components']['checkout']['children']['steps']['children']['shipping-step']
-            ['children']['shippingAddress']['children']['shipping-address-fieldset']['children'] = $this->merger->merge(
-                $elements,
-                'checkoutProvider',
-                'shippingAddress',
-                $fields
-            );
-        }
-
-        $jsLayout['components']['checkout']['children']['steps']['children']['shipping-step']['children']['shippingAddress']['children']['shipping-address-fieldset']['children']['street']['children'][0]['validation']['max_text_length'] = 120;
-
-        return $jsLayout;
-    }
     /**
-     * @deprecated
-     * @return \Magento\Customer\Model\Options
-     */
-    private function getOptions()
-    {
-        if (!is_object($this->options)) {
-            $this->options = ObjectManager::getInstance()->get(\Magento\Customer\Model\Options::class);
-        }
-        return $this->options;
-    }
-    /**
+     * Get address attributes.
+     *
      * @return array
      */
     private function getAddressAttributes()
     {
-        /** @var \Magento\Eav\Api\Data\AttributeInterface[] $attributes */
+        /** @var AttributeInterface[] $attributes */
         $attributes = $this->attributeMetadataDataProvider->loadAttributesCollection(
             'customer_address',
             'customer_register_address'
@@ -144,6 +110,7 @@ class LayoutProcessor extends \Magento\Checkout\Block\Checkout\LayoutProcessor
         }
         return $elements;
     }
+
     /**
      * Convert elements(like prefix and suffix) from inputs to selects when necessary
      *
@@ -158,6 +125,7 @@ class LayoutProcessor extends \Magento\Checkout\Block\Checkout\LayoutProcessor
             if (!in_array($code, $codes)) {
                 continue;
             }
+            // phpcs:ignore Magento2.Functions.DiscouragedFunction
             $options = call_user_func($attributesToConvert[$code]);
             if (!is_array($options)) {
                 continue;
@@ -175,18 +143,94 @@ class LayoutProcessor extends \Magento\Checkout\Block\Checkout\LayoutProcessor
 
         return $elements;
     }
+
+    /**
+     * Process js Layout of block
+     *
+     * @param array $jsLayout
+     * @return array
+     */
+    public function process($jsLayout)
+    {
+        $attributesToConvert = [
+            'prefix' => [$this->getOptions(), 'getNamePrefixOptions'],
+            'suffix' => [$this->getOptions(), 'getNameSuffixOptions'],
+        ];
+
+        $elements = $this->getAddressAttributes();
+        $elements = $this->convertElementsToSelect($elements, $attributesToConvert);
+        // The following code is a workaround for custom address attributes
+        if (isset(
+            $jsLayout['components']['checkout']['children']['steps']['children']['billing-step']['children']['payment']
+            ['children']
+        )) {
+            $jsLayout['components']['checkout']['children']['steps']['children']['billing-step']['children']
+            ['payment']['children'] = $this->processPaymentChildrenComponents(
+                $jsLayout['components']['checkout']['children']['steps']['children']['billing-step']['children']
+                ['payment']['children'],
+                $elements
+            );
+        }
+
+        if (isset(
+            $jsLayout['components']['checkout']['children']['steps']['children']['shipping-step']['children']
+            ['step-config']['children']['shipping-rates-validation']['children']
+        )) {
+            $jsLayout['components']['checkout']['children']['steps']['children']['shipping-step']['children']
+            ['step-config']['children']['shipping-rates-validation']['children'] =
+                $this->processShippingChildrenComponents(
+                    $jsLayout['components']['checkout']['children']['steps']['children']['shipping-step']['children']
+                    ['step-config']['children']['shipping-rates-validation']['children']
+                );
+        }
+
+        if (isset(
+            $jsLayout['components']['checkout']['children']['steps']['children']['shipping-step']['children']
+            ['shippingAddress']['children']['shipping-address-fieldset']['children']
+        )) {
+            $fields = $jsLayout['components']['checkout']['children']['steps']['children']['shipping-step']
+            ['children']['shippingAddress']['children']['shipping-address-fieldset']['children'];
+            $jsLayout['components']['checkout']['children']['steps']['children']['shipping-step']
+            ['children']['shippingAddress']['children']['shipping-address-fieldset']['children'] = $this->merger->merge(
+                $elements,
+                'checkoutProvider',
+                'shippingAddress',
+                $fields
+            );
+        }
+
+        return $jsLayout;
+    }
+
+    /**
+     * Process shipping configuration to exclude inactive carriers.
+     *
+     * @param array $shippingRatesLayout
+     * @return array
+     */
+    private function processShippingChildrenComponents($shippingRatesLayout)
+    {
+        $activeCarriers = $this->shippingConfig->getActiveCarriers(
+            $this->storeManager->getStore()->getId()
+        );
+        foreach (array_keys($shippingRatesLayout) as $carrierName) {
+            $carrierKey = str_replace('-rates-validation', '', $carrierName);
+            if (!array_key_exists($carrierKey, $activeCarriers)) {
+                unset($shippingRatesLayout[$carrierName]);
+            }
+        }
+        return $shippingRatesLayout;
+    }
+
     /**
      * Appends billing address form component to payment layout
      *
      * @param array $paymentLayout
      * @param array $elements
-     *
      * @return array
      */
-    private function processPaymentChildrenComponents(
-        array $paymentLayout,
-        array $elements
-    ) {
+    private function processPaymentChildrenComponents(array $paymentLayout, array $elements)
+    {
         if (!isset($paymentLayout['payments-list']['children'])) {
             $paymentLayout['payments-list']['children'] = [];
         }
@@ -195,25 +239,23 @@ class LayoutProcessor extends \Magento\Checkout\Block\Checkout\LayoutProcessor
             $paymentLayout['afterMethods']['children'] = [];
         }
 
-        // if billing address should be displayed on Payment method or page
-        if ($this->getCheckoutDataHelper()->isDisplayBillingOnPaymentMethodAvailable()) {
-            $paymentLayout['payments-list']['children'] = array_merge_recursive(
-                $paymentLayout['payments-list']['children'],
-                $this->processPaymentConfiguration(
-                    $paymentLayout['renders']['children'],
-                    $elements
-                )
-            );
+        // The if billing address should be displayed on Payment method or page
+        if ($this->checkoutDataHelper->isDisplayBillingOnPaymentMethodAvailable()) {
+            $paymentLayout['payments-list']['children'] =
+                array_merge_recursive(
+                    $paymentLayout['payments-list']['children'],
+                    $this->processPaymentConfiguration(
+                        $paymentLayout['renders']['children'],
+                        $elements
+                    )
+                );
         } else {
-            $component['billing-address-form'] = $this->getBillingAddressComponent(
-                'shared',
-                $elements
-            );
-
-            $paymentLayout['afterMethods']['children'] = array_merge_recursive(
-                $component,
-                $paymentLayout['afterMethods']['children']
-            );
+            $component['billing-address-form'] = $this->getBillingAddressComponent('shared', $elements);
+            $paymentLayout['afterMethods']['children'] =
+                array_merge_recursive(
+                    $component,
+                    $paymentLayout['afterMethods']['children']
+                );
         }
 
         return $paymentLayout;
@@ -234,11 +276,7 @@ class LayoutProcessor extends \Magento\Checkout\Block\Checkout\LayoutProcessor
                 if (empty($paymentComponent['isBillingAddressRequired'])) {
                     continue;
                 }
-
-                $output[$paymentCode . '-form'] = $this->getBillingAddressComponent(
-                    $paymentCode,
-                    $elements
-                );
+                $output[$paymentCode . '-form'] = $this->getBillingAddressComponent($paymentCode, $elements);
             }
             unset($configuration[$paymentGroup]['methods']);
         }
@@ -250,8 +288,7 @@ class LayoutProcessor extends \Magento\Checkout\Block\Checkout\LayoutProcessor
      * Gets billing address component details
      *
      * @param string $paymentCode
-     * @param array  $elements
-     *
+     * @param array $elements
      * @return array
      */
     private function getBillingAddressComponent($paymentCode, $elements)
@@ -306,11 +343,6 @@ class LayoutProcessor extends \Magento\Checkout\Block\Checkout\LayoutProcessor
                             ],
                             'city' => [
                                 'sortOrder' => 202,
-//                                'displayArea' => 'after_region_id',
-                                'visible' => false,
-                            ],
-                            'city' => [
-                                'sortOrder' => 202,
                                 'displayArea' => 'after_country_id',
                                 'component' => 'Arpatech_CityDropdown/js/form/element/city',
                                 'config' => [
@@ -360,20 +392,15 @@ class LayoutProcessor extends \Magento\Checkout\Block\Checkout\LayoutProcessor
             ],
         ];
     }
-
     /**
-     * Get checkout data helper instance
-     *
-     * @return Data
      * @deprecated
+     * @return \Magento\Customer\Model\Options
      */
-    private function getCheckoutDataHelper()
+    private function getOptions()
     {
-        if (!$this->checkoutDataHelper) {
-            $this->checkoutDataHelper =
-                ObjectManager::getInstance()->get(Data::class);
+        if (!is_object($this->options)) {
+            $this->options = ObjectManager::getInstance()->get(\Magento\Customer\Model\Options::class);
         }
-
-        return $this->checkoutDataHelper;
+        return $this->options;
     }
 }
