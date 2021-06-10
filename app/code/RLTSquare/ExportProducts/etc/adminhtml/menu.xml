@@ -1,0 +1,6 @@
+<?xml version="1.0"?>
+<config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:module:Magento_Backend:etc/menu.xsd">
+    <menu>
+        <add id="RLTSquare_ExportProducts::exportproduct" title="Export Products" module="RLTSquare_ExportProducts" sortOrder="26" action="exportproducts/Export/Index" resource="Magento_Catalog::sets" parent="Magento_Catalog::inventory"/>
+    </menu>
+</config>
