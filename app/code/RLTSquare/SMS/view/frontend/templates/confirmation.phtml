@@ -1,0 +1,14 @@
+<?php
+/** @var \RLTSquare\SMS\Block\Order\Confirm $block */
+$blockId = $block->getCmsBlockId();
+echo $block->getLayout()
+    ->createBlock('Magento\Cms\Block\Block')
+    ->setBlockId($blockId) // cms block identifier
+    ->toHtml();
+?>
+
+<div class="checkout-success" style="text-align: center;">
+    <div class="primary">
+        <a class="action primary continue" href=<?php echo $block->getShopUrl()?>><span>Continue Shopping</span></a>
+    </div>
+</div>

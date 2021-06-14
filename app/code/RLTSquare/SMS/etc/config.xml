@@ -1,0 +1,15 @@
+<?xml version="1.0"?>
+<config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:module:Magento_Store:etc/config.xsd">
+    <default>
+        <general>
+            <api_credentials>
+                <isEnableDisable>0</isEnableDisable>
+                <url_session>https://telenorcsms.com.pk:27677/corporate_sms2/api/auth.jsp</url_session>
+                <api_url>https://telenorcsms.com.pk:27677/corporate_sms2/api/sendsms.jsp</api_url>
+                <mobile_number>923454985282</mobile_number>
+                <password>manig375</password>
+                <sms_text>Below is your ECS Order Verification Code:</sms_text>
+            </api_credentials>
+        </general>
+    </default>
+</config>

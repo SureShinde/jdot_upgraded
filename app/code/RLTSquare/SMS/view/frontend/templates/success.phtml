@@ -1,0 +1,138 @@
+<?php
+/** @var \RLTSquare\SMS\Block\Onepage\Success $block */
+if ($block->isEnableDisable() == 1):
+if($block->sendSMSToCustomer()): ?>
+    <input type="hidden" id="orderId" name="orderId" value="<?= $block->escapeHtml($block->getOrderId()) ?>" />
+    <div class="sms-success" id="sms-form-field">
+        <h5 class="sms-main-heading"><?= $block->escapeHtml('We have sent a verification code at your number, please enter 4 digit code below') ?></h5>
+        <span class="sms-input-text"><?= $block->escapeHtml('') ?></span>
+            <div>
+                <span class="sms-field-button-area">
+                <div class="sms-submit-form">
+                    <input type="number" id="smsVerificationCode" name="smsVerificationCode" maxlength="4" minlength="4" class="sms-input-field" />
+                    <button id="smsVerificationForm" type="submit" value="Verify"><?= $block->escapeHtml('Verify') ?></button>
+                </div>
+            </span>
+            </div>
+            <div>
+                <span class="sms-field-button-area">
+                <div  class="sms-submit-form">
+                    <button id="smsResend" type="submit" value="Resend"><?= $block->escapeHtml('Resend') ?></button>
+                </div>
+            </span>
+            </div>
+    </div>
+    <?php
+    echo $this->getLayout()
+        ->createBlock('Magento\Cms\Block\Block')
+        ->setBlockId('custom_message_success')
+        ->toHtml();
+    ?>
+    <div class="sms-success-code">
+        <span id="number-verified" style="display: none;"><?= $block->escapeHtml('Your order has been confirmed, Thank you') ?></span>
+    </div>
+    <div class="sms-success-code">
+        <span id="sms-resent-success" style="display: none;"><?= $block->escapeHtml('Code resent successfully. Please check your phone. Thank you!') ?></span>
+    </div>
+    <div class="sms-success-code">
+        <span id="number-not-verified" style="display: none;">
+            <?= $block->escapeHtml('Invalid code! Please try to resend code') ?>
+        </span>
+    </div>
+    <div id="sms-sorry" style="display: none;">
+        <span><?= $block->escapeHtml('We are sorry, we can\'t verify your number.') ?></span>
+    </div>
+<?php /*else: */?><!--
+    <div class="sms-wrong-number">
+        <span><?/*= $block->escapeHtml('We can\'t verify your number.') */?></span>
+    </div>-->
+<?php endif; ?>
+<?php endif; ?>
+<script>
+    require(['jquery'],function($){
+        $(document).ready(function() {
+            $("#smsVerificationForm").on('click', function(event){
+                $("#sms-resent-success").hide();
+                $("#sms-success-code").hide();
+                var smsCode = $("#smsVerificationCode").val();
+                $("#smsVerificationCode").val('');
+                var orderId = $("#orderId").val();
+                var url = "<?= $block->getActionUrl() ?>";
+                $.ajax({
+                    url: url,
+                    type: "POST",
+                    dataType: 'json',
+                    async: true,
+                    data: {smsVerificationCode:smsCode, orderId: orderId},
+                    showLoader: true,
+                    cache: false,
+                    success: function(response){
+                        if (response.verified === '1'){
+                            $("#sms-form-field").hide();
+                            $("#number-verified").show();
+                            $("#number-not-verified").hide();
+                            $("#sms-sorry").hide();
+                        } else {
+                            $('#number-not-verified').show();
+                            $("#sms-sorry").hide();
+                            $("#sms-form-field").show();
+                            $("#smsVerificationForm").hide();
+                        }
+                    },
+                    error: function (err) {
+                        $('#number-not-verified').show();
+                        $("#sms-form-field").show();
+                        $("#sms-sorry").hide();
+                        $("#number-verified").hide();
+                    }
+                });
+            });
+
+            $("#smsResend").on('click', function(event){
+                var orderId = $("#orderId").val();
+                var url = "<?= $block->getResendUrl() ?>";
+                $("#smsVerificationCode").val('');
+                $.ajax({
+                    url: url,
+                    type: "POST",
+                    dataType: 'json',
+                    async: true,
+                    data: {orderId: orderId},
+                    showLoader: true,
+                    cache: false,
+                    success: function(response){
+                        if (response.resent === '1'){
+                            $("#sms-form-field").show();
+                            $("#number-verified").hide();
+                            $("#sms-sorry").hide();
+                            $("#number-not-verified").hide();
+                            $("#sms-resent-success").show();
+                            $("#smsVerificationForm").show();
+                        } else  if(response.resent === '0'){
+                            $('#number-not-verified').show();
+                            $("#sms-form-field").show();
+                            $("#number-verified").hide();
+                            $('#sms-sorry').hide();
+                            $("#sms-resent-success").hide();
+                        }
+                        if(response.resent === '3') {
+                            $('#sms-sorry').show();
+                            $('#number-not-verified').hide();
+                            $("#sms-form-field").hide();
+                            $("#number-verified").hide();
+                            $("#sms-resent-success").hide();
+                        }
+                    },
+                    error: function (err) {
+                        $('#number-not-verified').show();
+                        $("#sms-form-field").show();
+                        $("#sms-sorry").hide();
+                        $("#number-verified").hide();
+                        $("#sms-resent-success").hide();
+                    }
+                });
+            });
+
+        });
+    });
+</script>
