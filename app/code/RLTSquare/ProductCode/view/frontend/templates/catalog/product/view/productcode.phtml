@@ -1,0 +1,12 @@
+<?php
+
+/** @var $block \RLTSquare\ProductCode\Block\Catalog\Product\View\Productcode */
+?>
+<?php if ($currentProduct = $block->getCurrentProduct()) {
+    if($currentProduct->getProductCode()) {?>
+<div class="product-code">
+    <span>Product Code: <?php echo $currentProduct->getProductCode(); ?> </span>
+</div>
+<?php
+    }
+}

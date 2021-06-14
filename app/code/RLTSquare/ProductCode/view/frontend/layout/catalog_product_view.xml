@@ -1,0 +1,11 @@
+<?xml version="1.0"?>
+<page xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" layout="1column" xsi:noNamespaceSchemaLocation="../../../../../../../lib/internal/Magento/Framework/View/Layout/etc/page_configuration.xsd">
+    <body>
+        <referenceContainer name="product.info.type">
+
+            <block class="RLTSquare\ProductCode\Block\Catalog\Product\View\Productcode" name="product.info.productcode" after="product.info.sku"
+                   template="RLTSquare_ProductCode::catalog/product/view/productcode.phtml">
+            </block>
+        </referenceContainer>
+    </body>
+</page>
