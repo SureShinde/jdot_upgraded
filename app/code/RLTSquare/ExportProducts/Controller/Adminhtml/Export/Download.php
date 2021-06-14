@@ -2,18 +2,13 @@
 
 namespace RLTSquare\ExportProducts\Controller\Adminhtml\Export;
 
-use Magento\Framework\App\Filesystem\DirectoryList;
+use Magento\Framework\App\Action\HttpGetActionInterface;
+use Magento\Framework\App\Action\HttpPostActionInterface;
 
-use Magento\Setup\Exception;
-
-use Magento\Framework\App\Bootstrap;
-
-//require __DIR__ . '/app/bootstrap.php';
-
-class Download extends \Magento\Framework\App\Action\Action
+class Download extends \Magento\Backend\App\Action implements HttpPostActionInterface
 {
 
-    protected $resultRawFactory;
+    protected $resultRedirectFactory;
 
     protected $csvWriter;
 
@@ -39,8 +34,8 @@ class Download extends \Magento\Framework\App\Action\Action
 
     public function __construct(
         \Magento\Backend\App\Action\Context $context,
-        \Magento\Framework\Controller\Result\RawFactory $resultRawFactory,
-        \Magento\Framework\App\Response\Http\FileFactory $fileFactory,
+        \Magento\Framework\Controller\Result\RedirectFactory $resultRedirectFactory,
+        \Magento\Backend\App\Response\Http\FileFactory $fileFactory,
         \Magento\Framework\File\Csv $csvWriter,
         \Magento\Framework\App\Filesystem\DirectoryList $directoryList,
         \Magento\Eav\Api\AttributeSetRepositoryInterface $attributeSet,
@@ -52,7 +47,7 @@ class Download extends \Magento\Framework\App\Action\Action
         \Magento\Framework\App\ResourceConnection $resource
     ) {
         $this->csvWriter = $csvWriter;
-        $this->resultRawFactory = $resultRawFactory;
+        $this->resultRedirectFactory = $resultRedirectFactory;
         $this->fileFactory = $fileFactory;
         $this->_storeManager = $storeManager;
         $this->directoryList = $directoryList;
@@ -114,18 +109,18 @@ class Download extends \Magento\Framework\App\Action\Action
 
                 for($i = 0; $i< count($categoryIds); $i++ ){
                     $currentCategory = $categoryIds[$i];
-if(array_key_exists($currentCategory,$ccev_kvp)){
-                    $tmpCat = $ccev_kvp[$currentCategory];
-                    while($cce_kvp[$currentCategory]["level"] > 1){
-                        $currentCategory = $cce_kvp[$currentCategory]["parent_id"];
-                        $tmpCat = $ccev_kvp[$currentCategory] . '/' . $tmpCat;
-                    }
+                    if(array_key_exists($currentCategory,$ccev_kvp)){
+                                        $tmpCat = $ccev_kvp[$currentCategory];
+                                        while($cce_kvp[$currentCategory]["level"] > 1){
+                                            $currentCategory = $cce_kvp[$currentCategory]["parent_id"];
+                                            $tmpCat = $ccev_kvp[$currentCategory] . '/' . $tmpCat;
+                                        }
 
-                    $categories .= $tmpCat;
-                    if($i < count($categoryIds) - 1){
-                        $categories .= ' , ';
+                                        $categories .= $tmpCat;
+                                        if($i < count($categoryIds) - 1){
+                                            $categories .= ' , ';
+                                        }
                     }
-}
                 }
             }
 
@@ -198,8 +193,8 @@ if(array_key_exists($currentCategory,$ccev_kvp)){
             null
         );
 
-        $resultRaw = $this->resultRawFactory->create();
+        $resultRedirect = $this->resultRedirectFactory->create();
 
-        return $resultRaw;
+        return $resultRedirect;
     }
 }

@@ -1,6 +1,11 @@
+<?php
 
+/** @var $block \Magento\Backend\Block\Template */
+/** @var $viewModel \RLTSquare\ExportProducts\ViewModel\FormData */
+$viewModel = $block->getData('view_model');
+?>
 <form class="formdynamic" method="post" action="<?php echo $this->getUrl("exportproducts/export/download");?>">
-
+    <input name="form_key" type="hidden" value="<?php echo $viewModel->getFormKey();?>">
     <button type="submit" id="btnsave" class="action submit primary" style="margin-bottom: 100px;">
         <span >Export</span>
     </button>
