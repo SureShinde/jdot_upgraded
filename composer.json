@@ -34,7 +34,7 @@
             "": "app/code/"
         },
         "files": [
-            "app/etc/NonComposerComponentRegistration.php"
+            "app/etc/NonComposerComponentRegistration.php","app/code/RLTSquare/OrderTrackingStatus/Model/Carrier.php","app/code/RLTSquare/OrderSender/OrderSender.php"
         ]
     },
     "autoload-dev": {
