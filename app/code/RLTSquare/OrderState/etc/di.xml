@@ -1,0 +1,13 @@
+<?xml version="1.0"?>
+<config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:framework:ObjectManager/etc/config.xsd">
+    <preference for="Magento\Sales\Model\Order\Config" type="RLTSquare\OrderState\Model\Order\Config" />
+    <preference for="Magento\Sales\Block\Adminhtml\Order\View\History" type="RLTSquare\OrderState\Block\Adminhtml\Order\View\History" />
+    <preference for="Magento\Shipping\Controller\Adminhtml\Order\Shipment\Save" type="RLTSquare\OrderState\Controller\Adminhtml\Order\Shipment\Save" />
+    <virtualType name="Magento\Sales\Model\ResourceModel\Order\Grid">
+        <arguments>
+            <argument name="columns" xsi:type="array">
+                <item name="order_engrave" xsi:type="string">sales_order.order_engrave</item>
+            </argument>
+        </arguments>
+    </virtualType>
+</config>
