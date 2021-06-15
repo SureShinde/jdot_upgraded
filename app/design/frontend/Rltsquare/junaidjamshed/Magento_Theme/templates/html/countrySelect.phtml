@@ -1,0 +1,81 @@
+<style>
+        .flag__btn {
+            padding-left: 10px;
+            cursor: pointer;
+        }
+
+        .flag__btn:after {
+            display: none !important;
+        }
+
+        #myBtn {
+            cursor: pointer;
+        }
+</style>
+
+<?php
+    $current_url = $block->getUrl('*/*/*', ['_current' => true, '_use_rewrite' => true]);
+    $image_name = 'pak-flag.png';
+    if(strpos($current_url, 'us.junaidjamshed.com') !== false){
+    if(strpos($current_url, 'us.junaidjamshed.com/ca') !== false){
+        $image_name = "ca-flag.png";
+    }
+    else{
+     $image_name = "us-flag.png";
+    }
+}
+else if(strpos($current_url, 'au.junaidjamshed.com') !== false){
+ if(strpos($current_url, 'au.junaidjamshed.com/nz') !== false){
+        $image_name = "nz-flag.png";
+    }
+    else{
+     $image_name = "au-flag.png";
+    }
+}
+else if(strpos($current_url, 'uk.junaidjamshed.com') !== false){
+
+     $image_name = "uk-flag.png";
+}
+else if(strpos($current_url, 'za.junaidjamshed.com') !== false){
+
+     $image_name = "za-flag.png";
+}
+    ?>
+<li class="flag__btn" style="cursor: pointer; margin-left: 10px; padding-left: 0px; margin-right: 15px;">
+<img src='<?php echo $this->getViewFileUrl('Magento_Theme::images/'.$image_name); ?>' id="myBtn" alt="image-icon" width="20" height="15">
+</li>
+<li><a href="https://www.junaidjamshed.com/track-my-order">Tracking Info</a></li>
+
+<script>
+
+    require(['jquery'],function($){
+        $(document).on('click', '#myBtn', function(){
+            $('#myModal').show();
+        });
+
+        $(document).on('click', '#close-sc', function(){
+            $('#myModal').hide();
+        });
+    });
+
+    /* When the user clicks on the button,
+    toggle between hiding and showing the dropdown content */
+    function myFunction() {
+        document.getElementById("footerDropdown").classList.toggle("show");
+    }
+
+    // Close the dropdown if the user clicks outside of it
+    window.onclick = function(event) {
+        if (!event.target.matches('.dropbtn')) {
+
+            var dropdowns = document.getElementsByClassName("dropdown-content");
+            var i;
+            for (i = 0; i < dropdowns.length; i++) {
+                var openDropdown = dropdowns[i];
+                if (openDropdown.classList.contains('show')) {
+                    openDropdown.classList.remove('show');
+                }
+            }
+        }
+    }
+</script>

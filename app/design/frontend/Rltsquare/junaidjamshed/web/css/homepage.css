@@ -1,0 +1,106 @@
+.homepage-main-slider .owl-carousel .owl-stage-outer {
+    padding-top: 0;
+}
+.theme-pearl.store-view-default h3,
+.container-v3.module-split p,
+.container-v3.module-split span a {
+    text-shadow: 0 0 2px #fff;
+}
+@media screen and (min-width: 768px){
+    .page-header-v4 .page-header #switcher-currency {
+        top: 6px;
+    }
+    .homepage-main-slider .custom-slider {
+        padding: 0 2px 20px;
+    }
+}
+@media screen and (min-width: 1525px){
+    .cms-index-index .container-v3 .mg-sec-7 {
+        margin-top: 28%;
+    }
+
+    .cms-index-index .container-v3 .mg-sec-6 {
+        margin-top: 10%;
+    }
+}
+
+@media screen and (min-width: 1625px){
+    .cms-index-index .container-v3 .mg-sec-7 {
+        margin-top: 22%;
+    }
+
+    .cms-index-index .container-v3 .mg-sec-6 {
+        margin-top: 8%;
+    }
+}
+
+@media screen and (min-width: 1725px){
+    .cms-index-index .container-v3 .mg-sec-7 {
+        margin-top: 16%;
+    }
+
+    .cms-index-index .container-v3 .mg-sec-6 {
+        margin-top: 5%;
+    }
+}
+
+/* banner background layer */
+.homepage-main-slider .owl-carousel .banner-item .content_slider .mg-sec-1{
+    background: rgba(255,255,255,0.5);
+}
+
+/* header link style update */
+body .header-global-promo #slides ul li a {
+    font-size: 9px;
+    color: #b05d5d;
+}
+
+/*shop now button*/
+body .container-v3.module-split span a {
+    float: none;
+    margin: 0 auto;
+    display: inline-block;
+    width: 100%;
+    text-align: center;
+}
+
+
+@media screen and (min-width: 768px){
+
+    /*home page main banner image left align*/
+    .homepage-main-slider span.banner-image {
+        max-width: 500px !important;
+    }
+
+    /*naviagtion content align center*/
+    .navigation .megamenu.level-top-fullwidth .level0.fullwidth .columns-group {
+        float: none;
+        vertical-align: top;
+    }
+
+    /*main slider right line*/
+    .homepage-main-slider .owl-item.active + .owl-item {
+        opacity: 0;
+    }
+
+    body .homepage-main-slider .custom-slider {
+        padding: 0 20px 0 0;
+    }
+
+    .homepage-main-slider .owl-carousel .banner-item .content_slider {
+        right: -14.2%;
+    }
+
+}
+
+@media screen and (max-width: 639px){
+    .toolbar.toolbar-products .toolbar-sorter.sorter label {
+        margin-left: 0;
+    }
+
+    .theme-pearl.store-view-default h3,
+    .container-v3.module-split p,
+    .container-v3.module-split span a {
+        text-shadow: none;
+    }
+}

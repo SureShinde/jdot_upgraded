@@ -1,0 +1,187 @@
+span.search-text {
+    font-family: 'Open Sans', 'Helvetica Neue', Helvetica, Arial, sans-serif;
+    margin-left: 6px;
+    float: right;
+    margin-top: 2px;
+}
+
+.header-global-promo #slides ul li .quoteContainer .wpx-sub,
+.header-global-promo #slides ul li .quoteContainer .quote-phrase,
+.header-global-promo #slides ul li .quoteContainer .wpx-link {
+    font-size: 9px !important;;
+    line-height: 1 !important
+}
+
+.page-header .header-global-promo .global-notification-wrapper {
+    padding: 7px !important;
+}
+
+.page-header .header-global-promo .global-notification-wrapper a.close-global-notification {
+    top: 6px !important;
+}
+
+.header-global-promo .btn-bar #buttons a {
+    line-height: 11px !important;;
+    font-size: 22px !important;;
+    top: 9px !important;
+}
+
+.header-global-promo #slides ul li {
+    line-height: 5px !important
+}
+
+.page-header .header.links *,
+.page-header #switcher-currency.switcher strong,
+.page-header .header.links > li.authorization-link:after {
+    font-size: 10px !important;
+}
+
+.navigation .megamenu.level-top-sectioned .submenu [data-has-children] > a span:last-child {
+    font-size: 13px !important;;
+    font-weight: 600 !important;;
+    border-bottom: none !important;
+}
+
+.navigation .megamenu.level-top-sectioned .submenu .level1 .submenu li > a {
+    padding: 0 10px !important;
+}
+
+.navigation .megamenu.level-top-sectioned .submenu .columns-group li > a span {
+    font-size: 12px !important;
+    padding-bottom: 0 !important;
+}
+
+.navigation .megamenu .submenu .level1 .submenu li {
+    padding-bottom: 6px !important
+}
+
+.navigation .megamenu.level-top-sectioned .sectioned .level1.submenu {
+    padding-top: 0 !important;
+}
+
+span.search-text {
+    font-size: 10px !important;
+    line-height: 18px !important;
+}
+
+.page-header .minicart-wrapper .action.showcart svg {
+    width: 15px !important;
+    height: 28px !important;
+}
+
+.page-wrapper .page-header .header.links .authorization-link a:before,
+.page-wrapper .page-header .minicart-wrapper .action.showcart:before {
+    display: none !important;
+}
+
+.page-header .minicart-wrapper {
+    margin-left: 15px !important
+}
+
+@media screen and (max-width: 767px) {
+    span.search-text {
+        display: none
+    }
+
+    .page-wrapper .page-header .block-search.minisearch-v2 .open-modal-search {
+        position: relative
+    }
+
+    .page-wrapper .page-header .block-search.minisearch-v2 .open-modal-search:after {
+        position: absolute;
+        content: 'Search';
+        bottom: -14px;
+        left: -8px;
+        font-size: 10px;
+        font-family: 'Quicksand', sans-serif;
+        text-transform: uppercase;
+        font-weight: 700
+    }
+
+    .nav-toggle:after {
+        position: absolute;
+        content: 'Menu';
+        bottom: -8px;
+        left: -1px;
+        font-size: 10px;
+        font-family: 'Quicksand', sans-serif;
+        text-transform: uppercase;
+        font-weight: 700
+    }
+
+    .page-header .minicart-wrapper:after {
+        position: absolute;
+        content: 'Bag';
+        bottom: -12px;
+        right: -5px;
+        font-size: 10px;
+        font-family: 'Quicksand', sans-serif;
+        text-transform: uppercase;
+        font-weight: 700
+    }
+}
+
+.header.panel > .header.links > .authorization-link:after {
+    display: none !important;
+}
+
+.navigation .megamenu.level-top-fullwidth .submenu [data-has-children] > a span:last-child {
+    font-size: 13px !important;
+    font-weight: 600 !important;
+    border-bottom: none !important;
+}
+
+.navigation .megamenu.level-top-fullwidth .submenu .columns-group li > a span {
+    font-size: 12px !important;
+    padding-bottom: 0 !important;
+}
+
+.navigation .megamenu.level-top-fullwidth .submenu .level1 .submenu li > a {
+    padding: 0 10px !important;
+}
+
+.navigation .megamenu.level-top-sectioned .sectioned .level1.submenu {
+    padding-top: 0 !important;
+}
+
+.theme-pearl .nav-sections .navigation .megamenu.level-top-fullwidth .submenu .level1 .submenu {
+    padding: 0;
+}
+
+@media screen and (min-width: 768px) {
+    .page-header-v4.page-header {
+        z-index: 9;
+    }
+}
+
+@media screen and (max-width: 767px) {
+    /*Recently viewed price issue */
+    .theme-pearl.catalog-product-view .arv-content .product-items .product-item-actions {
+        margin-top: 0;
+    }
+
+    /*logo clickable*/
+    .page-wrapper .page-header .panel.header {
+        width: 30% !important;
+        right: 0;
+        left: auto !important;
+    }
+}
+
+@media screen and (max-width: 639px) {
+    /*Sort by label font size*/
+    .toolbar.toolbar-products .toolbar-sorter.sorter label {
+        font-weight: normal !important;
+    }
+}
+
+img, object, video, embed {
+    height: auto;
+    max-width: 100%;
+}
+
+@media (min-width: 768px), print {
+    .panel.header .links, .panel.header .switcher {
+        display: inline-block !important;
+    }
+}

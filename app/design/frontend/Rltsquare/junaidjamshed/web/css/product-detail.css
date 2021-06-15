@@ -1,0 +1,157 @@
+/*product info*/
+.product-reviews-summary .reviews-actions {
+    text-transform: uppercase;
+}
+
+.catalog-product-view .column.main .products-grid.products-related .product-item .product-item-info .product-item-details .field.choice.related {
+    width: 100% !important;
+}
+.product-info-main .product-info-stock-sku {
+    text-align: left;
+    display: flex;
+    flex-flow: row wrap;
+    padding-left: 0;
+}
+.product-info-main .stock {
+    width: 100%;
+    order: 2;
+    color: #999;
+}
+.product.attribute.sku {
+    color: #999;
+    width: 100%;
+}
+/*size*/
+.theme-pearl.catalog-product-view .swatch-option.text {
+    background: #fff !important;
+    color: #000 !important;
+    border: 1px solid #000 !important;
+}
+
+.theme-pearl.catalog-product-view .swatch-option.text:hover:before {
+    visibility: hidden !important;
+}
+
+.theme-pearl.catalog-product-view .swatch-option.text:hover {
+    background: #000 !important;
+    color: #fff !important;
+}
+.theme-pearl.catalog-product-view #product-options-wrapper .swatch-attribute .swatch-attribute-label {
+    text-transform: uppercase;
+}
+/*tabs*/
+.product.data.items .value p {
+    font-size: 12px;
+}
+
+.product.info.detailed .additional-attributes {
+    font-size: 12px;
+}
+
+#maincontent > div.columns > div > div.product-info-main {
+    margin-top: 20px;
+}
+
+#maincontent > div.columns > div > div.product-info-main > div.page-title-wrapper.product > h1 {
+    line-height: 1;
+}
+
+.theme-pearl .product-info-main .product.attribute.overview {
+    display: inline-block;
+    width: 100%;
+}
+
+.product-info-main .product-info-stock-sku {
+    padding-bottom: 0;
+}
+
+.product-info-main .stock {
+    margin-bottom: 0;
+}
+
+
+.theme-pearl.catalog-product-view .page-main .columns .product.info.detailed .product.data.items>.item.content {
+    padding-top: 10px;
+    padding-bottom: 10px;
+}
+
+@media screen and (min-width: 768px){
+    /*product info*/
+    .product-reviews-summary .reviews-actions {
+        font-size: 12px !important;
+    }
+    /*wish list*/
+    .theme-pearl.catalog-product-view .product-social-links .product-addto-links .action.towishlist span {
+        display: none;
+    }
+
+    .theme-pearl.catalog-product-view .product-social-links {
+        clear: none !important;
+    }
+
+    .theme-pearl .product-social-links .product-addto-links.full-width-add-to {
+        width: auto !important;
+        margin-bottom: 0;
+        margin-left: 20px;
+        border: 1px solid #000;
+        text-align: center !important;
+        float: none !important;
+        display: inline-block;
+        border-radius: 50%;
+        padding: 4px 7px 4px 8px;
+        margin-top: 10px;
+    }
+
+    .theme-pearl.product-page-v1 .product-info-main .actions {
+        max-width: 350px;
+    }
+
+    .theme-pearl.catalog-product-view .product-social-links .product-addto-links .action.towishlist {
+        float: none;
+        margin: 0 auto;
+    }
+
+    .theme-pearl.catalog-product-view .product-social-links .action.tocompare:before, .theme-pearl.catalog-product-view .product-social-links .action.towishlist:before, .theme-pearl.catalog-product-view .product-social-links .action.mailto:before {
+        margin: 0 !important;
+    }
+
+    .theme-pearl .product-social-links .product-addto-links.full-width-add-to:hover {
+        background: #000;
+    }
+
+    .theme-pearl .product-social-links .product-addto-links.full-width-add-to:hover a:before {
+        color: #fff;
+    }
+
+    #maincontent > div.columns > div > div.product-info-main > div.page-title-wrapper.product > h1 {
+        margin-bottom: 5px
+    }
+
+    .product-reviews-summary .reviews-actions {
+        font-size: 9px !important
+    }
+
+    .product-info-main .product-info-price .price-box .price-container .price {
+        font-size: 28px
+    }
+
+    .product-reviews-summary {
+        margin-bottom: 5px
+    }
+
+    #tab-label-additional-title {
+        height: 40px !important
+    }
+}
+.theme-pearl.catalog-product-view .swatch-option.text.selected:before {
+    border-color: transparent !important;
+    color:black !important;
+}
+.theme-pearl.catalog-product-view .swatch-option.text.selected{
+    background: black !important;
+    color: white !important;
+}
+
+.product-info-main .stock.discount-percent{
+    display: none !important;
+}

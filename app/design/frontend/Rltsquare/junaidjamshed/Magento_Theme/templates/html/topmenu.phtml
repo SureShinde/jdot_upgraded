@@ -1,0 +1,270 @@
+<?php
+/**
+ * Copyright © Magento, Inc. All rights reserved.
+ * See COPYING.txt for license details.
+ */
+
+// @codingStandardsIgnoreFile
+
+?>
+<?php
+/**
+ * Top menu for store
+ *
+ * @var $block \Magento\Theme\Block\Html\Topmenu
+ */
+?>
+<?php $columnsLimit = $block->getColumnsLimit() ?: 0; ?>
+<?php $_menu = $block->getHtml('level-top', 'submenu', $columnsLimit) ?>
+<style>
+    #switcher-currency-trigger strong span {
+        font-size: 11px;
+        margin-left: -20px;
+    }
+    @media screen and (min-width: 768px) {
+        #ch-country{
+             display: none;
+        }
+    }
+    /* The Modal (background) */
+    .modal {
+        display: none; /* Hidden by default */
+        position: fixed; /* Stay in place */
+        z-index: 1; /* Sit on top */
+        top: 0;
+        overflow: auto; /* Enable scroll if needed */
+        background-color: rgba(0,0,0,0.4); /* Black w/ opacity */
+        align-self: center;
+        border-radius:0 !important;
+    }
+
+    /* Modal Content */
+    .modal-content {
+        background-color: #fefefe;
+        margin: auto;
+        padding: 20px;
+        border: 1px solid black;
+        width: 80%;
+        border-radius:0 !important;
+    }
+    .header-top-link .modal {
+        z-index: 16;
+    }
+    .modal__content--wrapperoutter {
+        width:  100%;
+        height: 100%;
+    }
+    .modal__content--wrapper {
+        width: 80%;
+        text-align: center;
+        background-color: #fefefe;
+        margin: auto;
+        padding: 7% 7% 10% 7%;
+        border: 1px solid black;
+        /* height: 100%; */
+        border-radius: 0 !important;
+    }
+    .modal__content--wrapper span#close-sc {
+        position:  relative;
+        right: -44px;
+        top: -71px;
+        color:  #fff;
+        opacity:  1;
+        font-weight:  normal;
+        font-family: arial;
+    }
+    /* The Close Button */
+    #close-sc {
+        color: #aaaaaa;
+        float: right;
+        font-size: 28px;
+        font-weight: bold;
+    }
+    .modal__content--wrapper form#link {
+        display:  inline-block;
+        width: 85%;
+    }
+    .modal__content--wrapper input.input-text, .modal__content--wrapper select, .modal__content--wrapper textarea {
+        max-width:  330px;
+        width: 100%;
+        border: 1px solid #000;
+        height: 45px;
+        background-color: white;
+        color:black;
+    }
+
+    .modal__content--wrapper .SubmitButton {
+        height: 45px;
+        width: 100%;
+        background-color: #000;
+        font-size: 13px;
+        color: #fff;
+        margin-top: 15px;
+        border-color: #000;
+    }
+    .modal__content--wrapper .SubmitButton:focus {
+        background-color: #000;
+    }
+    .modal__content--wrapper .SubmitButton:active {
+        background-color: #000;
+    }
+    .modal__content--wrapper .SubmitButton:hover {
+        background-color: #000;
+    }
+
+    .modal__content--wrapper h1 {
+        color: black;
+    }
+
+    .modal {
+        text-align: center;
+        padding: 0!important;
+    }
+
+    .modal:before {
+        content: '';
+        display: inline-block;
+        height: 100%;
+        vertical-align: middle;
+        margin-right: -4px;
+    }
+
+    .modal-dialog {
+        display: inline-block;
+        text-align: left;
+        vertical-align: middle;
+        margin-top: 5%;
+    }
+    @media screen and  (max-width: 767px) {
+        .header-top-link .modal {
+            z-index: 100;
+        }
+    }
+    @media screen and  (max-width: 480px){
+        .modal-dialog {
+            margin-top: 10%;
+        }
+        .modal__content--wrapper {
+            width: 100%;
+            margin-top: 15px;
+        }
+        .modal__content--wrapper h1{
+            font-size: 24px !important;
+        }
+        .modal__content--wrapper span#close-sc {
+            right: -30px;
+            top: -71px;
+        }
+        .modal:before{
+            height: 30%;
+        }
+        .flag__btn {
+            padding-left: 10px;
+        }
+    }
+</style>
+<nav class="navigation" data-action="navigation">
+    <ul data-mage-init='{"menu":{"responsive":true, "expanded":true, "position":{"my":"left top","at":"left bottom"}}}'>
+        <?= /* @escapeNotVerified */ $_menu ?>
+        <?= /* @escapeNotVerified */ $block->getChildHtml() ?>
+    </ul>
+    <a style="font-size: 16px;font-weight: 700;padding: 0 10px;" href="https://www.junaidjamshed.com/track-my-order">Tracking Info</a>
+    <div id="ch-country" style="padding: 0 10px; font-size: 16px; font-weight: 700;">Change Shipping Country
+        <?php
+        $current_url = $block->getUrl('*/*/*', ['_current' => true, '_use_rewrite' => true]);
+        $image_name = 'pak-flag.png';
+        if(strpos($current_url, 'us.junaidjamshed.com') !== false){
+            if(strpos($current_url, 'us.junaidjamshed.com/ca') !== false){
+                $image_name = "ca-flag.png";
+            }
+            else{
+                $image_name = "us-flag.png";
+            }
+        }
+        else if(strpos($current_url, 'au.junaidjamshed.com') !== false){
+            if(strpos($current_url, 'au.junaidjamshed.com/nz') !== false){
+                $image_name = "nz-flag.png";
+            }
+            else{
+                $image_name = "au-flag.png";
+            }
+        }
+        else if(strpos($current_url, 'uk.junaidjamshed.com') !== false){
+
+            $image_name = "uk-flag.png";
+        }
+        else if(strpos($current_url, 'za.junaidjamshed.com') !== false){
+
+            $image_name = "za-flag.png";
+        }
+        ?><img style="vertical-align: middle; margin-top: 0px !important;" src='<?php echo $this->getViewFileUrl('Magento_Theme::images/'.$image_name); ?>' id="myBtnn" class="flag__btn" alt="image-icon" width="40" height="35">
+    </div>
+</nav>
+<div class="modal modal__content--wrapperoutter" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <!-- Modal content -->
+        <div class="modal-content modal__content--wrapper">
+            <span id="close-sc">&times;</span>
+
+            <div>
+                <h1 style="font-size:31px;">Choose your shipping destination</h1>
+                <form id="link">
+                    <select id="loc">
+                        <option <?php if($image_name == 'pak-flag.png'){ echo "selected";} ?> value="https://www.junaidjamshed.com">Pakistan</option>
+                        <option <?php if($image_name == 'au-flag.png'){ echo "selected";} ?> value="https://au.junaidjamshed.com">Australia</option>
+                        <option <?php if($image_name == 'nz-flag.png'){ echo "selected";} ?> value="https://au.junaidjamshed.com/nz/">New Zealand</option>
+                        <option <?php if($image_name == 'ca-flag.png'){ echo "selected";} ?> value="https://us.junaidjamshed.com/ca/">Canada</option>
+                        <option <?php if($image_name == 'uk-flag.png'){ echo "selected";} ?> value="https://uk.junaidjamshed.com">United Kingdom</option>
+                        <option <?php if($image_name == 'us-flag.png'){ echo "selected";} ?> value="https://us.junaidjamshed.com/">United States</option>
+                        <option <?php if($image_name == 'za-flag.png'){ echo "selected";} ?> value="https://za.junaidjamshed.com/">South Africa</option>
+                        <option value="https://www.junaidjamshed.com">Rest of the World</option>
+                    </select>
+                    <br>
+                    <input class="SubmitButton" type="submit" name="SUBMITBUTTON" value="Continue" style="font-size:20px; "/>
+                </form>
+            </div>
+            <script>
+                require(["jquery"],function($){
+                    $('#link').on('submit', function (e) {
+                        e.preventDefault();
+                        window.location.href = $('#loc').val();
+                    });
+                });
+            </script>
+        </div>
+    </div>
+</div>
+<script>
+
+    require(['jquery'],function($){
+        $('#myBtnn').click(function(){
+            $('#myModal').show();
+        });
+
+        $(document).on('click', '#close-sc', function(){
+            $('#myModal').hide();
+        });
+    });
+
+
+    /* When the user clicks on the button,
+    toggle between hiding and showing the dropdown content */
+    function myFunction() {
+        document.getElementById("footerDropdown").classList.toggle("show");
+    }
+
+    // Close the dropdown if the user clicks outside of it
+    window.onclick = function(event) {
+        if (!event.target.matches('.dropbtn')) {
+
+            var dropdowns = document.getElementsByClassName("dropdown-content");
+            var i;
+            for (i = 0; i < dropdowns.length; i++) {
+                var openDropdown = dropdowns[i];
+                if (openDropdown.classList.contains('show')) {
+                    openDropdown.classList.remove('show');
+                }
+            }
+        }
+    }
+</script>

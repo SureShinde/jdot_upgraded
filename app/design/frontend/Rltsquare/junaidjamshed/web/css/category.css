@@ -1,0 +1,196 @@
+.catalog-category-view .page-title-wrapper {
+  text-align: center;
+}
+body.catalog-category-view .page-title {
+  font-size: 20px !important;
+  margin-bottom: 20px;
+}
+
+.homepage-main-slider .owl-carousel .banner-item .content_slider {
+  color: #000;
+}
+/*category design update style start*/
+.price-box.price-final_price {
+  display: flex;
+}
+
+span.special-price {
+  order: 2;
+  padding-top: 22px;
+}
+
+.products-grid .product-item .product-item-details .price-box .old-price {
+  margin-left: 0;
+}
+
+.page-products .products-grid .product-item .product-item-info:hover .weltpixel-quickview.weltpixel_quickview_button_v2 {
+  width: 100%;
+  text-align: center;
+  text-indent: 0;
+  background-image: none;
+  background: rgba(255,255,255,0.5);
+  line-height: 1;
+  height: auto;
+  padding: 15px 0;
+  left: 0;
+  margin-top: 0;
+}
+.product-item-name {
+  line-height: 1;
+  margin: 0;
+}
+.product-item .price-box {
+  margin: 0 0 10px;
+}
+.products-grid .product-item .product-item-name {
+  text-transform: inherit;
+}
+.theme-pearl.store-view-default button.action.primary span {
+  text-transform: uppercase;
+}
+.theme-pearl.store-view-default button.action.primary {
+  border-width: 2px !important;
+}
+.page-products .product-item .weltpixel-quickview {
+  text-transform: uppercase;
+}
+/*category design update style end*/
+@media screen and (min-width:768px){
+  .homepage-main-slider .owl-carousel .banner-item .content_slider {
+    color: #000;
+    text-align: left;
+    left: auto;
+    right: -10%;
+    top: 15%;
+  }
+
+  .homepage-main-slider .owl-carousel .banner-item .content_slider .buttons .custom_content {
+    text-align: left;
+  }
+
+  .homepage-main-slider span.banner-image {
+    max-width: 460px;
+    float: left;
+    width: 100%;
+  }
+}
+
+@media screen and (max-width:767px){
+  .homepage-main-slider .owl-carousel .banner-item .content_slider {
+    width: 100%;
+    top: 50%;
+    left: 0;
+    transform: translateY(-50%);
+  }
+  .products-grid .product-item .product-item-info:hover {
+    box-shadow: none !important;
+    border: none !important;
+  }
+}
+/* category responsive style */
+
+@media screen and (max-width: 639px){
+  .products-grid .product-item {
+    width: 100%;
+  }
+
+  .products-grid .product-item {
+    width: 100%;
+    height: auto !important;
+  }
+
+  #layered-filter-block .filter-title strong {
+    width: 130px;
+    border-radius: 0;
+  }
+
+  .theme-pearl.page-products .sorter {
+    width: 130px;
+  }
+
+  .toolbar.toolbar-products .toolbar-sorter.sorter label {
+    width: 130px;
+    height: 32px;
+    display: inline-block;
+    line-height: 32px;
+    background: #fff;
+    border: 1px solid #000;
+  }
+
+  .toolbar.toolbar-products select.sorter-options {
+    width: 100%;
+    margin: 0;
+    border: 1px solid black;
+    border-radius: 0;
+    background: #fff !important;
+    padding: 0 5px;
+    -webkit-appearance: menulist;
+    position: absolute;
+    top: 0;
+    left: 0;
+    opacity: 0;
+  }
+
+  .sticky-toolbar-mobile div#layered-filter-block
+  {
+    position: fixed;
+    top: 100px;
+    left: 15px;
+    z-index: 8;
+  }
+
+  .sticky-toolbar-mobile.page-products .sorter{
+    position: fixed;
+    top: 85px;
+    right: 15px;
+    z-index:9;
+  }
+
+  .sticky-toolbar-mobile div#layered-filter-block:before {
+    position: absolute;
+    content: '';
+    height: 62px;
+    left: -15px;
+    top: -30px;
+    background: #fff;
+    width: 639px;
+  }
+
+  .sticky-toolbar-mobile #layered-filter-block .filter-title strong {
+    top: -14px;
+  }
+
+  .filter.active .filter-title strong {
+    top: 10px !important;
+    width: auto !important;
+  }
+  .addtocart_position_3.left {
+    width: 100%;
+  }
+
+  .theme-pearl.store-view-default button.action.primary {
+    width: 100%;
+  }
+}
+div.product.details.product-item-details > div.price-box.price-final_price > span > span > span.price-label {
+  display: none !important;
+}
+.product-items .product-item-info .stock {
+  position: absolute;
+  right: 0;
+  top: 0;
+  padding: 5px;
+  background: #DF0024;
+  color: white;
+  letter-spacing: 1px;
+  text-transform: uppercase;
+}
+span.special-price{
+  padding-top: 5px !important;
+}
+
+.original-price .price {
+  font-weight: 700 !important;
+  font-size: 12px !important;
+  text-decoration: line-through !important;
+}
