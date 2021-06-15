@@ -1,0 +1,8 @@
+<?xml version="1.0"?>
+<config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:framework:App/etc/routes.xsd">
+	<router id="standard">
+		<route id="etisalatpay" frontName="etisalatpay">
+			<module name="Magento_Etisalatpay" />
+		</route>
+	</router>
+</config>

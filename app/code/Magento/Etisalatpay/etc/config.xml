@@ -1,0 +1,23 @@
+<?xml version="1.0"?>
+<config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:module:Magento_Store:etc/config.xsd">
+	<default>
+		<payment>
+			<etisalatpay>
+				<!-- <debug>1</debug> -->
+				<active>1</active>
+				<model>Magento\Etisalatpay\Model\Payment</model>
+				<order_status>pending</order_status>
+				<payment_action>true</payment_action>
+				<title>Etisalat Payment Gateway</title>
+				<!-- <can_use_checkout>1</can_use_checkout> -->
+				<!-- <currency>USD</currency> -->
+				<!-- <can_authorize>1</can_authorize>
+				<can_capture>1</can_capture>
+				<can_void>1</can_void>
+				<is_gateway>1</is_gateway>
+				<sort_order>1</sort_order> -->
+				<!-- <group>offline</group> -->
+			</etisalatpay>
+		</payment>
+	</default>
+</config>
