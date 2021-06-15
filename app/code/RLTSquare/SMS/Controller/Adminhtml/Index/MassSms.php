@@ -13,7 +13,7 @@ use Magento\Framework\Controller\Result\JsonFactory;
 class MassSms extends Action
 {
     /**
-     * @var \RLTSquare\SMS\Helper\APi\SendMessage
+     * @var \RLTSquare\SMS\Helper\Api\SendMessage
      */
     public $sendSMS;
 
@@ -35,14 +35,14 @@ class MassSms extends Action
     /**
      * MassSms constructor.
      * @param Context $context
-     * @param \RLTSquare\SMS\Helper\APi\SendMessage $sendSMS
+     * @param \RLTSquare\SMS\Helper\Api\SendMessage $sendSMS
      * @param \Magento\Framework\App\Config\ScopeConfigInterface $scopeConfig
      * @param \Magento\Sales\Api\OrderRepositoryInterface $orderRepository
      * @param \Magento\Store\Model\StoreManagerInterface $storeManager
      */
     public function __construct(
         Context $context,
-        \RLTSquare\SMS\Helper\APi\SendMessage $sendSMS,
+        \RLTSquare\SMS\Helper\Api\SendMessage $sendSMS,
         \Magento\Framework\App\Config\ScopeConfigInterface $scopeConfig,
         \Magento\Sales\Api\OrderRepositoryInterface $orderRepository,
         \Magento\Store\Model\StoreManagerInterface $storeManager

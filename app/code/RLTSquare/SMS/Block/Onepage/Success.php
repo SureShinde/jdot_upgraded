@@ -16,7 +16,7 @@ class Success extends \Magento\Framework\View\Element\Template
     public $checkoutSessionFactory;
 
     /**
-     * @var \RLTSquare\SMS\Helper\APi\SendMessage
+     * @var \RLTSquare\SMS\Helper\Api\SendMessage
      */
     public $sendSMS;
 
@@ -34,7 +34,7 @@ class Success extends \Magento\Framework\View\Element\Template
      * Success constructor.
      * @param Template\Context $context
      * @param \Magento\Checkout\Model\SessionFactory $checkoutSessionFactory
-     * @param \RLTSquare\SMS\Helper\APi\SendMessage $sendSMS
+     * @param \RLTSquare\SMS\Helper\Api\SendMessage $sendSMS
      * @param \Magento\Framework\App\Config\ScopeConfigInterface $scopeConfig
      * @param \Magento\Sales\Api\OrderRepositoryInterface $orderRepository
      * @param array $data
@@ -42,7 +42,7 @@ class Success extends \Magento\Framework\View\Element\Template
     public function __construct(
         Template\Context $context,
         \Magento\Checkout\Model\SessionFactory $checkoutSessionFactory,
-        \RLTSquare\SMS\Helper\APi\SendMessage $sendSMS,
+        \RLTSquare\SMS\Helper\Api\SendMessage $sendSMS,
         \Magento\Framework\App\Config\ScopeConfigInterface $scopeConfig,
         \Magento\Sales\Api\OrderRepositoryInterface $orderRepository,
         array $data = []
