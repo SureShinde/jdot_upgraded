@@ -56,6 +56,10 @@ else if(strpos($current_url, 'za.junaidjamshed.com') !== false){
         $(document).on('click', '#close-sc', function(){
             $('#myModal').hide();
         });
+
+        $(document).on('click', '.dropbtn', function(){
+            $('.dropdown-content').toggle();
+        });
     });
 
     /* When the user clicks on the button,
@@ -64,18 +68,4 @@ else if(strpos($current_url, 'za.junaidjamshed.com') !== false){
         document.getElementById("footerDropdown").classList.toggle("show");
     }
 
-    // Close the dropdown if the user clicks outside of it
-    window.onclick = function(event) {
-        if (!event.target.matches('.dropbtn')) {
-
-            var dropdowns = document.getElementsByClassName("dropdown-content");
-            var i;
-            for (i = 0; i < dropdowns.length; i++) {
-                var openDropdown = dropdowns[i];
-                if (openDropdown.classList.contains('show')) {
-                    openDropdown.classList.remove('show');
-                }
-            }
-        }
-    }
 </script>
