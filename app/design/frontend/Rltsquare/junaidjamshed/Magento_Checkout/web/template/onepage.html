@@ -1,0 +1,59 @@
+<!--
+/**
+ * Copyright © Magento, Inc. All rights reserved.
+ * See COPYING.txt for license details.
+ */
+-->
+<!-- ko foreach: getRegion('authentication') -->
+<!-- ko template: getTemplate() --><!-- /ko -->
+<!--/ko-->
+
+<!-- ko foreach: getRegion('progressBar') -->
+<!-- ko template: getTemplate() --><!-- /ko -->
+<!--/ko-->
+
+<!-- ko foreach: getRegion('estimation') -->
+    <!-- ko template: getTemplate() --><!-- /ko -->
+<!--/ko-->
+
+<!-- ko foreach: getRegion('messages') -->
+    <!-- ko template: getTemplate() --><!-- /ko -->
+<!--/ko-->
+<div class="opc-wrapper">
+    <ol class="opc" id="checkoutSteps">
+    <!-- ko foreach: getRegion('steps') -->
+        <!-- ko template: getTemplate() --><!-- /ko -->
+    <!--/ko-->
+    </ol>
+</div>
+
+<!-- ko foreach: getRegion('sidebar') -->
+    <!-- ko template: getTemplate() --><!-- /ko -->
+<!--/ko-->
+<div class="modal modal__content--wrapperoutter checkout__popup--wrapper" id="myModal2" tabindex="-1" role="dialog" aria-labelledby="myModal2Label" aria-hidden="true" style="display: none">
+    <div class="modal-dialog">
+        <!-- Modal content -->
+        <div class="modal-content modal__content--wrapper"style="width: 100%; padding: 3% 7% 3% 7%">
+            <div>
+                <h1 style="font-size:31px;">FOR DELIVERY IN UK</h1>
+                <p>If your delivery address is <span style="font-weight: bold;">within United Kingdom</span>, please visit our UK online store</p>
+                <input class="SubmitButton" type="button" onclick='(function(){ jQuery("select[name=\"country_id\"]").val("PK").change(); window.location.href = "https://uk.junaidjamshed.com";  return false;})(); return false;' name="SUBMITBUTTON" value="GO TO UK ONLINE STORE" style="font-size:20px; "/>
+                <h1 style="font-size:31px; margin: 10px 0px;">OR</h1>
+                <p>If your delivery address is <span style="font-weight: bold;">other than United Kingdom</span>, please continue shopping</p>
+                <input class="SubmitButton" type="button" onclick='(function(){ jQuery("select[name=\"country_id\"]").val("PK").change(); jQuery("#myModal2").hide();})(); return false;' name="SUBMITBUTTON" value="CONTINUE SHOPPING" style="font-size:20px; "/>
+                <p style="margin-top: 10px;">Need help?</p>
+                <p>Call us +92 21 111 112 111 (9am - 8pm, Mon - Sat)</p>
+                <p>email eshop@junaidjamshed.com</p>
+            </div>
+        </div>
+    </div>
+</div>
+<!-- /ko -->
+<style>
+    .checkout__popup--wrapper {
+        position: fixed;
+        top: 0;
+        left: 0;
+        z-index: 99;
+    }
+</style>

@@ -1,0 +1,50 @@
+<?xml version="1.0"?>
+<page xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" layout="1column" xsi:noNamespaceSchemaLocation="urn:magento:framework:View/Layout/etc/page_configuration.xsd">
+    <body>
+        <referenceBlock name="header" remove="true" />
+        <referenceContainer name="header-wrapper">
+            <block class="Magento\Framework\View\Element\Template" name="checkout.header" template="Magento_Checkout::checkoutHeader.phtml" before="-"> </block>
+        </referenceContainer>
+        <referenceBlock name ="checkout.root">
+            <arguments>
+                <argument name="jsLayout" xsi:type="array">
+                    <!-- Your customization will be here -->
+                    <item name="components" xsi:type="array">
+                        <item name="checkout" xsi:type="array">
+                            <item name="children" xsi:type="array">
+                                <item name="steps" xsi:type="array">
+                                    <item name="children" xsi:type="array">
+                                        <item name="shipping-step" xsi:type="array">
+                                            <item name="children" xsi:type="array">
+                                                <item name="shippingAddress" xsi:type="array">
+                                                    <item name="children" xsi:type="array">
+                                                        <item name="shipping-address-fieldset" xsi:type="array">
+                                                            <item name="children" xsi:type="array">
+                                                                <item name="telephone" xsi:type="array">
+                                                                    <item name="config" xsi:type="array">
+                                                                        <item name="tooltip" xsi:type="array">
+                                                                            <item name="description" xsi:type="string" translate="true">For delivery questions.</item>
+                                                                        </item>
+                                                                    </item>
+                                                                    <item name="validation" xsi:type="array">
+                                                                        <item name="min_phone_length" xsi:type="number">5</item>
+                                                                        <item name="max_phone_length" xsi:type="number">20</item>
+                                                                        <item name="validate-number" xsi:type="number">0</item>
+                                                                    </item>
+                                                                </item>
+                                                            </item>
+                                                        </item>
+                                                    </item>
+                                                </item>
+                                            </item>
+                                        </item>
+                                    </item>
+                                </item>
+                            </item>
+                        </item>
+                    </item>
+                </argument>
+            </arguments>
+        </referenceBlock>
+    </body>
+</page>
