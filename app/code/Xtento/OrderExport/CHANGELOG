@@ -1,0 +1,197 @@
+Xtento_OrderExport
+
+-------------
+  CHANGELOG
+-------------
+
+===== 2.0.0 =====
+ * Initial stable M2 release
+
+===== 2.0.1 =====
+ * Fixed "export_data.own.xml" feature
+ * Various bugfixes, code optimizations
+
+===== 2.0.2 =====
+ + Added ability to use variable %customeremail% for email destinations "To" field. So emails can be sent to the customer email now. Requires "One file per object" to be enabled.
+ * Established compatibility with Magento code compilation, some injected dependencies were declared twice or in $context already
+
+===== 2.0.3 =====
+ + Added event xtento_orderexport_export_after that is dispatched after export
+ * Fixed bug for "Export only new" feature, related to historyCollection
+ * Fixed "Redefintion" error in Log class
+
+===== 2.0.4 =====
+ * Fixed bug for event exports where billing/shipping address couldn't be exported
+
+===== 2.0.5 =====
+ * Fixed a bug where cronjobs of other export profiles where removed when saving a profile
+
+===== 2.0.6 =====
+ * Established compatibility with other email transports such as Ebizmarts/Mandrill for debug message mailing/email destinations.
+ * Fixed bug (Registry key "current_shipment" already exists) that could happen when creating multiple shipments at the same time
+ * Fixed shipment creation logic that sometimes lead to the shipment being created, but the order itself not reflecting "Qty Shipped"
+
+===== 2.0.7 =====
+ * Fixed filename/email variables being wrong potentially if multiple export profiles run within one application execution
+ * Fixed bug when exporting custom options
+ * Fixed _timestamp fields, timezone may have been wrong
+ * Fixed SFTP source type, Net_SFTP library using namespaced class names now
+ * Fixed %customeremail% variable for email destinations that wasn't populated sometimes.
+ * Compatibility with Magento 2.1.0 established
+
+===== 2.0.8 =====
+ * Cronjobs for profiles which have been deleted are automatically deleted as well
+ * Fixed "Date From" / "Date To" filter in export profile that always set "todays" date when empty
+ * Fixed select/dropdown attribute value export for product attributes
+
+===== 2.0.9 =====
+ * SFTP destination type is now working for Magento 2.0 and Magento 2.1
+
+===== 2.1.0 =====
+ * Fixed date range filter for automatic/manual exports. In some environments, the timezone of the store wasn't used.
+ * Fixed bug for date range export that would include next days object created on 12:00:00AM exactly
+
+===== 2.1.1 =====
+ * Updated composer.json to require XTENTO "XtCore" base module
+ * Fixed error for manual/automatic date range exports
+
+===== 2.1.2 =====
+ + Set grid column type for various columns in "Execution Log" to "longtext" so long result messages are not truncated on the grid
+ + Established compatibility with PHP 7: A class named "Object" (handling filters) has been renamed to "ObjectCondition" as "Object" is a reserved word with PHP 7
+ * Fixed wrong "View Execution Log Entry" link in "Export History"
+ * Fixed "merged export" which could trigger a warning/notice
+
+===== 2.1.3 =====
+ * Fixed grid exports: If "Select all" was used no objects were exported
+ * Fixed "product_total_cost" calculation
+
+===== 2.1.4 =====
+ + Added bin/magento "xtento:orderexport:export" CLI command
+ * Fixed "Tools > Import" functionality: Sometimes destinations assigned to an imported profile were not automatically assigned to the imported profile again.
+
+===== 2.1.5 =====
+ * Fixed bug for cronjob exports where, for multiple export profiles scheduled at the same time, 2nd/3rd/... profile running may be missing certain fields/data.
+
+===== 2.1.6 =====
+ * Fixed issues for manual exports where sometimes (especially in Internet Explorer, but also Chrome/Firefox) the profile drop down didn't work and no manual export was possible.
+
+===== 2.1.7 =====
+ + Added ability to prepend exported files with "UTF8 BOM" (required in special situations, sometimes for example for Excel). In <file> tag specify addUtf8Bom="1".
+
+===== 2.1.8 =====
+ + Added ability to load XSL Template from filesystem. In "XSL Template" field enter a full/absolute path on the filesystem to the file containing the XSL template, e.g.: /var/www/web/var/xsl/template.xsl
+ * Fixed empty fields when loading XSL Template from filesystem. Correct "fields to fetch" are now loaded.
+ * Fixed mass actions; if a filter was used on a grid (and also sometimes in combination with "select all") then eventually all orders/none were exported
+
+===== 2.1.9 =====
+ * Fixed issue for "Show fields available for export" where "this ID does not exist" was shown for existing IDs if invalid UTF8 data was used in object/order/...
+ * Removed xtento/export_data.xml and replaced configuration loading with Magento 2 configuration data loader from xtento/productexport_data.xml and validation via XSD.
+
+===== 2.2.0 =====
+ * Fixed date/time variables in filename (via XSL Template) to use Magento configured timezone
+
+===== 2.2.1 =====
+ * Fixed bug for profiles imported using "Tools > Import" functionality: Cronjob export never started until the profile was saved for the first time; now cronjobs are updated directly after the import via "Tools"
+
+===== 2.2.2 =====
+ + Added ability to export delivery date stored by "Amasty_Deliverydate" extension
+
+===== 2.2.3 =====
+ * Fixed error when generating $timestamp variable in XSL (Notice: Undefined property: Xtento\OrderExport\Model\Output\Xsl::$coreDate)
+
+===== 2.2.4 =====
+ * Fixed "Show fields available for export" that didn't show field list in some browsers
+
+===== 2.2.5 =====
+ + Added "xtento:orderexport:config:export" and "xtento:orderexport:config:import" commands that add "Sales Export > Tools" functionality for the Magento command line via php bin/magento.
+
+===== 2.2.6 =====
+ * Updated Xtento_XtCore to version 2.0.7 ("Added warning in module configuration at System > Configuration if module output is disabled via "Disable Module Output" at System > Configuration > Advanced > Advanced")
+
+===== 2.2.7 =====
+ + Added ability to export fields stored by "BSS Checkout Custom Fields" extension
+ * Fixed notice "current() expects parameter 1 to be array, null given" when testing XSL/exporting
+
+===== 2.2.8 =====
+ * Fixed issue "Could not save temporary file to store test export for serving the file to the browser" for "Test XSL Template" functionality, Magento tmp directory is now used, not system tmp directory
+
+===== 2.2.9 =====
+ * Fixed issue where product attributes values exported as "No" for boolean values
+
+===== 2.3.0 =====
+ * Updated Xtento_XtCore to version 2.0.8
+
+===== 2.3.1 =====
+ * Log entries with 0 records exported that have warnings/errors are now logged and not deleted like before
+
+===== 2.3.2 =====
+ * Fixed email template/design area for invoice/shipments created using the "after export action".
+ * Fixed issue about area code for CLI exports using the CLI export command
+
+===== 2.3.3 =====
+ + Compatibility with Magento 2.2 established
+ + Added ability to export parent item gift message
+
+===== 2.3.4 =====
+ * Fixed error during installation of Magento 2.1.8+ if our module is enabled. Happened because of TimezoneInterface not being lazy-loaded in AbstractAutomaticExport.
+
+===== 2.3.5 =====
+ + Added ability to export credit card information (number and CVV2) stored by the XTENTO Saved Credit Cards extension unencrypted
+ * Fixed error during setup:di:compile for Magento 2.0/2.1
+
+===== 2.3.6 =====
+ * Fixed bug in grid serializer: Destination is not unchecked when editing profile if "Edit Destination" link is clicked
+
+===== 2.3.7 =====
+ * Improved export performance: Index for entity_id in profile history table added
+
+===== 2.3.8 =====
+ * Fixed issue that empty exports are showing up in Execution Log
+
+===== 2.3.9 =====
+ * Updated Xtento_XtCore to version 2.1
+
+===== 2.4.0 =====
+ * Fixed an issue issue for custom option export and Magento 2.2+ where the export crashed
+
+===== 2.4.1 =====
+ * Fixed an issue for bundle export, error was "Uncaught Error: Cannot use object of type stdClass as array"
+
+===== 2.4.2 =====
+ + Added syntax highlighting for XSL Template editor in export profile section
+
+===== 2.4.3 =====
+ * Fixed email sending for email destinations/error notification on Magento 2.2+ (Error: "Call to undefined method Magento\Email\Model\Transport\Interceptor::send()")
+
+===== 2.4.4 =====
+ * This is a potentially breaking change: Improved XSL security - PHP functions that can be executed via XSL are restricted now. Read more here: https://support.xtento.com/wiki/Magento_2_Extensions:Magento_Order_Export_Module#Calling_PHP_functions_in_XSL_Templates
+
+===== 2.4.5 =====
+ + Added ability to export credit memo PDF using "creditmemo_pdf" file "type" in XSL Template. Works for credit memo export profiles only.
+
+===== 2.4.6 =====
+ * Improved credit memo PDF export
+
+===== 2.4.7 =====
+ * Established compatibility with Magento 2.2.2: Fixed "We cannot create an empty shipment" error
+ * Fixed "Show fields available for export" showing "<strong>" for nodes
+
+===== 2.4.8 =====
+ + Added exception handler for "Unable to unserialize value" exception that occurs for some items where product options haven't been stored properly.
+ * Fixed "Mass Download" functionality in "Execution Log" that previously returned "Please select log entries to download".
+
+===== 2.4.9 =====
+ + Added ability to export data related to orders stored by the "Amasty Gift Cards" module
+ + Added ability to export "Pakje Gemak" address and order data of "TIG_PostNL" extension
+ + Added sample helper in Helper\Xsl that can be called from XSL to retrieve extension attributes or other custom order data
+ * Fixed error email notification: "From" email is now retrieved from system configuration ("ident_general/email")
+
+===== 2.5.0 =====
+ * Fixed bug when importing profiles from Magento 1 or Magento 2.0/2.1 via the "Tools" functionality of the module
+
+===== 2.5.1 =====
+ + Added support to export token data stored by Magedelight Authorize.net CIM module
+
+===== 2.5.2 =====
+ * Fixed issue for "Tools" import functionality that could lead to an error when importing profiles
+ * Updated Xtento_XtCore to version 2.2.0

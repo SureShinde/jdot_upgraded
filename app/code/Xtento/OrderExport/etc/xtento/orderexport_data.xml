@@ -1,0 +1,50 @@
+<?xml version="1.0"?>
+<config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:module:Xtento_OrderExport:etc/xtento/orderexport_data.xsd">
+    <data>
+        <!-- General order data -->
+        <export id="general" class="\Xtento\OrderExport\Model\Export\Data\Order\General"/>
+        <!-- Shared general data -->
+        <export id="shared_general" class="\Xtento\OrderExport\Model\Export\Data\Shared\General"/>
+        <!-- General further data -->
+        <export id="address" class="\Xtento\OrderExport\Model\Export\Data\Order\Address"/>
+        <export id="payment" class="\Xtento\OrderExport\Model\Export\Data\Order\Payment"/>
+        <!-- Payment -->
+        <export id="cc" class="\Xtento\OrderExport\Model\Export\Data\Order\Payment\Cc"/>
+        <!-- Status History -->
+        <export id="history" class="\Xtento\OrderExport\Model\Export\Data\Order\History"/>
+        <!-- Credit Memo Comments -->
+        <export id="creditmemo_comments" class="\Xtento\OrderExport\Model\Export\Data\Creditmemo\Comments"/>
+        <!-- Invoice Comments -->
+        <export id="invoice_comments" class="\Xtento\OrderExport\Model\Export\Data\Invoice\Comments"/>
+        <!-- Shipment Comments -->
+        <export id="shipment_comments" class="\Xtento\OrderExport\Model\Export\Data\Shipment\Comments"/>
+        <!-- Shipment tracking data -->
+        <export id="tracking" class="\Xtento\OrderExport\Model\Export\Data\Shipment\Tracking"/>
+        <export id="shared_tracking" class="\Xtento\OrderExport\Model\Export\Data\Shared\Tracking"/>
+        <!-- Salesrule information -->
+        <export id="salesrule" class="\Xtento\OrderExport\Model\Export\Data\Shared\SalesRule"/>
+        <!-- Customer -->
+        <export id="customer" class="\Xtento\OrderExport\Model\Export\Data\Shared\Customer"/>
+        <!-- Items -->
+        <export id="items" class="\Xtento\OrderExport\Model\Export\Data\Shared\Items"/>
+        <!-- Third party entities -->
+        <!--<export id="awrma_general" class="\Xtento\OrderExport\Model\Export\Data\awrma_general" />-->
+        <!--<export id="boostrma_general" class="\Xtento\OrderExport\Model\Export\Data\boostrma_general" />-->
+        <!-- Third party -->
+        <export id="amasty_deliverydate" class="\Xtento\OrderExport\Model\Export\Data\Custom\Order\AmastyDeliveryDate"/>
+        <export id="amasty_giftcard" class="\Xtento\OrderExport\Model\Export\Data\Custom\Order\AmastyGiftCard"/>
+        <export id="amasty_orderattributes" class="\Xtento\OrderExport\Model\Export\Data\Custom\Order\AmastyOrderAttributes"/>
+        <export id="bss_checkoutcustomfield" class="\Xtento\OrderExport\Model\Export\Data\Custom\Order\BssCheckoutCustomField"/>
+        <export id="tig_postnl" class="\Xtento\OrderExport\Model\Export\Data\Custom\Order\TigPostnl"/>
+    </data>
+</config>
+<!--
+/**
+ * Product:       Xtento_OrderExport (2.5.2)
+ * ID:            ALOS9nyJR4GmLp9b0POAXWBdZQz7n1C/haY72X8BIV4=
+ * Packaged:      2018-04-13T12:30:09+00:00
+ * Last Modified: 2018-01-30T13:58:12+00:00
+ * File:          app/code/Xtento/OrderExport/etc/xtento/orderexport_data.xml
+ * Copyright:     Copyright (c) 2018 XTENTO GmbH & Co. KG <info@xtento.com> / All rights reserved.
+ */
+-->

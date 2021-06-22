@@ -1,0 +1,16 @@
+<?xml version="1.0"?>
+<config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:module:Xtento_OrderExport:etc/xtento/orderexport_settings.xsd">
+    <settings>
+        <setting name="allowed_php_functions">max,strrchr,strftime,addslashes,substr,number_format,strtolower,sprintf,ucwords,strtoupper,round,ltrim,str_replace,preg_replace,floatval,nl2br,date,abs,rawurlencode,trim,html_entity_decode,strip_tags,basename,mb_substr,chr,strtotime,time,strpos,stripos,strrpos,ctype_digit,mktime,strlen,strripos,floor,md5,preg_match,ucfirst,json_encode,str_pad,htmlspecialchars,gmstrftime,uniqid,str_repeat,gregoriantojd,ceil,rtrim,intval,Xtento\OrderExport\Helper\Xsl::mb_sprintf,Xtento\OrderExport\Helper\Xsl::getStoreConfig</setting>
+    </settings>
+</config>
+<!--
+/**
+ * Product:       Xtento_OrderExport (2.5.2)
+ * ID:            ALOS9nyJR4GmLp9b0POAXWBdZQz7n1C/haY72X8BIV4=
+ * Packaged:      2018-04-13T12:30:09+00:00
+ * Last Modified: 2018-01-31T13:24:16+00:00
+ * File:          app/code/Xtento/OrderExport/etc/xtento/orderexport_settings.xml
+ * Copyright:     Copyright (c) 2018 XTENTO GmbH & Co. KG <info@xtento.com> / All rights reserved.
+ */
+-->
