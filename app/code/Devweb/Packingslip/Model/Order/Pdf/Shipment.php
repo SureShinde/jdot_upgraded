@@ -27,7 +27,7 @@ class Shipment extends \Magento\Sales\Model\Order\Pdf\Shipment
     /**
      * @var \Magento\Store\Model\App\Emulation
      */
-    private $appEmulation;
+    protected $appEmulation;
 
     public function __construct(
         \Magento\Payment\Helper\Data $paymentData,
@@ -44,6 +44,8 @@ class Shipment extends \Magento\Sales\Model\Order\Pdf\Shipment
         \Magento\Store\Model\App\Emulation $appEmulation,
         array $data = []
     ) {
+        $this->_storeManager = $storeManager;
+        $this->appEmulation = $appEmulation;
         parent::__construct($paymentData, $string, $scopeConfig, $filesystem, $pdfConfig, $pdfTotalFactory,
             $pdfItemsFactory, $localeDate, $inlineTranslation, $addressRenderer, $storeManager, $appEmulation, $data);
     }
@@ -294,23 +296,24 @@ class Shipment extends \Magento\Sales\Model\Order\Pdf\Shipment
 
     protected function _generateBarcode($orderIncrementId) {
 
-        $config = new \Zend_Config([
-            'barcode' => 'code128',
-            'barcodeParams' => [
-                'text' => $orderIncrementId,
-                'drawText' => true
-            ],
-            'renderer' => 'image',
-            'rendererParams' => ['imageType' => 'png']
-        ]);
-
-        $barcodeResource = \Zend\Barcode\Barcode::factory($config)->draw();
-
-        ob_start();
-        imagepng($barcodeResource);
-        $barcodeImage = ob_get_clean();
-
-        $image = new \Zend_Pdf_Resource_Image_Png('data:image/png;base64,'.base64_encode($barcodeImage));
+        $image = "";
+//        $config = new \Zend_Config([
+//            'barcode' => 'code128',
+//            'barcodeParams' => [
+//                'text' => $orderIncrementId,
+//                'drawText' => true
+//            ],
+//            'renderer' => 'image',
+//            'rendererParams' => ['imageType' => 'png']
+//        ]);
+//
+//        $barcodeResource = Barcode::factory($config)->draw();
+//
+//        ob_start();
+//        imagepng($barcodeResource);
+//        $barcodeImage = ob_get_clean();
+//
+//        $image = new \Zend_Pdf_Resource_Image_Png('data:image/png;base64,'.base64_encode($barcodeImage));
 
         return $image;
     }
