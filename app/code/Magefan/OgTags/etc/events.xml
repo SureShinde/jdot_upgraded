@@ -1,0 +1,24 @@
+<?xml version="1.0"?>
+<!--
+/**
+ * Copyright © Magefan (support@magefan.com). All rights reserved.
+ * Please visit Magefan.com for license details (https://magefan.com/end-user-license-agreement).
+ */
+-->
+<config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:framework:Event/etc/events.xsd">
+    <event name="magefan_blog_category_save_before">
+        <observer name="magefan_og_blog_category_save_before" instance="Magefan\OgTags\Observer\Blog\Adminhtml\Category\BlogCategorySaveBefore" />
+    </event>
+    <event name="magefan_blog_category_load_after">
+        <observer name="magefan_og_blog_category_load_after" instance="Magefan\OgTags\Observer\Blog\Adminhtml\Category\BlogCategoryLoadAfter" />
+    </event>
+    <event name="cms_page_save_before">
+        <observer name="magefan_og_cms_page_save_before" instance="Magefan\OgTags\Observer\Cms\Adminhtml\Page\CmsPageSaveBefore" />
+    </event>
+    <event name="cms_page_load_after">
+        <observer name="magefan_og_cms_page_load_after" instance="Magefan\OgTags\Observer\Cms\Adminhtml\Page\CmsPageLoadAfter" />
+    </event>
+    <event name="cms_page_collection_load_after">
+        <observer name="magefan_og_cms_page_collection_load_after" instance="Magefan\OgTags\Observer\Cms\Adminhtml\Page\LoadCollectionAfter" />
+    </event>
+</config>

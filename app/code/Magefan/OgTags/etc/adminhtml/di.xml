@@ -1,0 +1,56 @@
+<?xml version="1.0"?>
+<!--
+/**
+ * Copyright © Magefan (support@magefan.com). All rights reserved.
+ * Please visit Magefan.com for license details (https://magefan.com/end-user-license-agreement).
+ */
+-->
+<config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:framework:ObjectManager/etc/config.xsd">
+    <virtualType name="Magefan\OgTags\ImageUpload" type="Magento\Catalog\Model\ImageUploader">
+        <arguments>
+            <argument name="baseTmpPath" xsi:type="string">magefan_og/tmp</argument>
+            <argument name="basePath" xsi:type="string">magefan_og</argument>
+            <argument name="allowedExtensions" xsi:type="array">
+                <item name="jpg" xsi:type="string">jpg</item>
+                <item name="jpeg" xsi:type="string">jpeg</item>
+                <item name="gif" xsi:type="string">gif</item>
+                <item name="png" xsi:type="string">png</item>
+            </argument>
+        </arguments>
+    </virtualType>
+    <type name="Magefan\OgTags\Controller\Adminhtml\Cms\Upload\OgImg">
+        <arguments>
+            <argument name="imageUploader" xsi:type="object">Magefan\OgTags\ImageUpload</argument>
+        </arguments>
+    </type>
+    <type name="Magefan\OgTags\Controller\Adminhtml\Blog\Upload\OgImg">
+        <arguments>
+            <argument name="imageUploader" xsi:type="object">Magefan\OgTags\ImageUpload</argument>
+        </arguments>
+    </type>
+    <virtualType name="Magefan\OgTags\CategoryImageUpload" type="Magento\Catalog\Model\ImageUploader">
+        <arguments>
+            <argument name="baseTmpPath" xsi:type="string">catalog/tmp/category</argument>
+            <argument name="basePath" xsi:type="string">catalog/category</argument>
+            <argument name="allowedExtensions" xsi:type="array">
+                <item name="jpg" xsi:type="string">jpg</item>
+                <item name="jpeg" xsi:type="string">jpeg</item>
+                <item name="gif" xsi:type="string">gif</item>
+                <item name="png" xsi:type="string">png</item>
+            </argument>
+        </arguments>
+    </virtualType>
+    <type name="Magefan\OgTags\Controller\Adminhtml\Category\Upload\OgImg">
+        <arguments>
+            <argument name="imageUploader" xsi:type="object">Magefan\OgTags\CategoryImageUpload</argument>
+        </arguments>
+    </type>
+    <type name="Magefan\OgTags\Observer\Catalog\CategorySaveBefore">
+        <arguments>
+            <argument name="imageUploader" xsi:type="object">Magefan\OgTags\CategoryImageUpload</argument>
+        </arguments>
+    </type>
+    <type name="Magento\Catalog\Model\Category\DataProvider">
+        <plugin name="mfogtags_catalog_category_dataprovider" type="Magefan\OgTags\Plugin\Catalog\Category\DataProviderPlugin"/>
+    </type>
+</config>

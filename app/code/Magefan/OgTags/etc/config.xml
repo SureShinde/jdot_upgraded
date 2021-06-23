@@ -1,0 +1,19 @@
+<?xml version="1.0"?>
+<!--
+/**
+ * Copyright © Magefan (support@magefan.com). All rights reserved.
+ * Please visit Magefan.com for license details (https://magefan.com/end-user-license-agreement).
+ */
+ -->
+<config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xsi:noNamespaceSchemaLocation="urn:magento:module:Magento_Store:etc/config.xsd">
+    <default>
+        <mfogt>
+            <general>
+                <enabled>0</enabled>
+                <mfmodule>OgTags</mfmodule>
+                <use_og_meta_tag_for>cms_page,category,product,blog_category</use_og_meta_tag_for>
+            </general>
+        </mfogt>
+    </default>
+</config>

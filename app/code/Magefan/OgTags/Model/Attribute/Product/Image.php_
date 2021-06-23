@@ -1,0 +1,67 @@
+<?php
+/**
+ * Copyright © Magefan (support@magefan.com). All rights reserved.
+ * Please visit Magefan.com for license details (https://magefan.com/end-user-license-agreement).
+ */
+
+namespace Magefan\OgTags\Model\Attribute\Product;
+
+/**
+ * Class Image
+ * Additional class for uploading images for products
+ */
+class Image extends \Magento\Eav\Model\Entity\Attribute\Backend\AbstractBackend
+{
+
+    protected $uploaderFactory;
+    protected $filesystem;
+    protected $fileUploaderFactory;
+    protected $logger;
+    protected $storeManager;
+
+    public function __construct(
+        \Psr\Log\LoggerInterface $logger,
+        \Magento\Framework\Filesystem $filesystem,
+        \Magento\MediaStorage\Model\File\UploaderFactory $fileUploaderFactory,
+        \Magento\Store\Model\StoreManagerInterface $storeManager
+    ) {
+        $this->filesystem = $filesystem;
+        $this->fileUploaderFactory = $fileUploaderFactory;
+        $this->logger = $logger;
+        $this->storeManager = $storeManager;
+    }
+
+    public function afterSave($object)
+    {
+        $value = $object->getData($this->getAttribute()->getName());
+        if (empty($value) && empty($_FILES)) {
+            return $this;
+        }
+
+        if (is_array($value) && !empty($value['delete'])) {
+            $object->setData($this->getAttribute()->getName(), '');
+            $this->getAttribute()->getEntity()->saveAttribute($object, $this->getAttribute()->getName());
+            return $this;
+        }
+
+        $path = $this->filesystem->getDirectoryRead(\Magento\Framework\App\Filesystem\DirectoryList::MEDIA)->getAbsolutePath() . 'product/og/';
+        try {
+            $uploader = $this->fileUploaderFactory;
+            $uploader->create(['fileId' => $this->getAttribute()->getName()]);
+            $uploader->setAllowedExtensions(['jpg', 'jpeg', 'gif', 'png']);
+            $uploader->setAllowRenameFiles(true);
+
+            $result = $uploader->save($path);
+
+            die(var_dump($result));
+
+            $object->setData($this->getAttribute()->getName(), $result['file']);
+            $this->getAttribute()->getEntity()->saveAttribute($object, $this->getAttribute()->getName());
+        } catch (\Exception $e) {
+            if ($e->getCode() != \Magento\MediaStorage\Model\File\Uploader::TMP_NAME_EMPTY) {
+                $this->logger->critical($e);
+            }
+        }
+        return $this;
+    }
+}
