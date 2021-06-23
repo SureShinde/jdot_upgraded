@@ -18,7 +18,8 @@
         "fastly/magento2": "^1.2.34",
         "magento/product-enterprise-edition": "2.4.2",
         "iio/libmergepdf": "^4.0",
-        "dvdoug/boxpacker": "^3.9"
+        "dvdoug/boxpacker": "^3.9",
+        "picqer/php-barcode-generator": "^2.2"
     },
     "config": {
         "use-include-path": true

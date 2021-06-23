@@ -6,7 +6,8 @@
 namespace Devweb\Packingslip\Model\Order\Pdf;
 
 use Magento\Sales\Model\Order\Pdf\Config;
-
+use Picqer\Barcode\BarcodeGeneratorPNG;
+use Picqer\Barcode\BarcodeGenerator;
 
 /**
  * Sales Order Shipment PDF model
@@ -28,6 +29,10 @@ class Shipment extends \Magento\Sales\Model\Order\Pdf\Shipment
      * @var \Magento\Store\Model\App\Emulation
      */
     protected $appEmulation;
+    /**
+     * @var BarcodeGeneratorPNG
+     */
+    protected $generatorPng;
 
     public function __construct(
         \Magento\Payment\Helper\Data $paymentData,
@@ -41,11 +46,13 @@ class Shipment extends \Magento\Sales\Model\Order\Pdf\Shipment
         \Magento\Framework\Translate\Inline\StateInterface $inlineTranslation,
         \Magento\Sales\Model\Order\Address\Renderer $addressRenderer,
         \Magento\Store\Model\StoreManagerInterface $storeManager,
+        BarcodeGeneratorPNG $barcodeGeneratorPNG,
         \Magento\Store\Model\App\Emulation $appEmulation,
         array $data = []
     ) {
-        $this->_storeManager = $storeManager;
-        $this->appEmulation = $appEmulation;
+        $this->appEmulation=$appEmulation;
+        $this->_storeManager=$storeManager;
+        $this->generatorPng=$barcodeGeneratorPNG;
         parent::__construct($paymentData, $string, $scopeConfig, $filesystem, $pdfConfig, $pdfTotalFactory,
             $pdfItemsFactory, $localeDate, $inlineTranslation, $addressRenderer, $storeManager, $appEmulation, $data);
     }
@@ -245,8 +252,8 @@ class Shipment extends \Magento\Sales\Model\Order\Pdf\Shipment
 
             $docHeader = $this->getDocHeaderCoordinates();
             $image = $this->_generateBarcode($order->getIncrementId());
-            $width = $image->getPixelWidth();
-            $height = $image->getPixelHeight();
+            $width = '130';
+            $height = '50';
 
             $page->drawImage($image, $docHeader[2] - $width, $docHeader[1] -$height, $docHeader[2], $docHeader[1]);
             /* Add body */
@@ -295,27 +302,27 @@ class Shipment extends \Magento\Sales\Model\Order\Pdf\Shipment
     }
 
     protected function _generateBarcode($orderIncrementId) {
+      $barcodeContent =   $this->generatorPng->getBarcode($orderIncrementId, BarcodeGenerator::TYPE_CODE_128);
+        $imagick = new \Imagick();
+        $imagick->readImageBlob($barcodeContent);
 
-        $image = "";
-//        $config = new \Zend_Config([
-//            'barcode' => 'code128',
-//            'barcodeParams' => [
-//                'text' => $orderIncrementId,
-//                'drawText' => true
-//            ],
-//            'renderer' => 'image',
-//            'rendererParams' => ['imageType' => 'png']
-//        ]);
-//
-//        $barcodeResource = Barcode::factory($config)->draw();
-//
-//        ob_start();
-//        imagepng($barcodeResource);
-//        $barcodeImage = ob_get_clean();
-//
-//        $image = new \Zend_Pdf_Resource_Image_Png('data:image/png;base64,'.base64_encode($barcodeImage));
+        // image with text code
+        $imagick->newImage($imagick->getImageWidth(), 20, 'none');
+        $draw = new \ImagickDraw();
+        $draw->setFillColor('black');
+        $draw->setFont('Bookman-Demi');
+        $draw->setFontSize(15);
+        $imagick->annotateImage($draw, 45, 15, 0, $orderIncrementId);
 
-        return $image;
+        // Vertical concatenation (barcode and textcode)
+        $imagick->resetIterator();
+        $imagick = $imagick->appendImages(true);
+
+        // format and generate base64 image
+        $imagick->setImageFormat("png");
+        $barCodeImg = $imagick->getImageBlob();
+        $image = new \Zend_Pdf_Resource_Image_Png('data:image/png;base64,'.base64_encode($barCodeImg));
+       return $image;
     }
 
 }
