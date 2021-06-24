@@ -1,0 +1,27 @@
+<?xml version="1.0"?>
+<!--
+/**
+ * Copyright © Magento, Inc. All rights reserved.
+ * See COPYING.txt for license details.
+ */
+-->
+<page layout="1column" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:framework:View/Layout/etc/page_configuration.xsd">
+    <head>
+    </head>
+    <body>
+        <referenceContainer name="content">
+            <block class="Magento\Catalog\Block\Product\View" name="product.fragrance"
+                   template="Magento_Catalog::product/fragrance.phtml"/>
+        </referenceContainer>
+        <referenceBlock name="product.info.details">
+            <block class="Magento\Catalog\Block\Product\View" name="fragrance.tab" as="fragrance"
+                   template="product/fragrance-tab.phtml" group="detailed_info">
+                <arguments>
+                    <argument translate="true" name="title" xsi:type="string">Engraving Terms</argument>
+                </arguments>
+            </block>
+        </referenceBlock>
+        <move element="product.fragrance" destination="product.info.main" after="product.info.price" />
+        <move element="product.info.stock.sku" destination="product.info.main" after="page.main.title" />
+    </body>
+</page>
