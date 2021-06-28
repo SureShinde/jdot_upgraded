@@ -6,8 +6,9 @@
 define([
     'underscore',
     'uiRegistry',
-    './select'
-], function (_, registry, Select) {
+    './select',
+    'Magento_Checkout/js/model/quote'
+], function (_, registry, Select, quote) {
     'use strict';
 
     return Select.extend({
@@ -64,6 +65,7 @@ define([
             };
           var country_pak = {};
             var country = registry.get(this.parentName + '.' + 'country_id');
+            var selected = quote.shippingAddress();
             if (!country){
                var option = option_for_pak;
                 country_pak.type = 'text';
@@ -73,7 +75,7 @@ define([
               var option = country.indexedOptions[value];
             }
                 this._super(value, field);
-                if (option && country.value === 'PK' || country.value() === 'PK') {
+                if (option && country.value === 'PK' || country.value() === 'PK' && value==='PK') {
                     // hide select and corresponding text input field if region must not be shown for selected country
                     this.setVisible(true);
                     if (this.customEntry) {
@@ -85,7 +87,7 @@ define([
                         this.setOptions(cityOptions);
                         jQuery('input[name="region"]').parent().parent().hide();
                     }
-                } else if (option && country.value() === 'SA') {
+                } else if (option && value==='SA') {
                     // hide select and corresponding text input field if region must not be shown for selected country
                     this.setVisible(true);
                     if (this.customEntry) {
