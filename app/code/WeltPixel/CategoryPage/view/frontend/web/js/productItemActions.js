@@ -22,7 +22,11 @@ define(['jquery','underscore'], function (jQuery,_) {
                     var el = jQuery(this),
                         btn = el.find(addtocart_position + displayAddToCart);
 
-                    el.find(priceBox).after(btn);
+                    if(el.find('div[class*="swatch-opt-"]').length){
+                        el.find('div[class*="swatch-opt-"]').after(btn);
+                    }else{
+                        el.find(priceBox).after(btn);
+                    }
                 });
             }
         },
