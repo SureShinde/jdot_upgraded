@@ -155,3 +155,10 @@
 .product-info-main .stock.discount-percent{
     display: none !important;
 }
+
+body.theme-pearl.product-page-v1 .product-info-main .fieldset .actions {
+    width: calc(100% - 65px);
+}
+body.theme-pearl.product-page-v1 .product-info-main .product-info-stock-sku {
+    float: none;
+}
