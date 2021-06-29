@@ -45,3 +45,13 @@ footer.page-footer{
 .theme-pearl .page-wrapper .page-footer {
   background: #f4f4f4 !important;
 }
+@media screen and (max-width: 639px){
+    .newsletter-wrapper .field.newsletter {
+        max-width: calc(100% - 90px) !important;
+    }
+
+    .newsletter-wrapper .actions > button {
+        min-height: 41px !important;
+        margin-top: 1px !important;
+    }
+}
