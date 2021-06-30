@@ -24,13 +24,13 @@ span.special-price {
 }
 
 .page-products .products-grid .product-item .product-item-info:hover .weltpixel-quickview.weltpixel_quickview_button_v2 {
-  width: 100%;
+  width: 100% !important;
   text-align: center;
-  text-indent: 0;
-  background-image: none;
+  text-indent: 0 !important;
+  background-image: none !important;
   background: rgba(255,255,255,0.5);
   line-height: 1;
-  height: auto;
+  height: auto !important;
   padding: 15px 0;
   left: 0;
   margin-top: 0;
