@@ -1,0 +1,22 @@
+<?xml version="1.0"?>
+<config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:module:Magento_Config:etc/system_file.xsd">
+    <system>
+        <tab id="rltsquare_role" translate="label" sortOrder="300">
+            <label>User Role</label>
+        </tab>
+        <section id="rltsquare_role" translate="label" sortOrder="150" showInDefault="1" showInWebsite="1" showInStore="1">
+            <class>separator-top</class>
+            <label>Price Edit Role</label>
+            <tab>rltsquare</tab>
+            <resource>RLTSquare_PriceEditRole::priceeditrole_config</resource>
+            <group id="general" translate="label" type="text" sortOrder="10" showInDefault="1" showInWebsite="0" showInStore="0">
+                <label>Assign Role to User</label>
+                <field id="user" translate="label" type="multiselect" sortOrder="1" showInDefault="1" showInWebsite="0" showInStore="0">
+                    <label>Select User</label>
+                    <source_model>RLTSquare\PriceEditRole\Model\Config\Source\Order\AdminUser</source_model>
+                    <comment>Only selected user will be able to edit product price on order edit</comment>
+                </field>
+            </group>
+        </section>
+    </system>
+</config>
