@@ -332,8 +332,8 @@ class Handy extends \Magento\Framework\App\Helper\AbstractHelper
         $shippingInternational = ($this->shippingAddress->getCountryId() == $address->getCountry()) ? 0 : 1;
 
         $shippingIsEU = ($this->shippingAddress->getCountryId() != $address->getCountry()
-            && strpos($this->_conf->getStoreConfig('general/country/eu_countries', $this->storeId), $address->getCountry()) !== false
-            && strpos($this->_conf->getStoreConfig('general/country/eu_countries', $this->storeId), $this->shippingAddress->getCountryId()) !== false) ? 1 : 0;
+            && strpos($this->_conf->getStoreConfig('general/country/eu_countries', $this->storeId), (string)$address->getCountry()) !== false
+            && strpos($this->_conf->getStoreConfig('general/country/eu_countries', $this->storeId), (string)$this->shippingAddress->getCountryId()) !== false) ? 1 : 0;
 
         $this->shipByDhl = preg_replace("/^dhl_.{1,4}$/", 'dhl', $ship_method);
 
