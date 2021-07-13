@@ -98,18 +98,27 @@ class Save extends \Magento\Framework\App\Action\Action
         // decode JSON post data into array
         //$data = json_decode($request_body, true);
         // get order comments
-        if (isset ($_POST['comment-code'])) {
+        if (isset($_POST['comment-code'])) {
             // make sure there is a comment to save
             if ($_POST['comment-code']) {
                 // remove any HTML tags
                 $comment = strip_tags ($_POST['comment-code']);
                 $comment = $comment;
             }
+            else {
+            $this->messageManager->addErrorMessage(
+                __('Please enter the comment')
+            );
+            $this->_redirect('sales/order/view/order_id/'.$orderId.'');
+
+            return ;
+
+            }
         }
+        
 
         // run parent method and capture int $orderId
         //$orderId = $proceed($cartId, $paymentMethod, $billingAddress);
-
 
 
         // if $comments
@@ -133,6 +142,7 @@ class Save extends \Magento\Framework\App\Action\Action
                 $history->save();
             }
         }
+        
         //$to       = $this->scopeConfig->getValue('trans_email/ident_sales/email', \Magento\Store\Model\ScopeInterface::SCOPE_STORE);
 
         //$subject  = "Customer Order Comment for Order #".$order->getIncrementId();
