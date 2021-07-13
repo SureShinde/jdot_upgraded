@@ -89,6 +89,7 @@ class CancelStatuses extends Template
         $order = $this->orderRepo->get($orderId);
         //$items = [];
         //$i = 0;
+        $products_array = array();
         foreach($order->getAllItems() as $item) { // we can also use getItems() and getAllItems() according to our need
             //$items[] = $item;
             if ($item->getProductType() == "simple") {
