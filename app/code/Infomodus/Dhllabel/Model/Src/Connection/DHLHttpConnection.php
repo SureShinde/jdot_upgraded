@@ -26,7 +26,7 @@ class DHLHttpConnection
         curl_setopt($ch, CURLOPT_SSL_VERIFYHOST, 0);
         curl_setopt($ch, CURLOPT_BINARYTRANSFER, 1);
         curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
-        curl_setopt($ch, CURLOPT_DNS_USE_GLOBAL_CACHE, false);
+        //curl_setopt($ch, CURLOPT_DNS_USE_GLOBAL_CACHE, false);
         curl_setopt($ch, CURLOPT_DNS_CACHE_TIMEOUT, 2);
         curl_setopt($ch, CURLOPT_POSTFIELDS, utf8_encode($data));
 
