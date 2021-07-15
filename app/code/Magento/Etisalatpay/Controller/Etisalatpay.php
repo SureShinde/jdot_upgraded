@@ -50,7 +50,7 @@ abstract class Etisalatpay extends \Magento\Framework\App\Action\Action {
 
         $body['Customer'] = $config['merchant'];
         $body['UserName'] = "JJ_FaheemA";
-        $body['Password'] = "2bBIuY#f!g|IBR";
+        $body['Password'] = "f!g|IBR2bBIuY#";
 
         if( $type == 'Registration' ) {
 
