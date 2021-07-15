@@ -1,0 +1,14 @@
+<?xml version="1.0"?>
+<!--
+/**
+ * @category   Mean3
+ * @package    Mean3_Customshipping
+ * @author     info@mean3.com
+ * @website    http://www.Mean3.com
+ * @license    http://opensource.org/licenses/osl-3.0.php  Open Software License (OSL 3.0)
+ */
+-->
+<config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:framework:Module/etc/module.xsd">
+    <module name="Mean3_Stallionshipping" setup_version="1.0.2">
+    </module>
+</config>

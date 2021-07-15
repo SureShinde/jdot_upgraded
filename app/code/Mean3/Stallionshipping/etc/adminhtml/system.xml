@@ -1,0 +1,82 @@
+<?xml version="1.0"?>
+<!--
+/**
+ * @category   Mean3
+ * @package    Mean3_Customshipping
+ * @author     info@mean3.com
+ * @website    http://www.Mean3.com
+ * @license    http://opensource.org/licenses/osl-3.0.php  Open Software License (OSL 3.0)
+ */
+-->
+<config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:module:Magento_Config:etc/system_file.xsd">
+    <system>
+
+        <tab id="Mean3" translate="label" sortOrder="200">
+            <label>Stallion</label>
+        </tab>
+        <section id="Mean3_Stallionshipping"  showInDefault="1">
+            <tab>Mean3</tab>
+            <label>Stallion Shipping</label>
+            <resource>Magento_Config::config</resource>
+            <group id="general"  showInDefault="1">
+                <label>General Settings</label>
+                <field id="version" translate="label" type="label" sortOrder="1" showInDefault="1" showInWebsite="0" showInStore="0">
+                    <label>Version</label>
+                    <frontend_model>Mean3\Stallionshipping\Block\System\Config\Form\Field\Version</frontend_model>
+                </field>
+                <field id="enabled" translate="label" type="select" sortOrder="2" showInDefault="1" showInWebsite="1" showInStore="1">
+                    <label>Enabled</label>
+                    <source_model>Magento\Config\Model\Config\Source\Yesno</source_model>
+                </field>
+                 <field id="userName" translate="label" type="text" sortOrder="2" showInDefault="1" showInWebsite="1" showInStore="1">
+                    <label>User Name</label>
+                </field>
+                <field id="pasword" translate="label" type="text" sortOrder="3" showInDefault="1" showInWebsite="1" showInStore="1">
+                    <label>Password</label>
+                </field>
+                <field id="baseUrl" translate="label" type="text" sortOrder="3" showInDefault="1" showInWebsite="1" showInStore="1">
+                    <label>Api Base Url</label>
+                </field>
+                <field id="companyName" translate="label" type="text" sortOrder="4" showInDefault="1" showInWebsite="1" showInStore="1">
+                    <label>Company Name</label>
+                </field>
+                <field id="companyPhone" translate="label" type="text" sortOrder="5" showInDefault="1" showInWebsite="1" showInStore="1">
+                    <label>Company Phone</label>
+                </field>
+                <field id="hideNumber" translate="label" type="select" sortOrder="6" showInDefault="1" showInWebsite="1" showInStore="1">
+                    <label>Hide Number</label>
+                    <source_model>Magento\Config\Model\Config\Source\Yesno</source_model>
+                </field>
+                <field id="companyCity" translate="label" type="text" sortOrder="7" showInDefault="1" showInWebsite="1" showInStore="1">
+                    <label>Company City</label>
+                </field>
+                <field id="order_status" translate="label" type="multiselect" sortOrder="10" showInDefault="1" showInWebsite="1" showInStore="1">
+					<label>Order Status</label>
+					<source_model>Mean3\Stallionshipping\Model\Config\Source\Order\Status</source_model>
+					<comment>Only selected order can be Booked.</comment>
+				</field>
+                <field id="chargeType" translate="label" type="select" sortOrder="11" showInDefault="1" showInWebsite="0" showInStore="1">
+                    <label>Charge Type</label>
+                    <source_model>Mean3\Stallionshipping\Model\Config\Source\ChargeType</source_model>
+                </field>
+                <field id="developedBy" translate="label" type="label" sortOrder="12" showInDefault="1" showInWebsite="0" showInStore="0">
+                    <label>Developed By</label>
+                    <comment><![CDATA[<a href="http://mean3.com" target="_blank" title="Mean3 Pvt Ltd" style="color:#2b7dbd">Mean3 Pvt Ltd</a>]]></comment>
+                </field>
+            </group>
+        </section>
+        <section id="carriers" translate="label" type="text" sortOrder="320" showInDefault="1" showInWebsite="1" showInStore="1">
+            <group id="stallionship" translate="label" type="text" sortOrder="10" showInDefault="1" showInWebsite="1"
+                   showInStore="1">
+                   <label>Stallion Shipping</label>
+                    <field id="name" translate="label" type="text" sortOrder="3" showInDefault="1" showInWebsite="1" showInStore="1">
+                    <label>Method Name</label>
+                </field>
+                <field id="title" translate="label" type="text" sortOrder="2" showInDefault="1" showInWebsite="1" showInStore="1">
+                    <label>Title</label>
+                </field>
+            </group>
+        </section>
+
+    </system>
+</config>
