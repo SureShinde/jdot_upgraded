@@ -1,0 +1,24 @@
+{
+  "name": "Mean3/magento2-Stallionshipping",
+  "description": "Stallion Shipping for Magento 2",
+  "type": "magento2-module",
+  "version": "1.0.2",
+  "authors": [
+    {
+      "name": "Mean3",
+      "email": "info@mean3.com",
+      "homepage": ""
+    }
+  ],
+  "license": [
+    "OSL-3.0"
+  ],
+  "autoload": {
+    "files": [
+      "registration.php"
+    ],
+    "psr-4": {
+      "Mean3\\Stallionshipping\\": ""
+    }
+  }
+}

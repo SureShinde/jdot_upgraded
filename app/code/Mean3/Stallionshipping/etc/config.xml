@@ -1,0 +1,35 @@
+<?xml version="1.0"?>
+<!--
+/**
+ * @category   Mean3
+ * @package    Mean3_Customshipping
+ * @author     info@mean3.com
+ * @website    http://www.Mean3.com
+ */
+-->
+<config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:module:Magento_Store:etc/config.xsd">
+    <default>
+        <Mean3_Stallionshipping>
+            <general>
+                <debug>0</debug>
+                <enabled>1</enabled>
+                <userName>User Name</userName>
+                <password>Password</password>
+                <baseUrl>http://cod.stalliondeliveries.com/stallionservice/Stallion.asmx/BookParcelWithshiperOrderIdV3</baseUrl>
+                <order_status>pending</order_status>
+                <companyName>Comapany</companyName>
+                <companyPhone>123456789</companyPhone>
+                <hideNumber>0</hideNumber>
+                <companyCity></companyCity>
+                <chargeType>2</chargeType>
+            </general>
+            <carriers>
+                <stallionship>
+                    <title>Stallion Shipping</title>
+                    <name>Stallion Shipping</name>
+                    <model>Mean3\Stallionshipping\Model\Carrier\StallionShipping</model>
+                </stallionship>
+            </carriers>
+        </Mean3_Stallionshipping>
+    </default>
+</config>

@@ -5,7 +5,7 @@
         <section id="currency" translate="label" sortOrder="60" showInDefault="1" showInWebsite="1" showInStore="1">
             <resource>Magento_Config::currency</resource>
             <group id="converter" translate="label" sortOrder="30" showInDefault="1" showInWebsite="1" showInStore="1">
-                <label>Free Currenc Api Key</label>
+                <label>Free Currency Api Key</label>
                 <field id="api" translate="label comment" type="text" sortOrder="1" showInDefault="1" showInWebsite="1"
                        showInStore="0" canRestore="1">
                     <label>Currency Api Key</label>
