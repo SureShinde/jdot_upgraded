@@ -1,0 +1,27 @@
+<?xml version="1.0"?>
+<config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:framework:Event/etc/events.xsd">
+    <event name="controller_action_predispatch_customer_account_createpost">
+        <observer name="sms_before_custom_create" instance="Magecomp\Sms\Observer\Customer\CheckUserCreateObserver" />
+    </event>
+    <event name="customer_register_success">
+        <observer name="sms_customer_register_success" instance="Magecomp\Sms\Observer\Customer\RegisterSuccessObserver" />
+    </event>
+    <event name="controller_action_predispatch_checkout_index_index">
+        <observer name="sms_before_checkout" instance="Magecomp\Sms\Observer\Customer\CheckoutLoadObserver" />
+    </event>
+    <event name="checkout_submit_all_after">
+        <observer name="sms_sales_order_save_after" instance="Magecomp\Sms\Observer\Customer\OrderSaveObserver" />
+    </event>
+    <event name="sales_order_invoice_save_after">
+        <observer name="sms_sales_order_invoice_save_after" instance="Magecomp\Sms\Observer\Customer\InvoiceSaveObserver" />
+    </event>
+    <event name="sales_order_shipment_save_after">
+        <observer name="sms_sales_order_shipment_save_after" instance="Magecomp\Sms\Observer\Customer\ShipmentSaveObserver" />
+    </event>
+    <event name="sales_order_creditmemo_save_after">
+        <observer name="sms_sales_order_creditmemo_save_after" instance="Magecomp\Sms\Observer\Customer\CreditmemoSaveObserver" />
+    </event>
+    <event name="controller_action_postdispatch_contact_index_post">
+        <observer name="sms_contact_index_post" instance="Magecomp\Sms\Observer\Customer\ContactPostObserver" />
+    </event>
+</config>

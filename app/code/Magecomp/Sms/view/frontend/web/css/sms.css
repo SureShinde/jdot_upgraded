@@ -1,0 +1,59 @@
+/* Customer Account Create (START) */
+.mobilenumber {
+	float: left;
+	max-width: 200px;
+	width: 80%;
+}
+
+#otpdiv { display: none; float: left; margin-left: 15px; width: 18% }
+
+#otpbtndiv { float: left; margin-left: 15px; }
+
+#otpbtndiv #resendotpbtn { display: none; }
+
+#smserror { clear: both; }
+
+#waitsmsdiv {
+	margin-left: 15px;
+	float: left;
+	display: none;
+}
+/* Customer Account Create (END) */
+
+/* Customer Mobile Confirmation (START) */
+#confirmationdiv, #smserrordiv, #smssuccessdiv, #procedtocheckoutdiv {
+	display: none;
+	clear: both;
+	margin-top: 10px;
+}
+
+#existingnumberdiv {
+	clear: both;
+	margin-top: 10px;
+}
+
+.success {
+    color: #3c763d;
+    background-color: #dff0d8;
+    border-color: #d6e9c6;
+}
+
+.error {
+    color: #a94442;
+    background-color: #f2dede;
+    border-color: #ebccd1;
+}
+
+.message {
+    padding: 15px;
+    margin-bottom: 20px;
+    border: 1px solid transparent;
+    border-radius: 4px;
+}
+
+
+
+
+
+
+/* Customer Mobile Confirmation (END) */
