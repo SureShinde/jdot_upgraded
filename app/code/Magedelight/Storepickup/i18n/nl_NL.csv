@@ -1,0 +1,42 @@
+"back","terug"
+"Select a store to pickup.","Selecteer een winkel om pick-up."
+"Select Store: ","Select Store: "
+"Pickup date:","Ophaaldatum:"
+"Close","Dichtbij"
+"Apply","Van toepassing zijn"
+"Select Date","Select Date"
+"Your store search returned no results.","Uw winkel zoekopdracht heeft geen resultaten opgeleverd."
+"Store Infomation","Store Infomation"
+"current location","huidige locatie"
+"Go","Gaan"
+"Closed","Gesloten"
+"Radius","Radius"
+"Reset","Reset"
+"Search","Zoeken"
+"There is no stores available in selected area.","Er is geen winkels verkrijgbaar in geselecteerde gebied."
+"Street View data not found for this location.","Street View-gegevens niet gevonden voor deze locatie."
+"Pickup Store: ","Pickup Store: "
+"Pickup Date: ","Ophaaldatum: "
+"Days","Dagen"
+"Status","Status"
+"Open Time","Open tijd"
+"Close Time","Sluiten Time"
+"Action","Actie"
+"Add Day","Dayy"
+"Add More Contact","Meer toevoegen Contact"
+"Delete Contact","Contact verwijderen"
+"Add New Store","New Store"
+Delete,Verwijder
+Disable,"onbruikbaar maken"
+Enable,"in staat stellen"
+ID,ID
+"Store Image","Store Afbeelding"
+"Store Name","Winkel naam"
+"Url Key","Url Key"
+"Address","Adres"
+"Longitude","Lengtegraad"
+Latitude,Breedtegraad
+City,stad
+Country,land
+Status,toestand
+Storelocator,Winkel zoeker

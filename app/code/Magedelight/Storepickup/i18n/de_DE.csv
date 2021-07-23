@@ -1,0 +1,42 @@
+"back","Zurück"
+"Select a store to pickup.","Wählen Sie ein Geschäft zu Pick-up."
+"Select Store: ","Store auswählen:"
+"Pickup date:","Abholdatum:"
+"Close","Schließen"
+"Apply","Übernehmen"
+"Select Date","Select Date"
+"Your store search returned no results.","Ihr Shop Suche ergab keine Ergebnisse."
+"Store Infomation","Store Infomation"
+"current location","aktueller Standort"
+"Go","Gehen"
+"Closed","Abgeschlossen"
+"Radius","Radius"
+"Reset","Reset"
+"Search","Suche"
+"There is no stores available in selected area.","Es gibt keine Geschäfte in ausgewählten Bereich zur Verfügung."
+"Street View data not found for this location.","Street View-Daten nicht für diesen Ort gefunden."
+"Pickup Store: ","Pickup Store: "
+"Pickup Date: ","Abholdatum: "
+"Days","Tage"
+"Status","Status"
+"Open Time","Offene Zeit"
+"Close Time","Close Time"
+"Action","Aktion"
+"Add Day","In Day"
+"Add More Contact","Hinzufügen Kontakt"
+"Delete Contact","Kontakt löschen"
+"Add New Store","Add New Store"
+Delete,Löschen
+Disable,Deaktivieren
+Enable,Aktivieren
+ID,"ICH WÜRDE"
+"Store Image","Store-Bild"
+"Store Name","Store Name"
+"Url Key","Url Key"
+"Address","Adresse"
+"Longitude","Länge"
+Latitude,Breite
+City,Stadt
+Country,Land
+Status,Status
+Storelocator,Händlersuche

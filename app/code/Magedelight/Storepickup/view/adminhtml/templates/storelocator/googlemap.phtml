@@ -1,0 +1,192 @@
+<?php /* <script type="text/javascript" src="//maps.googleapis.com/maps/api/js?key=&sensor=false&libraries=places"></script> */
+
+$markerimage = $block->getMarkerImage();
+?>
+<!-- 
+/**
+ * Magedelight
+ * Copyright (C) 2016 Magedelight <info@magedelight.com>
+ *
+ * NOTICE OF LICENSE
+ *
+ * This program is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License as published by
+ * the Free Software Foundation, either version 3 of the License, or
+ * (at your option) any later version.
+ *
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
+ * GNU General Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public License
+ * along with this program. If not, see http://opensource.org/licenses/gpl-3.0.html.
+ *
+ * @category Magedelight
+ * @package Magedelight_Storepickup
+ * @copyright Copyright (c) 2016 Mage Delight (http://www.magedelight.com/)
+ * @license http://opensource.org/licenses/gpl-3.0.html GNU General Public License,version 3 (GPL-3.0)
+ * @author Magedelight <info@magedelight.com>
+ */
+-->
+<script type="text/javascript">
+    require.config({
+        paths: {
+            'googleMap': '//maps.googleapis.com/maps/api/js?key=<?php echo $this->getGoogleMapApiKey() ?>&libraries=places'
+        }
+    })
+    var longitude = 0;
+    var latitude = 0;
+    var storename = '';
+    var markerimage ='';
+
+    require(['jquery', 'googleMap'], function ($) {
+        $(document).ready(function () {
+            longitude = jQuery('#storelocator_longitude').val();
+            latitude = jQuery('#storelocator_latitude').val();
+            storename = jQuery('#storelocator_storename').val();
+            if (latitude != '' && longitude != '') {
+                window.changemap();
+            }
+            ;
+            $("#storelocator_longitude, #storelocator_latitude, #storelocator_storename").blur(function () {
+                window.changemap();
+            });
+            $("#storelocator_address_one, #storelocator_address_two, #storelocator_city, #storelocator_country").blur(function () {
+                window.setLatLong();
+            });
+            $('#storelocator_country').change(function () {
+                window.setLatLong();
+            });
+            initialize();
+        });
+
+    });
+
+    function changemap()
+    {
+
+        if (jQuery('#storelocator_longitude').val() != '' && jQuery('#storelocator_latitude').val() != '')
+        {
+            var cur_longitude = jQuery('#storelocator_longitude').val();
+            var cur_latitude = jQuery('#storelocator_latitude').val();
+            var cur_storename = jQuery('#storelocator_storename').val();
+
+            if ((jQuery.isNumeric(cur_longitude)) && (jQuery.isNumeric(cur_latitude)))
+            {
+                longitude = cur_longitude;
+                latitude = cur_latitude;
+                storename = cur_storename;
+                window.initialize();
+
+            }
+        }
+    }
+    var map;
+    // google.maps.event.addDomListener(window, 'load', initialize);
+    function initialize() {
+
+        var map = new google.maps.Map(document.getElementById('map_canvas'), {
+            mapTypeId: google.maps.MapTypeId.ROADMAP,
+            disableAutoPan: false,
+            zoom: 4,
+            streetViewControl: false
+        });
+
+        var markers = [{lat: latitude, lng: longitude, name: storename}];
+        markerimage ="<?php echo $markerimage; ?>";
+        
+        var widt = document.body.offsetWidth;
+        document.getElementById('map_canvas').width = widt + 'px';
+
+
+        for (index in markers) {
+            if (Number(index) != index)
+                break;
+            addMarker(markers[index], map, index);
+        }
+        var bounds = new google.maps.LatLngBounds();
+        for (index in markers) {
+            if (Number(index) != index)
+                break;
+            var data = markers[index];
+            bounds.extend(new google.maps.LatLng(data.lat, data.lng));
+        }
+
+        // Don't zoom in too far on only one marker
+        if (bounds.getNorthEast().equals(bounds.getSouthWest())) {
+            var extendPoint1 = new google.maps.LatLng(bounds.getNorthEast().lat() + 0.01, bounds.getNorthEast().lng() + 0.01);
+            var extendPoint2 = new google.maps.LatLng(bounds.getNorthEast().lat() - 0.01, bounds.getNorthEast().lng() - 0.01);
+            bounds.extend(extendPoint1);
+            bounds.extend(extendPoint2);
+        }
+
+        map.fitBounds(bounds);
+
+
+
+    }
+    /* testing address */
+    function setLatLong()
+    {
+        var geo = new google.maps.Geocoder;
+        var address = jQuery('#storelocator_address_one').val() + jQuery('#storelocator_address_two').val();
+        var city = jQuery('#storelocator_city').val();
+        // var country = jQuery('#storelocator_country').val(); 
+        var country = jQuery("#storelocator_country option[value=" + jQuery('#storelocator_country').val() + "]").text();
+        if (address != '' && city != '' && country != '')
+        {
+            var searchAddr = address + " " + city + "," + " " + country;
+
+            var address = searchAddr;
+            geo.geocode({'address': address}, function (results, status) {
+                if (status == google.maps.GeocoderStatus.OK) {
+                    var myLatLng = results[0].geometry.location;
+                    jQuery('#storelocator_longitude').val(myLatLng.lng());
+                    jQuery('#storelocator_latitude').val(myLatLng.lat());
+                    window.changemap();
+                    // Add some code to work with myLatLng              
+
+                } else {
+                    alert("Your address not found please recheck your address: " + status);
+                }
+            });
+        }
+
+
+
+    }
+
+    /* end testing address */
+    function addMarker(data, map, index) {
+        // Create the marker
+        var marker = new google.maps.Marker({
+            position: new google.maps.LatLng(data.lat, data.lng),
+            map: map,
+            draggable: true,
+            icon: markerimage,
+            title: data.name
+        });
+        attachSecretMessage(marker, index, map)
+        google.maps.event.addListener(marker, 'dragend', function (event) {
+            jQuery('#storelocator_longitude').val(this.getPosition().lng());
+            jQuery('#storelocator_latitude').val(this.getPosition().lat());
+
+        });
+    }
+
+    function attachSecretMessage(marker, number, map) {
+        var message = 'test';
+
+        var infowindow = new google.maps.InfoWindow({
+            content: message[number],
+            size: new google.maps.Size(50, 50)
+        });
+        google.maps.event.addListener(marker, 'click', function () {
+            infowindow.open(map, marker);
+
+
+        });
+    }
+
+</script>

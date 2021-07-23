@@ -1,0 +1,234 @@
+<?php
+/**
+ * Magedelight
+ * Copyright (C) 2016 Magedelight <info@magedelight.com>
+ *
+ * NOTICE OF LICENSE
+ *
+ * This program is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License as published by
+ * the Free Software Foundation, either version 3 of the License, or
+ * (at your option) any later version.
+ *
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
+ * GNU General Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public License
+ * along with this program. If not, see http://opensource.org/licenses/gpl-3.0.html.
+ *
+ * @category Magedelight
+ * @package Magedelight_Storepickup
+ * @copyright Copyright (c) 2016 Mage Delight (http://www.magedelight.com/)
+ * @license http://opensource.org/licenses/gpl-3.0.html GNU General Public License,version 3 (GPL-3.0)
+ * @author Magedelight <info@magedelight.com>
+ */
+?>
+
+<?php
+$requireData = $this->getSingleStoreData();
+$allmarkerimage = $this->getMarkerImage();
+
+$markers = "";
+$messages = "";
+$i = 0;
+
+foreach ($requireData as $data) {
+    $markers .= '{lat:' . $data["latitude"] . ',lng:' . $data["longitude"] . ',name:' . '"' . $data["storename"] . '"},';
+
+    $data["address"] = explode('\n', $data["address"]);
+    
+        $state = "";
+    if (is_null($data["state"])) {
+        if (isset($data["region_id"]) && $data["region_id"] != 0) {
+            $state = $this->getRegionName($data["region_id"]);
+        }
+    } else {
+        $state = $data["state"];
+    }
+
+
+    $fullAddress = "";
+
+    if (count($data["address"]) > 1) {
+        $fullAddress .= addslashes($data["address"][0]) . ",</br> " . addslashes($data["address"][1]). ",</br> ";
+    } else {
+        $fullAddress .= addslashes($data["address"][0]) . ",</br> ";
+    }
+
+        $fullAddress .= addslashes($data["city"]) . ",</br> ";
+    if (!empty($state)) {
+        $fullAddress .= addslashes($state) . ",</br> ";
+    }
+        $fullAddress .= addslashes($this->getCountryName($data["country"]) . ". - " . addslashes($data["zipcode"]));
+
+
+    $singlehtml = "";
+
+    $singlehtml .= "<div class='store-marker-container'><div class='address-info'><table><tr><td colspan='4' align='left'><h2>" . $data["storename"] . "</h2></td></tr><tr><td rowspan='3'><img src=" . $this->getStoreImage($data['storelocator_id']) . "></td></tr><tr><td><strong>Address:</strong></td><td><p>" . $fullAddress . "</p></td></tr>" . $this->getContactInfo($data['storelocator_id']) . "</table></div></div>";
+    $messages .= '"' . $singlehtml . '", ';
+    $i++;
+}
+
+$markers1 = rtrim($markers, ",");
+$messages1 = rtrim($messages, ", ");
+?>
+<!--<div class="storelocator-page">-->
+
+<!--<div class="info-locator">-->
+
+<div class="info-detail-box">
+
+
+    <h2><?php echo __("Store Infomation"); ?></h2>
+
+
+    <ul>
+        <?php foreach ($requireData as $data) { ?>
+            <li class="el-content-detail" index="1559" style="">
+
+                <div class="store-image">
+                    <img src="<?php echo $this->getStoreImage($data['storelocator_id']) ?>">
+                </div>
+
+                <?php
+                    $state = "";
+                if (is_null($data["state"])) {
+                    if (isset($data["region_id"]) && $data["region_id"] != 0) {
+                        $state = $this->getRegionName($data["region_id"]);
+                    }
+                } else {
+                    $state = $data["state"];
+                }
+                ?>
+                <div class="store-info">
+                    <h4><?php echo addslashes($data["storename"]); ?></h4>
+                    <?php if (!empty($state)) {
+                            $fullAddress = addslashes(str_replace('\n', ', ', $data["address"])) . ", " . addslashes($data["city"]) . ", " . addslashes($state) . ", " . addslashes($this->getCountryName($data["country"]) . ". - " . addslashes($data['zipcode']));
+} else {
+    $fullAddress = addslashes(str_replace('\n', ', ', $data["address"])) . ", " . addslashes($data["city"]) . ", " . addslashes($this->getCountryName($data["country"]) . ". - " . addslashes($data['zipcode']));
+} ?>
+                    <p class="address-store"><?php echo $fullAddress; ?> </p>
+                    <p><?php echo $this->getContactInfo($data['storelocator_id']) ?></p>
+                </div>
+
+
+
+                <div style="padding: 0px;" id="option-direction" class="custom-popup col-xs-12">
+                    <ul class="vertical">
+                        <li mvalue="DRIVING" class="travel car"><span>A</span></li>
+                        <li mvalue="TRANSIT" class="travel bus active"><span>A</span></li>
+                        <li mvalue="WALKING" class="travel walk"><span>A</span></li>
+                        <li mvalue="BICYCLING" class="travel bicycle"><span>A</span></li>
+                    </ul>
+                    <div class="col-xs-12" id="directions-el">
+
+                        <div class="form-inputs">
+                            <form id="get-direction" method="post" action="#"  data-mage-init='{"validation":{}}'>
+                                <input id="start-location" data-validate="{required:true}" type="text" autocomplete="off" class="form-control customer-location start" placeholder="Enter a location">
+                                <a href="#" onclick="getCurrentLocation(event)"><?php echo __("current location"); ?></a>
+                                <input id="end-location" type="text" data-validate="{required:true}" readonly="true" value="<?php echo $fullAddress; ?>" class="form-control store-location end">
+
+                            </form>
+                            <div class="box-input">
+                                <button id="submit-direction" class="button btn btn-show btn-go-direction" title="Go">
+                                    <span><?php echo __("Go"); ?></span>
+                                </button>
+                            </div>
+                        </div>
+
+                        <div id="directions-panel" class="directions-panel"></div>
+                    </div>
+
+                </div>
+            </li>
+            <?php
+}
+        ?>
+    </ul>
+</div>
+
+<div class="tab_content open">
+    <div id="open_hour">
+        <?php if (!empty($requireData[0]['storetime'])) { ?>
+
+
+            <h2 class="open_hour_title">
+                <span aria-hidden="true" class="glyphicon glyphicon-time"></span>
+                <span>Opening hours</span>
+            </h2>
+            <div class="table-responsive">
+                <table class="table">
+                    <tbody>
+                        <?php
+                        $storetime = $block->getStoreTime($requireData[0]['storetime']);
+                        $i = 0;
+                        foreach ($storetime as $data) {
+                            ?>
+                            <tr class="<?php echo ($i % 2 == 0) ? 'even' : 'odd'; ?>">
+                                <td style="text-align: right; width: 20%;"><?php echo $data['days']; ?>:</td>
+                                <td>
+                                    <?php
+                                    if(!array_key_exists('open_minute',$data)){
+                                        $data['open_minute'] = '00';
+                                    }
+                                    if(!array_key_exists('close_minute',$data)){
+                                        $data['close_minute'] = '00';
+                                    }
+                                    if (isset($data['day_status'])) : ?>
+                                        <?php echo date("g:i a", strtotime($data['open_hour'] . ':' . $data['open_minute'])) . " - " . date("g:i a", strtotime($data['close_hour'] . ':' . $data['close_minute'])); ?>
+                                    <?php else : ?>
+                                        <?php echo __("Closed"); ?>
+                                    <?php endif; ?>
+                                </td>
+                            </tr>
+                            <?php
+                            $i += 1;
+                        }
+                        ?>
+                    </tbody>
+                </table>
+            </div>
+
+
+<?php } ?>
+    </div>
+</div>
+<!--</div>-->
+<!--</div>-->
+
+<!-- <div class="fb-comments" data-href="https://developers.facebook.com/docs/plugins/comments#configurator" data-width="400px" data-numposts="3"></div>
+
+<div id="fb-root"></div>
+<script>(function(d, s, id) {
+  var js, fjs = d.getElementsByTagName(s)[0];
+  if (d.getElementById(id)) return;
+  js = d.createElement(s); js.id = id;
+  js.src = "//connect.facebook.net/en_GB/sdk.js#xfbml=1&version=v2.8";
+  fjs.parentNode.insertBefore(js, fjs);
+}(document, 'script', 'facebook-jssdk'));</script>
+ -->
+
+
+
+
+
+<script type="text/javascript">
+    require.config({
+        paths: {
+            'googleMap': '//maps.googleapis.com/maps/api/js?key=<?php echo $this->getGoogleMapApiKey() ?>&libraries=places'
+        }
+    });
+
+    distanceunit = '<?php echo $this->getDistanceUnit(); ?>';
+
+    var markers1 = [<?php echo $markers1; ?>];
+    var messages1 = [<?php echo $messages1; ?>];
+    var allmarkerimage = '<?php echo $allmarkerimage; ?>';
+    require(['jquery', 'googleMap'], function ($) {
+        initializeview(markers1, messages1);
+
+    });
+    /* end function for calculate direction between two places */
+</script>

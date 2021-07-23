@@ -1,0 +1,244 @@
+<?xml version="1.0"?>
+
+<!--
+/**
+ * Magedelight
+ * Copyright (C) 2016 Magedelight <info@magedelight.com>
+ *
+ * NOTICE OF LICENSE
+ *
+ * This program is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License as published by
+ * the Free Software Foundation, either version 3 of the License, or
+ * (at your option) any later version.
+ *
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
+ * GNU General Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public License
+ * along with this program. If not, see http://opensource.org/licenses/gpl-3.0.html.
+ *
+ * @category Magedelight
+ * @package Magedelight_Storepickup
+ * @copyright Copyright (c) 2016 Mage Delight (http://www.magedelight.com/)
+ * @license http://opensource.org/licenses/gpl-3.0.html GNU General Public License,version 3 (GPL-3.0)
+ * @author Magedelight <info@magedelight.com>
+ */
+-->
+
+<config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="../../../../Magento/Config/etc/system_file.xsd">
+    <system>
+        <tab id="magedelight" translate="label" sortOrder="300">
+            <label>Magedelight</label> 
+        </tab>
+        <section id="magedelight_storepickup" type="text" sortOrder="10" showInDefault="1" showInWebsite="1" showInStore="1">
+            <label>Store Pickup</label>
+            <tab>magedelight</tab>
+            <resource>Magedelight_Storepickup::storepickup</resource>
+            <group id="license" translate="label" type="text" sortOrder="1" showInDefault="1" showInWebsite="1" showInStore="1">
+                <label>License Configuration</label>
+                <field id="serial_key" translate="label" type="text" sortOrder="1" showInDefault="1" showInWebsite="1" showInStore="1">
+                    <label>Serial Key</label>
+                </field>
+                <field id="activation_key" translate="label" type="text" sortOrder="2" showInDefault="1" showInWebsite="1" showInStore="1">
+                    <label>Activation Key</label>
+                </field>
+            </group>
+            <group id="storeinfo" type="text" sortOrder="10" showInDefault="1" showInWebsite="1" showInStore="1">
+                <label>General</label>
+		<field id="select_website" translate="label" type="multiselect" sortOrder="0" showInDefault="1" showInWebsite="1" showInStore="0">
+                    <label>Select Website</label>
+                    <source_model>Magedelight\Storepickup\Model\Config\Source\Website</source_model>
+                    <comment>Please save serial and activation keys to get the available options.</comment>
+                </field>
+                <field id="storepickupenable" type="select" sortOrder="10" showInDefault="1" showInWebsite="1" showInStore="1">
+                    <label>Enable Storepickup</label>
+                    <source_model>Magento\Config\Model\Config\Source\Yesno</source_model>
+                </field>
+                <field id="linktitle" type="text" sortOrder="10" showInDefault="1" showInWebsite="1" showInStore="1">
+                    <label>Menu Link Title</label>
+                    <comment>Set link title, Default title is 'storelocator'</comment>
+                </field>
+                <field id="displaytopmenu" type="select" sortOrder="10" showInDefault="1" showInWebsite="1" showInStore="1">
+                    <label>Display Menu Link</label>
+                    <source_model>Magedelight\Storepickup\Model\Source\LinkType</source_model>
+                </field>
+		<field id="allowproductallstore" type="select" sortOrder="10" showInDefault="1" showInWebsite="1" showInStore="1">
+                    <label>Check product availability at store on checkout page</label>
+                    <source_model>Magento\Config\Model\Config\Source\Yesno</source_model>
+                </field>
+                <field id="allowguestcustomer" type="select" sortOrder="10" showInDefault="1" showInWebsite="1" showInStore="1">
+                    <label>Access To Guest Customer</label>
+                    <source_model>Magento\Config\Model\Config\Source\Yesno</source_model>
+                </field>
+                <field id="logo" translate="label" type="image" sortOrder="10" showInDefault="1" showInWebsite="1" showInStore="1">
+                    <label>Default Store Image</label>
+                    <backend_model>Magento\Config\Model\Config\Backend\Image</backend_model>
+                    <upload_dir config="system/filesystem/media" scope_info="1">magedelight/storepickup/storeinfo/image</upload_dir>
+                    <base_url type="media" scope_info="1">magedelight/storepickup/storeinfo/image</base_url>
+                    <comment><![CDATA[Allowed file types: jpeg, gif, png.]]></comment>
+                </field>
+            </group>
+            <group id="googlemap" type="text" sortOrder="10" showInDefault="1" showInWebsite="1" showInStore="1">
+                <label>Google Map</label>
+                <field id="mapapi" type="text" sortOrder="10" showInDefault="1" showInWebsite="1" showInStore="1">
+                    <label>Google Map API Key</label>
+                </field>
+                <field id="markericon" translate="label" type="image" sortOrder="10" showInDefault="1" showInWebsite="1" showInStore="1">
+                    <label>Map Marker Image</label>
+                    <backend_model>Magento\Config\Model\Config\Backend\Image</backend_model>
+                    <upload_dir config="system/filesystem/media" scope_info="1">magedelight/storepickup/storeinfo/image</upload_dir>
+                    <base_url type="media" scope_info="1">magedelight/storepickup/storeinfo/image</base_url>
+                    <comment><![CDATA[Allowed file types: jpeg, gif, png.]]></comment>
+                </field>
+<!--                <field id="enable_current_location" translate="label comment" type="select" sortOrder="10"  showInDefault="1" showInWebsite="1" showInStore="1">
+                    <label>Enable Current Location</label>
+                    <source_model>Magento\Config\Model\Config\Source\Yesno</source_model>
+                    <comment><![CDATA[Current location Enable or not. Currentlocation is only work with secure site(https) URL.]]></comment>
+                </field>-->
+            </group>
+            <group id="facebookapi" type="text" sortOrder="10" showInDefault="1" showInStore="1">
+                <label>Facebook Comment API</label>
+                <field id="enable_facebook_comment" translate="label comment" type="select" sortOrder="10"  showInDefault="1" showInWebsite="1" showInStore="1">
+                    <label>Enable Facebook comment</label>
+                    <source_model>Magento\Config\Model\Config\Source\Yesno</source_model>
+                </field>
+                <field id="facebook_api_key" translate="label comment" type="text" sortOrder="20"  showInDefault="1" showInWebsite="1" showInStore="1">
+                    <label>Facebook API key</label>
+                    <comment>API Key</comment>
+                    <depends>
+                        <field id="enable_facebook_comment">1</field>
+                    </depends>
+                </field>
+                <field id="facebook_language" translate="label" type="select" sortOrder="30" showInDefault="1" showInWebsite="1" showInStore="1">
+                    <label>Locale</label>
+                    <source_model>Magento\Config\Model\Config\Source\Locale</source_model>
+                    <depends>
+                        <field id="enable_facebook_comment">1</field>
+                    </depends>
+                </field>
+            </group>
+            <group id="storesearch" type="text" sortOrder="10" showInDefault="1" showInWebsite="1" showInStore="1">
+                <label>Store Search</label>
+                <field id="defaultradious" type="text" sortOrder="10" showInDefault="1" showInWebsite="1" showInStore="1">
+                    <label>Default Radius For Search</label>
+                </field>
+                <field id="maxradious" type="text" sortOrder="10" showInDefault="1" showInWebsite="1" showInStore="1">
+                    <label>Maximum Radius For Search</label>
+                </field>
+                <field id="distanceunit" type="select" sortOrder="10" showInDefault="1" showInWebsite="1" showInStore="1">
+                    <label>Distance Unit</label>
+                    <source_model>Magedelight\Storepickup\Model\Source\Distanceunit</source_model>
+                    <comment>Unit to measure distance between store and customer</comment>
+                </field>
+            </group>
+            <group id="listviewinfo" type="text" sortOrder="10" showInDefault="1" showInWebsite="1" showInStore="1">
+                <label>Store List View</label>
+                <!--                <field id="frontend_title" type="text" sortOrder="15" showInDefault="1" showInWebsite="1" showInStore="1">
+                    <label>Page Title</label>
+                </field>-->
+                <field id="meta_title" type="text" sortOrder="10" showInDefault="1" showInWebsite="1" showInStore="1">
+                    <label>Page Title</label>
+                </field>
+                <field id="frontend_url" type="text" sortOrder="15" showInDefault="1" showInWebsite="1" showInStore="1">
+                    <label>Page Url</label>
+                    <validate>validate-identifier</validate>  
+                </field>
+                <field id="listpage_suffix" type="text" sortOrder="15" showInDefault="1" showInWebsite="1" showInStore="1">
+                    <label>Page Url Suffix</label>
+                    <validate>validate-identifier</validate>  
+                </field>
+                <field id="meta_description" type="textarea" sortOrder="30" showInDefault="1" showInWebsite="1" showInStore="1">
+                    <label>Meta Description</label>
+                </field>
+                <field id="meta_keywords" type="textarea" sortOrder="40" showInDefault="1" showInWebsite="1" showInStore="1">
+                    <label>Meta Keywords</label>
+                </field>
+            </group>
+            <group id="timesloat" type="text" sortOrder="10" showInDefault="1" showInWebsite="1" showInStore="1">
+                <label>Time Slot</label>
+                <field id="timesloatenable" type="select" sortOrder="10" showInDefault="1" showInWebsite="1" showInStore="1">
+                    <label>Enable Time Slot</label>
+                    <source_model>Magento\Config\Model\Config\Source\Yesno</source_model>
+                </field>
+                <field id="timeratio" type="select" sortOrder="10" showInDefault="1" showInWebsite="1" showInStore="1">
+                    <label>Time Interval</label>
+                    <source_model>Magedelight\Storepickup\Model\Config\Source\Timeinterval</source_model>
+                    <depends>
+                        <field id="timesloatenable">1</field>
+                    </depends>
+                </field>
+            </group>
+                        
+            <group id="storeimportexport" translate="label" type="text" sortOrder="11" showInDefault="1" showInWebsite="1" showInStore="1">
+                <label>Import and Export</label>
+                <field id="export" translate="label" type="Magedelight\Storepickup\Block\Adminhtml\Export\ExportStore" sortOrder="1" showInDefault="1" showInWebsite="1" showInStore="1">
+                    <label>Export</label>
+                </field>
+                <field id="import" translate="label" type="Magedelight\Storepickup\Block\Adminhtml\Export\ImportStore" sortOrder="2" showInDefault="1" showInWebsite="1" showInStore="1">
+                    <label>Import</label>
+                    <backend_model>Magedelight\Storepickup\Model\Config\Backend\ImportStore</backend_model>
+                </field>
+            </group>
+        </section>
+        
+        <!--        Shipping Method-->
+        <section id="carriers" translate="label" type="text" sortOrder="300" showInDefault="1" showInWebsite="1" showInStore="1">
+            <group id="storepickup" translate="label" type="text" sortOrder="2" showInDefault="1" showInWebsite="1" showInStore="1">
+                <label>Storepickup Shipping Method</label>
+                <field id="active" translate="label" type="select" sortOrder="1" showInDefault="1" showInWebsite="1" showInStore="0">
+                    <label>Enabled</label>
+                    <source_model>Magento\Config\Model\Config\Source\Yesno</source_model>
+                </field>
+                <field id="name" translate="label" type="text" sortOrder="3" showInDefault="1" showInWebsite="1" showInStore="1">
+                    <label>Method Name</label>
+                </field>
+                <field id="price" translate="label" type="text" sortOrder="5" showInDefault="1" showInWebsite="1" showInStore="0">
+                    <label>Price</label>
+                    <validate>validate-number validate-zero-or-greater</validate>
+                </field>
+                <field id="handling_type" translate="label" type="select" sortOrder="7" showInDefault="1" showInWebsite="1" showInStore="0">
+                    <label>Calculate Handling Fee</label>
+                    <source_model>Magento\Shipping\Model\Source\HandlingType</source_model>
+                </field>
+                <field id="handling_fee" translate="label" type="text" sortOrder="8" showInDefault="1" showInWebsite="1" showInStore="0">
+                    <label>Handling Fee</label>
+                    <validate>validate-number validate-zero-or-greater</validate>
+                </field>
+                <field id="sort_order" translate="label" type="text" sortOrder="100" showInDefault="1" showInWebsite="1" showInStore="0">
+                    <label>Sort Order</label>
+                </field>
+                <field id="title" translate="label" type="text" sortOrder="2" showInDefault="1" showInWebsite="1" showInStore="1">
+                    <label>Title</label>
+                </field>
+                <field id="type" translate="label" type="select" sortOrder="4" showInDefault="1" showInWebsite="1" showInStore="0">
+                    <label>Type</label>
+                    <source_model>Magento\OfflineShipping\Model\Config\Source\Flatrate</source_model>
+                </field>
+                <field id="sallowspecific" translate="label" type="select" sortOrder="90" showInDefault="1" showInWebsite="1" showInStore="0">
+                    <label>Ship to Applicable Countries</label>
+                    <frontend_class>shipping-applicable-country</frontend_class>
+                    <source_model>Magento\Shipping\Model\Config\Source\Allspecificcountries</source_model>
+                </field>
+                <field id="specificcountry" translate="label" type="multiselect" sortOrder="91" showInDefault="1" showInWebsite="1" showInStore="0">
+                    <label>Ship to Specific Countries</label>
+                    <source_model>Magento\Directory\Model\Config\Source\Country</source_model>
+                    <can_be_empty>1</can_be_empty>
+                </field>
+                <field id="showmethod" translate="label" type="select" sortOrder="92" showInDefault="1" showInWebsite="1" showInStore="0">
+                    <label>Show Method if Not Applicable</label>
+                    <source_model>Magento\Config\Model\Config\Source\Yesno</source_model>
+                </field>
+                <field id="specificerrmsg" translate="label" type="textarea" sortOrder="80" showInDefault="1" showInWebsite="1" showInStore="1">
+                    <label>Displayed Error Message</label>
+                </field>
+                <field id="offdays" translate="label" type="text" sortOrder="79" showInDefault="1" showInWebsite="1" showInStore="1">
+                    <label>Shipping off Days</label>
+                    <comment>Shipping off Days from current Date.</comment>
+                </field>
+            </group>
+        </section>
+    </system>
+</config>

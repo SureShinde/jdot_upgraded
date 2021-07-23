@@ -1,0 +1,36 @@
+<?php
+if ($block->isModuleEnabled()) :
+$availabelStore = $this->getAvailabelStoreForCurrentProduct(); 
+
+if(!empty($availabelStore)):
+?>
+
+<span class="availabel-store">Available at store
+
+<div class='popup-container'>
+    <div class="stores-name-list">
+
+        <ul>
+        <?php foreach ($availabelStore as $store) { ?>
+            <li class="store-name"><a target="_blank" href="<?php echo $this->getStoreUrlFromKey($store['url_key']); ?>"><?php echo $store['storename']; ?></a></li>    
+        <?php } ?>
+        </ul>
+    </div>
+    <p><a target="_blank" href="<?php echo $this->getStoreUrl(); ?>">View store</a></p>
+</div>
+</span>
+
+<script type="text/javascript">
+    require(['jquery'], function ($) {
+            $(document).ready(function(){
+                $(".availabel-store, .popup-container").hover(function(){
+                    $(".popup-container").show();
+                },function(){
+                    $(".popup-container").hide();
+                });
+            });
+        });
+
+</script>
+<?php endif;
+ endif; ?>

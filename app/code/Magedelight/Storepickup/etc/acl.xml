@@ -1,0 +1,57 @@
+<?xml version="1.0"?>
+<!--
+/**
+ * Magedelight
+ * Copyright (C) 2016 Magedelight <info@magedelight.com>
+ *
+ * NOTICE OF LICENSE
+ *
+ * This program is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License as published by
+ * the Free Software Foundation, either version 3 of the License, or
+ * (at your option) any later version.
+ *
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
+ * GNU General Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public License
+ * along with this program. If not, see http://opensource.org/licenses/gpl-3.0.html.
+ *
+ * @category Magedelight
+ * @package Magedelight_Storepickup
+ * @copyright Copyright (c) 2016 Mage Delight (http://www.magedelight.com/)
+ * @license http://opensource.org/licenses/gpl-3.0.html GNU General Public License,version 3 (GPL-3.0)
+ * @author Magedelight <info@magedelight.com>
+ */
+-->
+<config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:framework:Acl/etc/acl.xsd">
+    <acl>
+        <resources>
+            <resource id="Magento_Backend::admin">
+                <resource id="Magedelight_Storepickup::storepickup" title="Storepickup" sortOrder="10" >
+                    <resource id="Magedelight_Storepickup::storeinfo" title="Manage Stores" sortOrder="40">
+                        <resource id="Magedelight_Storepickup::storeinfo_save" title="Save Storelocator" sortOrder="10" />
+                        <resource id="Magedelight_Storepickup::storeinfo_delete" title="Delete Storelocator" sortOrder="20" />
+                    </resource>
+                    <resource id="Magedelight_Storepickup::storeholiday" title="Manage Holidays" sortOrder="40">
+                        <resource id="Magedelight_Storepickup::storeholiday_save" title="Save StorePicker" sortOrder="10" />
+                        <resource id="Magedelight_Storepickup::storeholiday_delete" title="Delete StorePicker" sortOrder="20" />
+                    </resource>
+                    <resource id="Magedelight_Storepickup::tag" title="Manage Tag" sortOrder="40">
+                        <resource id="Magedelight_Storepickup::tag_save" title="Save Tag" sortOrder="10" />
+                        <resource id="Magedelight_Storepickup::tag_delete" title="Delete Tag" sortOrder="20" />
+                    </resource>
+                </resource>
+                <resource id="Magento_Backend::stores">
+                    <resource id="Magento_Backend::stores_settings">
+                        <resource id="Magento_Config::config">
+                            <resource id="Magedelight_Storepickup::configuration" title="Configuration" />
+                        </resource>
+                    </resource>
+                </resource>
+            </resource>
+        </resources>
+    </acl>
+</config>

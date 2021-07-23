@@ -1,0 +1,42 @@
+"back","espalda"
+"Select a store to pickup.","Seleccionar una tienda de recogida."
+"Select Store: ","Seleccionar tienda: "
+"Pickup date:","Fecha de recogida:"
+"Close","Cerca"
+"Apply","Aplicar"
+"Select Date","Seleccione fecha"
+"Your store search returned no results.","Su búsqueda no produjo resultados tienda."
+"Store Infomation","Tienda Infomation"
+"current location","ubicación actual"
+"Go","Ir"
+"Closed","Cerrado"
+"Radius","Radio"
+"Reset","Reiniciar"
+"Search","Buscar"
+"There is no stores available in selected area.","No hay tiendas disponibles en el área seleccionada."
+"Street View data not found for this location.","Datos de Street View no se encontraron para esta ubicación."
+"Pickup Store: ","Recoger en tienda: "
+"Pickup Date: ","Fecha de recogida: "
+"Days","Días"
+"Status","Estado"
+"Open Time","El tiempo abierto"
+"Close Time","Hora de cierre"
+"Action","Acción"
+"Add Day","Añadir Día"
+"Add More Contact","Añadir más Contacto"
+"Delete Contact","Borrar contacto"
+"Add New Store","Añadir nueva tienda"
+Delete,Borrar
+Disable,Inhabilitar
+Enable,Habilitar
+ID,"CARNÉ DE IDENTIDAD"
+"Store Image","Imagen de la tienda"
+"Store Name","Nombre de la tienda"
+"Url Key","La clave URL"
+"Address","Dirección"
+"Longitude","Longitud"
+Latitude,Latitud
+City,Ciudad
+Country,País
+Status,Estado
+Storelocator,"Localizador de tiendas"

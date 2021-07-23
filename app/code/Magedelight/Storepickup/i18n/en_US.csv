@@ -1,0 +1,42 @@
+"back","back"
+"Select a store to pickup.","Select a store to pickup."
+"Select Store: ","Select Store: "
+"Pickup date:","Pickup date:"
+"Close","Close"
+"Apply","Apply"
+"Select Date","Select Date"
+"Your store search returned no results.","Your store search returned no results."
+"Store Infomation","Store Infomation"
+"current location","current location"
+"Go","Go"
+"Closed","Closed"
+"Radius","Radius"
+"Reset","Reset"
+"Search","Search"
+"There is no stores available in selected area.","There is no stores available in selected area."
+"Street View data not found for this location.","Street View data not found for this location."
+"Pickup Store: ","Pickup Store: "
+"Pickup Date: ","Pickup Date: "
+"Days","Days"
+"Status","Status"
+"Open Time","Open Time"
+"Close Time","Close Time"
+"Action","Action"
+"Add Day","Add Day"
+"Add More Contact","Add More Contact"
+"Delete Contact","Delete Contact"
+"Add New Store","Add New Store"
+Delete,Delete
+Disable,Disable
+Enable,Enable
+ID,ID
+"Store Image","Store Image"
+"Store Name","Store Name"
+"Url Key","Url Key"
+"Address","Address"
+"Longitude","Longitude"
+Latitude,Latitude
+City,City
+Country,Country
+Status,Status
+Storelocator,Storelocator

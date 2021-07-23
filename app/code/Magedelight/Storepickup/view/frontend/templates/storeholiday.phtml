@@ -1,0 +1,64 @@
+<?php
+/**
+ * Magedelight
+ * Copyright (C) 2016 Magedelight <info@magedelight.com>
+ *
+ * NOTICE OF LICENSE
+ *
+ * This program is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License as published by
+ * the Free Software Foundation, either version 3 of the License, or
+ * (at your option) any later version.
+ *
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
+ * GNU General Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public License
+ * along with this program. If not, see http://opensource.org/licenses/gpl-3.0.html.
+ *
+ * @category Magedelight
+ * @package Magedelight_Storepickup
+ * @copyright Copyright (c) 2016 Mage Delight (http://www.magedelight.com/)
+ * @license http://opensource.org/licenses/gpl-3.0.html GNU General Public License,version 3 (GPL-3.0)
+ * @author Magedelight <info@magedelight.com>
+ */
+?>
+
+<?php $requireData = $this->getSingleStoreData(); ?>
+<?php $_holiday = $this->getHoliday($requireData[0]['storelocator_id']); ?>
+<?php if (!empty($_holiday)) { ?>
+    <div class="tab_content open">
+        <h2 class="open_hour_title">
+            <span aria-hidden="true" class="glyphicon glyphicon-time"></span>
+            <span>Holiday</span>
+        </h2>
+        <div class="table-responsive holiday-container">
+            <table class="table">
+                <tbody>
+                    <?php
+                    $j = 0;
+                    foreach ($_holiday as $data) {
+                        ?>
+                        <tr class="<?php echo ($j % 2 == 0) ? 'even' : 'odd'; ?>">
+                            <td style="text-align: center; "><?php echo $data['holiday_name']; ?></td>
+                            <td style="text-align: center; "><?php echo $data['date']; ?>:</td>
+                            <?php if(isset($data['holiday_comment'])) { ?>
+                            <td style="text-align: center; ">
+                                <?php echo $data['holiday_comment']; ?>
+                            </td>
+                            <?php } ?>
+                            <td>
+                                <?php echo __("Closed"); ?>
+                            </td>
+                        </tr>
+                        <?php
+                        $j += 1;
+                    }
+                    ?>
+                </tbody>
+            </table>
+        </div>
+    </div>
+<?php } ?>
