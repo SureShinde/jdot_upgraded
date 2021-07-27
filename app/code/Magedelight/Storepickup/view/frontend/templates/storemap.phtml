@@ -1,0 +1,77 @@
+<?php
+/**
+ * Magedelight
+ * Copyright (C) 2016 Magedelight <info@magedelight.com>
+ *
+ * NOTICE OF LICENSE
+ *
+ * This program is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License as published by
+ * the Free Software Foundation, either version 3 of the License, or
+ * (at your option) any later version.
+ *
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
+ * GNU General Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public License
+ * along with this program. If not, see http://opensource.org/licenses/gpl-3.0.html.
+ *
+ * @category Magedelight
+ * @package Magedelight_Storepickup
+ * @copyright Copyright (c) 2016 Mage Delight (http://www.magedelight.com/)
+ * @license http://opensource.org/licenses/gpl-3.0.html GNU General Public License,version 3 (GPL-3.0)
+ * @author Magedelight <info@magedelight.com>
+ */
+$requireData = $this->getSingleStoreData();
+?>
+
+<div class="search-content storeviewsearch">
+    <div class="social-icon">
+        <button class="button" onclick="history.back();">
+            <span><?php echo __("Go Back"); ?></span>
+        </button>
+
+        <div class="social-icon-box">
+            <?php if ($requireData[0]['website_url']) { ?>
+                <a class="website" href="<?php echo $requireData[0]['website_url'] ?>" target="_blank">&nbsp;</a>    
+            <?php } ?>
+            <?php if ($requireData[0]['facebook_url']) { ?>
+                <a class="facebook" href="<?php echo $requireData[0]['facebook_url'] ?> " target="_blank">&nbsp;</a>
+            <?php } ?>
+            <?php if ($requireData[0]['twitter_url']) { ?>
+                <a class="twitter" href="<?php echo $requireData[0]['twitter_url'] ?>" target="_blank">&nbsp;</a>
+            <?php } ?>
+        </div>
+    </div>
+</div>
+<div class="map-locator-right">
+    <div class="mapBlock">
+        <div id="map_canvas" style="height: 473px;">
+        </div>
+    </div>
+    <div id="showinfo">
+        <div class="description">
+            <?php echo $block->getWysiwygImage($requireData[0]['description']); ?>
+        </div>
+    </div>
+
+    <?php if ($this->isFacebookCommentEnable()) : ?>
+        <div class="facebook-column-right">
+            <p class="facebook-comment-title"><span><?php echo __('Comments'); ?></span></p>
+            <div id="fb-root"></div>
+            <script>(function (d, s, id) {
+                    var js, fjs = d.getElementsByTagName(s)[0];
+                    if (d.getElementById(id))
+                        return;
+                    js = d.createElement(s);
+                    js.id = id;
+                    js.src = "//connect.facebook.net/<?php echo $this->getFacebookCommentlang() ?>/all.js#xfbml=1&appId=<?php echo $this->getFacebookCommentApiKey(); ?>";
+                    fjs.parentNode.insertBefore(js, fjs);
+                }(document, 'script', 'facebook-jssdk'));</script>
+            <div class="fb-comments" data-width="868" data-href="<?php echo $this->getCurrentPageUrl(); ?>"  data-num-posts="5"></div>
+        </div>
+    <?php endif; ?>
+
+</div>

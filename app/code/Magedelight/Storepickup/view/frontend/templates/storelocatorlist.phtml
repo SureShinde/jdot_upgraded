@@ -1,0 +1,542 @@
+<?php
+/**
+ * Magedelight
+ * Copyright (C) 2016 Magedelight <info@magedelight.com>
+ *
+ * NOTICE OF LICENSE
+ *
+ * This program is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License as published by
+ * the Free Software Foundation, either version 3 of the License, or
+ * (at your option) any later version.
+ *
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
+ * GNU General Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public License
+ * along with this program. If not, see http://opensource.org/licenses/gpl-3.0.html.
+ *
+ * @category Magedelight
+ * @package Magedelight_Storepickup
+ * @copyright Copyright (c) 2016 Mage Delight (http://www.magedelight.com/)
+ * @license http://opensource.org/licenses/gpl-3.0.html GNU General Public License,version 3 (GPL-3.0)
+ * @author Magedelight <info@magedelight.com>
+ */
+?>
+
+<?php
+
+$mcOptions=  [
+                 [
+                    "height" => 53,
+                    "url" => $this->getViewFileUrl('Magedelight_Storepickup::images/m1.png'),
+                    "width" => 53
+                 ],
+                 [
+                    "height" => 56,
+                    "url" => $this->getViewFileUrl('Magedelight_Storepickup::images/m2.png'),
+                    "width" => 56
+                 ],
+                 [
+                    "height" => 66,
+                    "url" => $this->getViewFileUrl('Magedelight_Storepickup::images/m3.png'),
+                    "width" => 66
+                 ],
+                 [
+                    "height" => 78,
+                    "url" => $this->getViewFileUrl('Magedelight_Storepickup::images/m4.png'),
+                    "width" => 78
+                 ],
+                 [
+                    "height" => 90,
+                    "url" => $this->getViewFileUrl('Magedelight_Storepickup::images/m5.png'),
+                    "width" => 90
+                 ]
+            ];
+
+
+$requireData = $this->getStorelist();
+$tagData = $this->getTaglist();
+$_DistanceUnit = $this->getDistanceUnit();
+$_DefaultRadious = $this->getDefaultRadious();
+$_MaxRadious = $this->getMaxRadious();
+$allmarkerimage = $this->getMarkerImage();
+if (!empty($requireData)) {
+    $markers = "";
+    $messages = "";
+    $i = 0;
+    $state = "";
+
+    foreach ($requireData as $data) {
+        $data["address"] = explode('\n', $data["address"]);
+        $state = "";
+        if (is_null($data["state"])) {
+            if (isset($data["region_id"]) && $data["region_id"] != 0) {
+                $state = $this->getRegionName($data["region_id"]);
+            }
+        } else {
+            $state = $data["state"];
+        }
+        
+        $fullAddress = "";
+
+        if (count($data["address"]) > 1) {
+            $fullAddress .= addslashes($data["address"][0]) . ",</br> " . addslashes($data["address"][1]). ",</br> ";
+        } else {
+            $fullAddress .= addslashes($data["address"][0]) . ",</br> ";
+        }
+
+        $fullAddress .= addslashes($data["city"]) . ",</br> ";
+        if (!empty($state)) {
+            $fullAddress .= addslashes($state) . ",</br> ";
+        }
+        $fullAddress .= addslashes($this->getCountryName($data["country"]) . ". - " . addslashes($data["zipcode"]));
+
+        /* storelocatorid */
+        $markers .= '{storelocatorid:' . $data["storelocator_id"] . ',lat:' . $data["latitude"] . ',lng:' . $data["longitude"] . ',address:"' . $fullAddress . '",storeurl:"' . $this->getUrl($data["url_key"]) . '",name:' . '"' . $data["storename"] . '",storeimage:' . '"' . $this->getStoreImage($data['storelocator_id']) . '",contact:' . '"' . $this->getContactInfo($data['storelocator_id']) . '"},';
+
+        /* code for create store info div */
+        $html = "";
+        $html .= "<div class='store-marker-container'><div class='address-info'><table><tr><td colspan='4' align='left'><h2>" . $data["storename"] . "</h2></td></tr><tr><td rowspan='3'><img src=" . $this->getStoreImage($data['storelocator_id']) . "></td></tr><tr><td><strong>Address:</strong></td><td><p>" . $fullAddress . "</p></td></tr>" . $this->getContactInfo($data['storelocator_id']) . "</table></div></div>";
+        /* end code for create store info div */
+
+        $messages .= '"' . $html . '", ';
+        $i++;
+    }
+    $markers1 = rtrim($markers, ",");
+    $messages1 = rtrim($messages, ", ");
+    ?>
+    <div class="storelocator-page">
+        <div class="search-content">
+            <div class="container-search">
+                <div class="row search-by-distance">
+                    <div class="input-location">
+                        <input id="pac-input" class="controls form-control" type="text" placeholder="Please enter a location">
+                    </div>
+                    <div class="radius-controls">
+                        <div class="row">
+                            <div class="hidden-sm hidden-xs label-radius">
+                                <label><?php echo __("Radius"); ?></label>
+                            </div>
+                            <div id="track1" >
+                                <input id="circle-radius" type="range" name="points" min="0" max="<?php echo $_MaxRadious; ?>" value="<?php echo $_DefaultRadious; ?>">
+                            </div>
+                            <div class="radius-value-container" style="padding: 0px;">
+                                <div id="radius-value"><?php echo $_DefaultRadious . ' ' . $this->getDistanceUnit() ?></div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="search-type">
+                        <div class="">
+                            <button id="reset-direction" class="button btn btn-show btn-go-direction" title="Reset">
+                                <span><?php echo __("Reset"); ?></span>
+                            </button>
+
+                            <button id="submit-search" class="button btn btn-show btn-go-direction" title="Search">
+                                <span><?php echo __("Search"); ?></span>
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="search-filter col-full ">
+                <ul id="list-tag-ul" >
+                <?php
+                    $count = count($tagData);
+                foreach ($tagData as $tag) {
+                    if (isset($allTag)) {
+                        $allTag .= $tag['tag_id']. '&';
+                    } else {
+                        $allTag = $tag['tag_id']. '&';
+                    }
+                ?>
+                <li title="<?php echo $tag['tag_name'] ?>" data-tag-id="<?php echo $tag['tag_id'] ?>" class="tag-icon center">
+                <img src="<?php echo $this->getTagIcon($tag['tag_icon']); ?>" class="tag-img">
+                <p><?php echo $tag['tag_name'] ?></p>
+                </li>
+                <?php                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                 }
+                if (!empty($allTag)) {
+                    $allTag = trim($allTag, '&');
+                }
+                ?>
+                </ul>
+                <?php if (isset($allTag)) :?>
+                <div class="btn-select-tag">
+                    <button class="btn-check-all-tag action primary" data-tag-id="<?php echo $allTag; ?>" title="Select All"><span>Select All</span></button>
+                    <button class="btn-un-check-all-tag action primary" style="display: none;" title="Unmark All"><span>Unmark All</span></button>
+                </div>
+                <?php endif; ?>
+            </div>
+        </div>
+        <div class="map-locator-right">
+            <div class="mapBlock">
+                <div id="map_canvas" style="width: 100%; height: 473px;">
+                </div>
+                <div id="pano" style="width: 100%; "></div>
+            </div>
+            <div id="showinfo">
+            </div>
+        </div>
+        <div class="info-locator">
+            <div class="box">
+                <div class="title-list">
+                    <h2>Store List</h2><span id="store-counter"><?php echo $_totalStore = count($requireData) ?> stores</span>
+                </div>
+                <ul id="list-store-detail">
+                    <li class='el-content' index="0" style="display:none"><p style="margin: 10px;"><?php echo __("There is no store available in the selected area."); ?></p></li>
+                    <?php
+                    foreach ($requireData as $data) {
+                        ?>
+                        <li class="el-content" index="<?php echo $data['storelocator_id'] ?>">
+                            <div class="top-box col-xs-12">
+                                <div class="col-sm-3 col-xs-3 tag-store">
+                                    <a href="<?php echo $this->getStoreUrlFromKey($data["url_key"]); ?>">
+                                        <img src="<?php echo $this->getStoreImage($data['storelocator_id']) ?>">
+                                    </a>
+                                    <span/>
+                                </div>
+                                <div class="col-sm-9 col-xs-9 tag-content">
+                                    <h4>
+                                        <a href="<?php echo $this->getStoreUrlFromKey($data["url_key"]); ?>" class="view-detail"><?php echo addslashes($data["storename"]); ?></a>
+                                    </h4>
+                                    <?php $address = explode('\n', $data["address"]); ?>
+                                    <p><?php echo addslashes($address['0']); ?></p>
+                                    <?php if (count($address) > 1) { ?>
+                                        <p><?php echo addslashes($address['1']); ?></p>    
+                                    <?php } ?>
+                                    <p><?php echo addslashes($data["city"]); ?></p>
+                                    <?php
+                                        $state = '';
+                                    if (is_null($data["state"])) {
+                                        if (isset($data["region_id"]) && $data["region_id"] != 0) {
+                                            $state = $this->getRegionName($data["region_id"]);
+                                        }
+                                    } else {
+                                        $state = $data["state"];
+                                    }
+                                    ?>
+                                    <p><?php echo addslashes($state); ?></p>
+                                    <p><?php echo addslashes($this->getCountryName($data["country"])) . ' - ' . addslashes($data["zipcode"]); ?></p>
+                                    <p class="phone-store"><?php echo $this->getContactInfo($data['storelocator_id']) ?></p>
+                                    <span class="address-store" style="display: none;"><?php echo addslashes(str_replace('\n', ', ', $data["address"])) . ", " . addslashes($data["city"]) . ", " . addslashes($this->getCountryName($data["country"])) ?></span>
+                                    <a href="javascript:streetview([<?php echo $data['latitude']; ?>],[<?php echo $data['longitude']; ?>]);">Street View</a><span style="color:#999999; padding:0 0 0 5px; font-size:12px;">|</span><span class="btn btn-link direction">Direction</span>
+
+
+                                </div>
+                            </div>
+                        </li>
+                        <?php
+                    }
+                    ?>
+                </ul>
+            </div>
+        </div>
+
+
+    </div>
+    <div id="option-direction" class="custom-popup col-xs-12" style="display:none;">
+        <ul class="vertical">
+            <li mvalue="DRIVING" class="travel car"><span>A</span></li>
+            <li mvalue="TRANSIT" class="travel bus active"><span>A</span></li>
+            <li mvalue="WALKING" class="travel walk"><span>A</span></li>
+            <li mvalue="BICYCLING" class="travel bicycle"><span>A</span></li>
+        </ul>
+        <div class="col-xs-12" id="directions-el">
+
+            <div class="form-inputs">
+                <form id="get-direction" method="post" action="#"  data-mage-init='{"validation":{}}'>
+                    <input id="start-location" data-validate="{required:true}" type="text" autocomplete="off" class="form-control customer-location start" placeholder="Enter a location">
+                    <?php if ($this->IsEnableCurrentLocation()) { ?>
+                        <a href="#" onclick="getCurrentLocation(event)"><?php echo __("current location"); ?></a>    
+                    <?php } ?>
+                    <input id="end-location" type="text" data-validate="{required:true}" readonly="true" value="" class="form-control store-location end">
+
+                </form>
+                <div class="box-input">
+                    <button id="submit-direction" class="button btn btn-show btn-go-direction" title="Go">
+                        <span><?php echo __("Go"); ?></span>
+                    </button>
+                </div>
+            </div>
+
+            <div id="directions-panel" class="directions-panel"></div>
+        </div>
+    </div>
+
+    <script type="text/javascript">
+        require.config({
+            paths: {
+                'googleMap': '//maps.googleapis.com/maps/api/js?key=AIzaSyCjX0CHa9AFT_cFSughxUDMEo7ynIOqdCw&libraries=places'
+            }
+        });
+
+        require(['jquery','googleMap', 'Magedelight_Storepickup/js/markerclusterer'], function ($) {
+            $(function () {
+
+                markerimage = '<?php echo $this->getViewFileUrl("Magedelight_Storepickup::images/marker.png"); ?>';
+                distanceunit = '<?php echo $this->getDistanceUnit(); ?>';
+
+                var SelectedFilter = [];
+                $(".search-filter ul li, .btn-check-all-tag, .btn-un-check-all-tag").click(function () {
+
+                    //Display Unmark All Button when select all button is clicked
+                    if ($(this).hasClass("btn-check-all-tag")) {
+                        $('.search-filter ul li').addClass('selected');
+                        var AllTag = $(this).attr('data-tag-id');
+                        SelectedFilter = AllTag.split("&").map(String);
+                        $('.btn-check-all-tag').hide();
+                        $('.btn-un-check-all-tag').show();
+                        //SelectedFilter.push($('.search-filter ul li').attr('data-tag-id'));
+                    }
+                    //Display select All Button when unmark all button is clicked.
+                    else if($(this).hasClass("btn-un-check-all-tag")) {
+                        $('.search-filter ul li').removeClass('selected');
+                        SelectedFilter = [];
+                        $('.btn-check-all-tag').show();
+                        $('.btn-un-check-all-tag').hide();
+                    }
+                    //Called when Individual tag clicked
+                    else{
+                        if ($(this).hasClass("selected")) {
+                            $(this).removeClass('selected');
+                            var index = SelectedFilter.indexOf($(this).attr('data-tag-id'));
+                            SelectedFilter.splice(index, 1);
+                            //SelectedFilter.push($(this).attr('data-tag-id'));
+                        }else{
+                            $(this).addClass('selected');
+                            SelectedFilter.push($(this).attr('data-tag-id'));
+                        };
+                    }
+                    /*Called when individual tag is unselected, Display Select All button and hide
+                    unmark all button*/
+                     if(SelectedFilter.length == 0)
+                     {
+                        SelectedFilter = [];
+                        $('.btn-check-all-tag').show();
+                        $('.btn-un-check-all-tag').hide();
+                     }
+                     /*Called when individual tag is unselected, Display unmark all button and hide
+                    Select All button*/
+                     if (SelectedFilter.length == $('#list-tag-ul li').length ) {
+                        $('.btn-check-all-tag').hide();
+                        $('.btn-un-check-all-tag').show();
+                     }
+                     
+                    var url = "<?php echo $this->getUrl('storepickup/tag/stores') ?>";
+                    //if (SelectedFilter.length > 0) {
+                        jQuery.ajax({
+                            dataType: 'json',
+                            showLoader: true,
+                            url: url,
+                            type: "POST",
+                            data: {SelectedFilter: SelectedFilter},
+                            success: function (data) {
+                                $('li.el-content').show();
+                                $('li[index="0"]').hide();
+
+                            var mymarker =  markers1 = [<?php echo $markers1; ?>];
+                            var mymessage = messages1 = [<?php echo $messages1; ?>];
+
+                                        if (data.length > 0 && data[0]!="empty") {
+                                            var flag = 0;
+                                            for(var i = 0; i < mymarker.length; i++) {
+                                                /*data.forEach( function(s) { */
+                                                    var storeid = String(mymarker[i].storelocatorid);
+                                                    var status = jQuery.inArray(storeid, data);
+                                                    if (status == -1) {
+                                                        flag = 1;
+                                                    }else{
+                                                        flag = 0;
+                                                    }
+                                                /*});*/
+                                                if (flag) {
+                                                    delete mymarker[i];
+                                                    delete mymessage[i];    
+                                                };
+                                                
+                                            }
+
+                                            $('li.el-content').hide();
+                                            //$('li[index="0"]').hide();
+                                            var store = data.length;
+                                            for(var i = 0; i < data.length; i++) {
+                                                if(data[i] != 0)
+                                                {
+                                                    jQuery('li[index="' + data[i] + '"]').show();
+                                                }
+                                                
+                                                if(data[i]=="empty" || data[i] == 0){
+                                                    store -- ;
+                                                }
+                                                if((data.length == 1 && data[i] == 0)) 
+                                                {
+                                                    zerostores(mymarker,mymessage);
+                                                }
+                                            }
+
+                                            
+                                            $('#store-counter').text(store +' Stores');
+                                            if($('#store-counter').text() == 0 +' Stores')
+                                            {
+                                                zerostores(mymarker,mymessage);
+                                            }
+                                            
+                                        }else if(data[0]=="empty"){
+                                            zerostores(mymarker,mymessage);
+                                            
+                                        }else{
+                                            $('li.el-content').show();
+                                            $('li[index="0"]').hide();
+                                            $('#store-counter').text(markers1.length +' Stores');
+                                        };
+
+                                        
+                                    var allmarkerimage = '<?php echo $this->getMarkerImage(); ?>';
+                                    initializeListView(mymarker, mymessage);
+
+                                    
+                            },
+                            error: function (xhr) {
+
+                            }
+                        });
+                    //}  
+                      
+
+
+                })
+
+                function zerostores(mymarker,mymessage)
+                {
+                    $('li.el-content').hide();
+                    $('li[index="0"]').show();
+                    $('#store-counter').text(0 +' Stores');
+                    initializeListView(mymarker, mymessage);
+
+                    
+                    
+                    // mymarker = "";
+                    // mymessage = ""; 
+                }
+                $("#submit-search").click(function () {
+                    var input = document.getElementById('pac-input');
+
+                    google.maps.event.trigger(input, 'focus', {})
+                    google.maps.event.trigger(input, 'keydown', {
+                        keyCode: 13
+                    });
+                });
+
+                $("#reset-direction").click(function () {
+                    $('li.el-content').show();
+                    $('li[index="0"]').hide();
+                    $('#store-counter').text('<?php echo $_totalStore; ?> Stores');
+                    $('#pac-input').val('');
+                    $('#circle-radius').val('<?php echo $_DefaultRadious; ?>');
+                    $('#radius-value').text('<?php echo $_DefaultRadious; ?> <?php echo $this->getDistanceUnit(); ?>');
+                    $("#directions-panel").text('');
+                    $("#option-direction").hide();
+                    circle = null;
+                    radius = null;
+                    sliderzoomvalue = null;
+                    var markers1 = [<?php echo $markers1; ?>];
+                    var messages1 = [<?php echo $messages1; ?>];
+                    var allmarkerimage = '<?php echo $allmarkerimage; ?>';
+                    initializeListView(markers1, messages1, allmarkerimage);
+                    
+                });
+    
+                $('#list li').each(function (i, e) {
+                    $(e).click(function (i) {
+                        return function (e) {
+                            google.maps.event.trigger(gmarkers[i], 'click');
+                        }
+                    }(i));
+                });
+
+                $("li.el-content").click(function () {
+                    var currentStoreId = $(this).attr('index');
+                    google.maps.event.trigger(markerlist[currentStoreId], 'click');
+                });
+
+                $('#list-store-detail').on('click', '.direction', function () {
+                    var isAvailabel = document.querySelector("#list-store-detail").querySelector("#option-direction");
+                    $("#directions-panel").text('');
+                    $("#end-location").val($(this).prev().prev().prev('span.address-store').text());
+                    $("#start-location").val('');
+
+                    if (isAvailabel === null) {
+                        $(this).parents('.top-box').after($("#option-direction"));
+                        $("#option-direction").show();
+                    } else {
+                        $("#option-direction").appendTo($(this).parents('.top-box'));
+                        $("#option-direction").show();
+                    }
+                    ;
+                });
+
+
+                var slidervalue = document.getElementById("circle-radius");
+                var result = document.getElementById("radius-value");
+
+                slidervalue.addEventListener("input", function () {
+                    result.innerHTML = slidervalue.value + distanceunit;
+                    var radiusval = slidervalue.value;
+                    updateRadius(radiusval);
+                }, false);
+
+            });
+        });
+    </script>
+    <script type="text/javascript">
+        require.config({
+            paths: {
+                'googleMap': '//maps.googleapis.com/maps/api/js?key=<?php echo $this->getGoogleMapApiKey() ?>&libraries=places'
+            }
+        });
+        var markers1 = [<?php echo $markers1; ?>];
+        var messages1 = [<?php echo $messages1; ?>];
+        var allmarkerimage = '<?php echo $allmarkerimage; ?>';
+
+        var clustermarker = JSON.parse('<?php echo $this->helper('Magento\Framework\Json\Helper\Data')->jsonEncode($mcOptions) ?>');
+
+        //var clustermarker = '<?php echo $this->getViewFileUrl("Magedelight_Storepickup::m1.png"); ?>';
+        require(['jquery', 'googleMap', 'Magedelight_Storepickup/js/markerclusterer'], function ($) {
+            initializeListView(markers1, messages1);
+        });
+        /* end function for calculate direction between two places */
+    </script>
+
+
+<?php } else { ?>
+    <div class="message notice">
+        <div>
+            <?php echo __("Your store search returned no results.") ?>                    
+        </div>
+    </div>
+<?php } ?>
+
+
+<style type="text/css">
+
+.search-filter ul li img{
+    width:60px;
+}
+
+</style>
+
+
+<script>
+      var _gaq = _gaq || [];
+      _gaq.push(['_setAccount', 'UA-12846745-20']);
+      _gaq.push(['_trackPageview']);
+
+      (function() {
+        var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+        ga.src = ('https:' === document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+        var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+      })();
+    </script>

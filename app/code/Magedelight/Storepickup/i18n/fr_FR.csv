@@ -1,0 +1,42 @@
+"back","arrière"
+"Select a store to pickup.","Sélectionner un magasin de ramassage."
+"Select Store: ","Choisir un magasin: "
+"Pickup date:","Date de ramassage:"
+"Close","Fermer"
+"Apply","Appliquer"
+"Select Date","Sélectionner la date"
+"Your store search returned no results.","Votre recherche de magasin n'a donné aucun résultat."
+"Store Infomation","Store Infomation"
+"current location","Localisation actuelle"
+"Go","Aller"
+"Closed","Fermé"
+"Radius","Rayon"
+"Reset","Réinitialiser"
+"Search","Chercher"
+"There is no stores available in selected area.","Il n'y a pas de magasins disponibles dans la zone sélectionnée."
+"Street View data not found for this location.","Street View data pas trouvé pour cet endroit."
+"Pickup Store: ","Store Pickup: "
+"Pickup Date: ","Date de ramassage: "
+"Days","Journées"
+"Status","Statut"
+"Open Time","Open Time"
+"Close Time","La période de fermeture"
+"Action","Action"
+"Add Day","Ajouter Day"
+"Add More Contact","Ajouter Contact"
+"Delete Contact","Effacer le contact"
+"Add New Store","Ajouter un nouveau magasin"
+Delete,Effacer
+Disable,Désactiver
+Enable,Activer
+ID,ID
+"Store Image","Image de magasin"
+"Store Name","Nom du magasin"
+"Url Key","Url Key"
+"Address","Adresse"
+"Longitude","Longitude"
+Latitude,Latitude
+City,Ville
+Country,Pays
+Status,statut
+Storelocator,Storelocator

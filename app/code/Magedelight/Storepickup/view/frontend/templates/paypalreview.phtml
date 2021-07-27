@@ -1,0 +1,550 @@
+<?php
+/**
+ * Magedelight
+ * Copyright (C) 2016 Magedelight <info@magedelight.com>
+ *
+ * NOTICE OF LICENSE
+ *
+ * This program is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License as published by
+ * the Free Software Foundation, either version 3 of the License, or
+ * (at your option) any later version.
+ *
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
+ * GNU General Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public License
+ * along with this program. If not, see http://opensource.org/licenses/gpl-3.0.html.
+ *
+ * @category Magedelight
+ * @package Magedelight_Storepickup
+ * @copyright Copyright (c) 2016 Mage Delight (http://www.magedelight.com/)
+ * @license http://opensource.org/licenses/gpl-3.0.html GNU General Public License,version 3 (GPL-3.0)
+ * @author Magedelight <info@magedelight.com>
+ */
+$requireData = $this->getStorelist();
+$allmarkerimage = $this->getMarkerImage();
+$_IsTimeslotEnable = $this->getIsTimesloatEnabel();
+$Quote = $this->getCheckoutQuoteForStore();
+$QuoteId = $this->getQuoteId();
+$_address = $this->getStoreAdress($Quote['pickup_store']);
+$_address = (string) $_address;
+
+$PickupStore = ($this->getPickupStore())?$this->getPickupStore():'';
+$PickupDates = ($this->getPickupDate())?$this->getPickupDate():'';
+$PickupTimes = ($this->getPickupTime())?$this->getPickupTime():'';
+if (!empty($requireData)) {
+    $markers = "";
+    $messages = "";
+    $i = 0;
+
+    foreach ($requireData as $data) {
+        $data["address"] = explode('\n', $data["address"]);
+
+        $state = "";
+        if (is_null($data["state"])) {
+            if (isset($data["region_id"]) && $data["region_id"] != 0) {
+                $state = $this->getRegionName($data["region_id"]);
+            }
+        } else {
+            $state = $data["state"];
+        }
+        
+        $fullAddress = "";
+
+        if (count($data["address"]) > 1) {
+            $fullAddress .= addslashes($data["address"][0]) . ",</br> " . addslashes($data["address"][1]). ",</br> ";
+        } else {
+            $fullAddress .= addslashes($data["address"][0]) . ",</br> ";
+        }
+
+        $fullAddress .= addslashes($data["city"]) . ",</br> ";
+        if (!empty($state)) {
+            $fullAddress .= addslashes($state) . ",</br> ";
+        }
+        $fullAddress .= addslashes($this->getCountryName($data["country"]) . ". - " . addslashes($data["zipcode"]));
+
+        $markers .= '{lat:' . $data["latitude"] . ',lng:' . $data["longitude"] . ',storelocatorid:' . $data["storelocator_id"] . ',address:"' . $fullAddress . '",storeurl:"' . $this->getUrl($data["url_key"]) . '",name:' . '"' . $data["storename"] . '"},';
+
+        /* code for create store info div */
+
+        $html = "";
+        $html .= "<div class='store-marker-container'><div class='address-info'><table><tr><td colspan='2' align='left'><h2>" . $data["storename"] . "</h2></td><td align='right'><button id='apply_store' title='Apply' onclick='applyStore()' class='button' type='button'>Apply</button></td></tr><tr><td rowspan='3'><img src=" . $this->getStoreImage($data['storelocator_id']) . "></td></tr><tr><td><strong>Address:</strong></td><td><p>" . $fullAddress . "</p></td></tr>" . $this->getContactInfo($data['storelocator_id']) . "</table></div></div>";
+        $messages .= '"' . $html . '", ';
+        $i++;
+    }
+
+    $markers1 = rtrim($markers, ",");
+    $messages1 = rtrim($messages, ", ");
+    ?>
+    <div id="store-container-main" style="display: none;">
+        <div class="store-container-inner" style="display:none;">
+            <label id="change-select_label" class="field required" ><?php echo __("Select Store"); ?></label>
+            <select id="pickup-store" name="pickup_store" dataScope ='shippingAddress.pickup_date' onchange="changeStore(this);" class="required-entry" data-validate="{required:true}" disable>
+                <option value=" " selected><?php echo __("Select a Store To Pickup"); ?></option>
+                <?php foreach ($requireData as $data) { ?>
+                    <option value="<?php echo $data["storelocator_id"] ?>"><?php echo $data["storename"] ?></option>
+                <?php } ?>
+            </select>
+            <p class="select-store-map-button"><a href = "javascript:void(0)" onclick = "visibleMap();"><?php echo __("Select Store by map"); ?></a></p>
+            <div id="show-address"></div>
+            <div id="date-pickup" style="display:none;">
+                <label for="birthdate"><?php echo __("Pickup date:"); ?> </label>
+                <input class="field required" data-validate="{required:true}" placeholder="Select Pickup Date" readonly="true" dataScope ='shippingAddress.pickup_date' valueUpdate: 'keyup', hasFocus: focused,  type="text" id="pickup-date" name="pickup_date" autocomplete="off" /><br>
+            </div>
+            <?php if ($_IsTimeslotEnable) { ?>
+                <div class="store-time" style="display:none;">
+                    <label><?php echo __("Select Time: "); ?></label>
+                    <select id="store_time" data-validate="{required:true}" name="store-time" class="field required" dataScope ='shippingAddress.pickup_date'></select>
+                </div>
+            <?php } ?>
+            <input id="store_address" name="store-address" value="<?php echo (string) $_address; ?>" cacheable="true" style="display:none;" >
+        </div>
+    </div>
+    <div id="light" class="white_content_hidden">
+        <div class="shipping-map-header-container">
+            <h2 class="shipping-map-header"><?php echo __("Select Store: "); ?>
+                <span id="selected_store" style=""></span>
+            </h2>
+            <div class="input-location">
+                <input id="pac-input" class="controls" type="text" placeholder="Search Box">
+            </div>
+            <div class="map-popup-button">
+                <button id="cancel_store" title="Cancel" onclick = "disableMap()" class="button" type="button" style="margin-left: 10px;"><span><span><?php echo __("Close"); ?></span></span></button>
+                <button id="apply_store" title="Apply" onclick="applyStore()" class="button" type="button"><span><span><?php echo __("Apply"); ?></span></span></button>
+            </div>
+        </div>
+        <div class="mapBlock">
+            <div id="map_canvas" style="width: 100%; height: 690px;">
+            </div>
+        </div>
+    </div>
+    <div id="fade" class="black_overlay_hidden"></div>
+
+    <script type="text/javascript">
+        require.config({
+            paths: {
+                'googleMap': '//maps.googleapis.com/maps/api/js?key=<?php echo $this->getGoogleMapApiKey() ?>&libraries=places'
+            }
+        });
+
+        var markers1 = [<?php echo $markers1; ?>];
+        var messages1 = [<?php echo $messages1; ?>];
+        var allmarkerimage = '<?php echo $allmarkerimage; ?>';
+        var istimeslotenable = <?php echo $_IsTimeslotEnable; ?>;
+        var PickupStore = "<?php echo $PickupStore; ?>";
+        var PickupTimes = "<?php echo $PickupTimes; ?>";
+        
+        require(['jquery', 'googleMap', 'mage/calendar'], function ($) {
+            $(document).ready(function () {
+                var initMyLib = function () {
+                    
+                    if (jQuery('#shipping-method').find("option[value='storepickup_storepickup']").length) {
+                        //Move container after shipping method
+                        jQuery('.form .shipping').after("<tr class='row'><td colspan='4'>" + jQuery("#store-container-main").html() + "</td></tr>");
+                        jQuery("#store-container-main").html("");//Hide current store container
+                        //Run when load shipping field
+                        jQuery('#shipping-method').on('click',function () {
+                            var el = jQuery("#pickup-store");
+                            var store_container = document.getElementById("store-container-inner");
+                            if (el) {
+                                el.attr("disabled", "disabled");
+                                jQuery(".store-container-inner").hide();
+                                jQuery('.box-order-shipping-address .box-content').show();
+                                jQuery('.store-information-content').hide();
+                                jQuery("#review-button").removeAttr("disabled");jQuery('#review-button').css('opacity', '1');
+                                if (jQuery("#shipping-method").val() == 'storepickup_storepickup') {
+                                    el.removeAttr("disabled");
+                                    setTimeout(function() {jQuery("#review-button").attr("disabled","disabled");jQuery('#review-button').css('opacity', '0.6');}, 2000);
+                                    
+                                    jQuery(".store-container-inner").show();
+                                    if(jQuery('.store-information-content').length>0){
+                                        jQuery('.box-order-shipping-address .box-content').hide();
+                                        jQuery('.store-information-content').show();
+                                    }
+                                }
+                            }
+                        });
+                        if (jQuery("#shipping-method option:selected").val() == 'storepickup_storepickup') {
+                            var el = jQuery("#pickup-store");
+                            el.removeAttr("disabled");
+                            setTimeout(function() {jQuery("#review-button").attr("disabled","disabled");jQuery('#review-button').css('opacity', '0.6');}, 2000);
+                            jQuery(".store-container-inner").show();
+                            if(PickupStore !=''){
+                                jQuery("option[value='"+PickupStore+"']").attr('selected','selected');
+                                setTimeout(function() {jQuery("#pickup-store").change();},1000);
+                                
+                            }
+                        }
+                        
+                        //Select store and date picker
+                        jQuery("#pickup-store").change(function () {
+                            var StoreID = jQuery(this).val();
+                            var url = "<?php echo $this->getUrl('storepickup/storeholiday/holidayday') ?>";
+                            if (StoreID != ' ') {
+                                jQuery.ajax({
+                                    dataType: 'json',
+                                    showLoader: true,
+                                    url: url,
+                                    type: "POST",
+                                    data: {ajaxid: 4, StoreID: StoreID},
+                                    success: function (data) {
+
+                                        var disabledDays = data['dates'];
+                                        function repetitiveDays(date) {
+                                            
+                                            var m = date.getMonth(), d = date.getDate(), y = date.getFullYear();
+                                            if(disabledDays['repetitive']!= undefined && disabledDays['repetitive'].length > 0)
+                                            {                                               
+                                                var repetitiveMonth = new Array();
+                                                var repetitiveDay =  new Array();
+                                                var repetitive = new Array();
+                                                for (var i = 0; i < disabledDays['repetitive'].length; i++) {   
+                                                    
+                                                    repetitive = disabledDays['repetitive'][i].split('-');                                                    
+                                                    repetitiveMonth.push(parseInt(repetitive[0]));
+                                                    repetitiveDay.push(parseInt(repetitive[1]));
+
+                                                }
+                                                
+                                                return [!((jQuery.inArray(m+1,repetitiveMonth)  !== -1) && (jQuery.inArray(d,repetitiveDay)  !== -1)),""];
+                                            }else{
+                                                return true;
+                                            }
+                                        }
+                                          
+                                        function normalDay(date){
+                                            var m = date.getMonth(), d = date.getDate(), y = date.getFullYear();
+                                            if(disabledDays['normal'] != undefined && disabledDays['normal'].length > 0){
+                                            
+                                                for (var i = 0; i < disabledDays['normal'].length; i++) {
+                                                    if ($.inArray((m + 1) + '-' + d + '-' + y, disabledDays['normal']) != -1) {
+                                                        return [false];
+                                                    }
+                                                }
+                                                return [true];
+                                            }else {
+                                                return [true];
+                                            }
+                                        }
+                                            
+                                        function nationalDays(date){
+                                           var normalOff =   normalDay(date);
+                                           var repetitiveOff = repetitiveDays(date);
+                                           if(normalOff=='false'){
+                                               return [false];
+                                           }else if(repetitiveOff=='false,'){
+                                               return [false];
+                                           }else{
+                                               return [true];
+                                           }
+                                        }
+                                        
+                                        var offDays = data['days'];
+                                        function disabledaywise(date) {
+                                            var day = date.getDay();
+                                            var disableday = new Array();
+                                            
+                                            $(offDays).each(function(key, value){
+                                                disableday.push(value);
+                                            });
+                                            if ($.inArray(day, disableday) != -1) {
+                                                return [false];
+                                            }
+                                            return [true];
+                                        }
+
+                                        function setCustomDate(date) {
+                                            var arr2 = nationalDays(date);
+                                            var arr3 = disabledaywise(date);
+                                            return [(!arr2[0] || !arr3[0]) ? false : true];
+                                        }
+                                        
+                                        function setStoreDate() {
+                                            var StoreID = jQuery("#pickup-store").val();
+                                            var PickupDate = jQuery('#pickup-date').val();
+                                            var url = "<?php echo $this->getUrl('storepickup/storeholiday/saveshipment') ?>";
+                                            var QuoteID = "<?php echo $QuoteId ?>";
+                                            if (StoreID != ' ') {
+                                                jQuery.ajax({
+                                                    dataType: 'json',
+                                                    showLoader: true,
+                                                    url: url,
+                                                    type: "POST",
+                                                    data: {ajaxid:4, StoreID:StoreID, QuoteID:QuoteID, PickupDate:PickupDate },
+                                                    success: function (data) {
+                                                        if(jQuery('#pickup-store').val()!=''){
+                                                            //jQuery("#review-button").removeAttr("disabled");jQuery('#review-button').css('opacity', '1');
+                                                        }
+                                                    },
+                                                    error: function (xhr) {
+
+                                                    }
+                                                });
+                                            } else {
+                                                jQuery("#show-address").html('');
+                                            }
+                                        }
+
+                                        jQuery("#date-pickup").show();
+                                        jQuery('#pickup-date').val('');
+                                        jQuery("#pickup-date").datepicker("destroy");
+                                        if (istimeslotenable) {
+                                            jQuery("#pickup-date").datepicker({
+                                                showsTime: false,
+                                                hideIfNoPrevNext: true,
+                                                buttonText: "<?php echo __('Select Date') ?>",
+                                                minDate: new Date(),
+                                                dateFormat: 'yy-mm-dd',
+                                                constrainInput: true,
+                                                beforeShowDay: setCustomDate,
+                                                onSelect: function (dateText, inst) {
+                                                    setStoreDate();
+                                                    var date = jQuery(this).val();
+                                                    var storeID = jQuery('[name="pickup_store"]').val();
+                                                    var url = "<?php echo $this->getUrl('storepickup/storeholiday/storetime') ?>";
+                                                    jQuery.ajax({
+                                                        dataType: 'json',
+                                                        showLoader: true,
+                                                        url: url,
+                                                        type: "POST",
+                                                        data: {ajaxid: 4, StoreDate: date, storeID: storeID},
+                                                        success: function (data) {
+                                                            jQuery(".store-time").show();
+                                                            jQuery('#store_time').find('option').remove().end();
+
+                                                            var length = data.length;
+                                                            jQuery("#review-button").attr("disabled","disabled");jQuery('#review-button').css('opacity', '0.6');
+                                                            if (length >= 1) {
+                                                                var newOption = ('<option value="">Select a Time Slot.</option>')
+                                                                jQuery('#store_time').append(newOption);
+                                                            } else {
+                                                                var newOption = ('<option value="">Time Slot not Available.</option>')
+                                                                jQuery('#store_time').append(newOption);
+                                                                jQuery("#review-button").removeAttr("disabled");jQuery('#review-button').css('opacity', '1');
+                                                            }
+                                                            ;
+
+                                                            for (var j = 0; j < length; j++)
+                                                            {
+                                                                var newOption = ('<option value="' + data[j] + '">' + data[j] + '</option>')
+                                                                jQuery('#store_time').append(newOption);
+                                                            }
+                                                            if(date!=''){
+                                                                //jQuery("#review-button").removeAttr("disabled");jQuery('#review-button').css('opacity', '1');
+                                                            }
+                                                        },
+                                                        error: function (xhr) {
+
+                                                        }
+                                                    });
+                                                }
+                                            });
+                                        } else {
+                                            jQuery("#pickup-date").datepicker({
+                                                showsTime: false,
+                                                hideIfNoPrevNext: true,
+                                                buttonText: "<?php echo __('Select Date') ?>",
+                                                minDate: new Date(),
+                                                dateFormat: 'yy-mm-dd',
+                                                constrainInput: true,
+                                                beforeShowDay: setCustomDate,
+                                            });
+                                        }
+                                        ;
+                                        jQuery("#pickup-date").datepicker("refresh");
+                                    },
+                                    error: function (xhr) {
+
+                                    }
+                                });
+                            } else {
+                                jQuery("#date-pickup").hide();
+                                jQuery('#pickup-date').val('');
+                                jQuery("#pickup-date").datepicker("destroy");
+                                jQuery("#pickup-date").datepicker("refresh");
+                            }
+                            ;
+                        });
+                        //Select store
+                        jQuery("#pickup-store").change(function () {
+                            var StoreID = jQuery(this).val();
+                            var url = "<?php echo $this->getUrl('storepickup/storeholiday/storeaddress') ?>";
+                            if (StoreID != ' ') {
+                                jQuery.ajax({
+                                    dataType: 'json',
+                                    showLoader: true,
+                                    url: url,
+                                    type: "POST",
+                                    data: {ajaxid: 4, StoreID: StoreID},
+                                    success: function (data) {
+                                        jQuery("#store_address").val(JSON.stringify(data));
+                                        streetaddress = data[0].address;
+                                        streetaddress = streetaddress.replace("\\n", ",");
+
+                                        telephoneno = data[0].telephone;
+                                        if (telephoneno) {
+                                            telephoneno = telephoneno.replace(":", ",");
+                                        }
+                                        ;
+
+                                        showaddress = "<div class='shipping-information-content' style='line-height:27px; padding:5px;'><strong>Store Name: </strong>" + data[0].storename + "<br><strong>Store Address: </strong><address>" + streetaddress + ",<br>" + data[0].city + ", " + data[0].statename + " " + data[0].zipcode + "<br>" + data[0].countryname + "<br><strong>T: </strong>" + telephoneno + "</address></div>";
+                                        storeddress = "<div class='store-information-content' style='line-height:27px; padding:5px;'><strong>Store Name: </strong>" + data[0].storename + "<br><strong>Store Address: </strong><address>" + streetaddress + ",<br>" + data[0].city + ", " + data[0].statename + " " + data[0].zipcode + "<br>" + data[0].countryname + "<br><strong>T: </strong>" + telephoneno + "</address></div>";
+                                        jQuery("#show-address").html(showaddress);
+                                        jQuery('.box-order-shipping-address .box-content').hide();
+                                        jQuery('.store-information-content').remove();//for remove old store address
+                                        jQuery('.box-order-shipping-address .box-title').after(storeddress);
+                                        var PickupDates = "<?php echo $PickupDates; ?>";
+                                        if(PickupDates !=''){
+                                            var date = PickupDates;
+                                                    var storeID = jQuery('[name="pickup_store"]').val();
+                                                    var url = "<?php echo $this->getUrl('storepickup/storeholiday/storetime') ?>";
+                                                    jQuery.ajax({
+                                                        dataType: 'json',
+                                                        showLoader: true,
+                                                        url: url,
+                                                        type: "POST",
+                                                        data: {ajaxid: 4, StoreDate: date, storeID: storeID},
+                                                        success: function (data) {
+                                                            jQuery(".store-time").show();
+                                                            jQuery('#store_time').find('option').remove().end();
+
+                                                            var length = data.length;
+                                                            jQuery("#review-button").attr("disabled","disabled");jQuery('#review-button').css('opacity', '0.6');
+                                                            if (length >= 1) {
+                                                                var newOption = ('<option value="">Select a Time Slot.</option>')
+                                                                jQuery('#store_time').append(newOption);
+                                                            } else {
+                                                                var newOption = ('<option value="">Time Slot not Available.</option>')
+                                                                jQuery('#store_time').append(newOption);
+                                                                jQuery("#review-button").removeAttr("disabled");jQuery('#review-button').css('opacity', '1');
+                                                            }
+                                                            ;
+
+                                                            for (var j = 0; j < length; j++)
+                                                            {
+                                                                if(PickupTimes==data[j]){
+                                                                    var newOption = ('<option value="' + data[j] + '" selected>' + data[j] + '</option>')
+                                                                    jQuery('#store_time').append(newOption);
+                                                                }else{
+                                                                    var newOption = ('<option value="' + data[j] + '">' + data[j] + '</option>')
+                                                                    jQuery('#store_time').append(newOption);
+                                                                }
+                                                            }
+                                                            jQuery("#review-button").removeAttr("disabled");jQuery('#review-button').css('opacity', '1');
+                                                            jQuery('#pickup-date').datepicker( "setDate", date );
+                                                        },
+                                                        error: function (xhr) {
+
+                                                        }
+                                                    });
+                                        }
+                                    },
+                                    error: function (xhr) {
+
+                                    }
+                                });
+                            } else {
+                                jQuery("#show-address").html('');
+                            }
+                        });
+                        //Set store shipping data
+                        jQuery("#pickup-store").change(function () {
+                            var StoreID = jQuery(this).val();
+                            var PickupDate = jQuery('#pickup-date').val();
+                            var PDate = '';
+                            var url = "<?php echo $this->getUrl('storepickup/storeholiday/saveshipment') ?>";
+                            var QuoteID = "<?php echo $QuoteId ?>";
+                            jQuery("#review-button").attr("disabled","disabled");jQuery('#review-button').css('opacity', '0.6');
+                            if (StoreID != ' ') {
+                                jQuery.ajax({
+                                    dataType: 'json',
+                                    showLoader: true,
+                                    url: url,
+                                    type: "POST",
+                                    data: {ajaxid:4, StoreID:StoreID, QuoteID:QuoteID, PickupDate:PDate },
+                                    success: function (data) {
+                                        if(jQuery('#pickup-date').val()!=''){
+                                            jQuery("#review-button").removeAttr("disabled");jQuery('#review-button').css('opacity', '1');
+                                        }
+                                    },
+                                    error: function (xhr) {
+
+                                    }
+                                });
+                            } else {
+                                jQuery("#show-address").html('');
+                            }
+                        });
+                        //Set store shipping data
+                        jQuery("#pickup-date").change(function () {
+                            var StoreID = jQuery("#pickup-store").val();
+                            var PickupDate = jQuery('#pickup-date').val();
+                            var url = "<?php echo $this->getUrl('storepickup/storeholiday/saveshipment') ?>";
+                            var QuoteID = "<?php echo $QuoteId ?>";
+                            if (StoreID != ' ') {
+                                jQuery.ajax({
+                                    dataType: 'json',
+                                    showLoader: true,
+                                    url: url,
+                                    type: "POST",
+                                    data: {ajaxid:4, StoreID:StoreID, QuoteID:QuoteID, PickupDate:PickupDate },
+                                    success: function (data) {
+                                        if(jQuery('#pickup-store').val()!='' || jQuery('#pickup-date').val()!=''){
+                                            jQuery("#review-button").removeAttr("disabled");jQuery('#review-button').css('opacity', '1');
+                                        }
+                                    },
+                                    error: function (xhr) {
+
+                                    }
+                                });
+                            } else {
+                                jQuery("#show-address").html('');
+                            }
+                        });
+                        //Set store shipping data
+                        jQuery("#store_time").change(function () {
+                            var StoreTime = jQuery(this).val();
+                            var StoreID = jQuery("#pickup-store").val();
+                            var PickupDate = jQuery('#pickup-date').val()+" "+StoreTime;
+                            var url = "<?php echo $this->getUrl('storepickup/storeholiday/saveshipment') ?>";
+                            var QuoteID = "<?php echo $QuoteId ?>";
+                            if (StoreID != ' ') {
+                                jQuery.ajax({
+                                    dataType: 'json',
+                                    showLoader: true,
+                                    url: url,
+                                    type: "POST",
+                                    data: {ajaxid:4, StoreID:StoreID, QuoteID:QuoteID, PickupDate:PickupDate },
+                                    success: function (data) {
+                                        jQuery("#review-button").attr("disabled","disabled");jQuery('#review-button').css('opacity', '0.6');
+                                        if(jQuery('#pickup-store').val()!='' && jQuery('#pickup-date').val()!='' && StoreTime!=''){
+                                            jQuery("#review-button").removeAttr("disabled");jQuery('#review-button').css('opacity', '1');
+                                        }
+                                    },
+                                    error: function (xhr) {
+
+                                    }
+                                });
+                            } else {
+                                jQuery("#show-address").html('');
+                            }
+                        });
+                        initializeshipMap(markers1, messages1);
+                    } else {
+                        setTimeout(initMyLib, 2000);
+                    }
+                }
+                initMyLib(); //-> initMyLib is undefined
+            });
+        });
+    </script>
+<?php } else { ?>
+    <div class="message notice">
+        <div>
+    <?php echo __("Store not available.") ?>                    
+        </div>
+    </div>
+<?php } ?>

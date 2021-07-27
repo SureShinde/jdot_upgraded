@@ -1,0 +1,30 @@
+<?xml version="1.0"?>
+<config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="../../../../Magento/Backend/etc/system_file.xsd">
+    <system>
+		<section id="sms">
+				<group id="smsgatways">
+					<field id="telenorusername" type="text" sortOrder="10" showInDefault="1" showInWebsite="1" showInStore="1">
+						<label>Telenor Username</label>
+						<depends><field id="gateway">telenorsms</field></depends>
+						<validate>required-entry</validate>
+					</field>
+					<field id="telenorpassword" type="password" sortOrder="20" showInDefault="1" showInWebsite="1" showInStore="1">
+						<label>Telenor Password</label>
+						<depends><field id="gateway">telenorsms</field></depends>
+						<validate>required-entry</validate>
+					</field>
+					<field id="telenorsmssender" type="text" sortOrder="30" showInDefault="1" showInWebsite="1" showInStore="1">
+						<label>Sender ID/Sender Name</label>
+						<depends><field id="gateway">telenorsms</field></depends>
+						<validate>required-entry</validate>
+					</field>
+					<field id="telenorsmsapiurl" type="text" sortOrder="40" showInDefault="1" showInWebsite="1" showInStore="1">
+						<label>API URL</label>
+						<comment><![CDATA[https://telenorcsms.com.pk:27677/corporate_sms2/api/]]></comment>
+						<depends><field id="gateway">telenorsms</field></depends>
+						<validate>required-entry validate-url</validate>
+					</field>
+				</group>
+		</section>
+    </system>
+</config>

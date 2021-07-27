@@ -1,0 +1,199 @@
+<?php
+/**
+ * Magedelight
+ * Copyright (C) 2016 Magedelight <info@magedelight.com>
+ *
+ * NOTICE OF LICENSE
+ *
+ * This program is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License as published by
+ * the Free Software Foundation, either version 3 of the License, or
+ * (at your option) any later version.
+ *
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
+ * GNU General Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public License
+ * along with this program. If not, see http://opensource.org/licenses/gpl-3.0.html.
+ *
+ * @category Magedelight
+ * @package Magedelight_Storepickup
+ * @copyright Copyright (c) 2016 Mage Delight (http://www.magedelight.com/)
+ * @license http://opensource.org/licenses/gpl-3.0.html GNU General Public License,version 3 (GPL-3.0)
+ * @author Magedelight <info@magedelight.com>
+ */
+$field = $this->getField();
+?>
+
+<div class="field" id="attribute-container" data-attribute-code="a"
+
+     <label class="label"></label>
+    <div class="control">
+        <table class="admin__control-table storetime_table" id="storetime_table">
+            <thead>
+                <tr>
+                    <th class="col-websites" ><?php echo __('Days') ?></th>
+                    <th class="col-customer-group"><?php echo __('Status') ?></th>
+                    <th class="col-qty required"><?php echo __('Open Time') ?></th>
+                    <th class="col-price required"><?php echo __('Close Time') ?></th>
+                    <th class="col-delete"><?php echo __('Action') ?></th>
+                </tr>
+            </thead>
+            <tbody id="tabel-container"></tbody>
+            <tfoot>
+                <tr>
+                    <td colspan="5" class="col-actions-add"><?php
+                    echo $this->addChild(
+                        'add_button',
+                        'Magento\Backend\Block\Widget\Button',
+                        ['label' => __('Add Day'), 'class' => 'add', 'id' => 'add_new_defined_option', 'onclick' => 'return storeTimeControl.addItem()']
+                    )->toHtml();
+?></td>
+                </tr>
+            </tfoot>
+        </table>
+        <script>
+            require([
+                'mage/template',
+                "prototype",
+                "mage/adminhtml/form"
+            ], function (mageTemplate) {
+
+                //<![CDATA[
+                var storeTimeRowTemplate = '<tr>'
+                        + '<td class="col-websites">'
+                        + '<select class="required-entry" name="storetime[<%- data.index %>][days]" id="time_row_<%- data.index %>_days">'
+<?php foreach ($block->getDays() as $_key => $_value) : ?>
+                    + '<option value="<?php echo $_value ?>"><?php echo $block->escapeJsQuote($block->escapeHtml($_value)) ?></option>'
+<?php endforeach ?>
+                + '</select></td>'
+                        + '<td class="col-customer-group"><select class="custgroup required-entry" name="storetime[<%- data.index %>][day_status]" id="time_row_<%- data.index %>_day_status">'
+<?php foreach ($block->getIsOpen() as $_key => $_value) : ?>
+                    + '<option value="<?php echo $_key ?>"><?php echo $block->escapeJsQuote($block->escapeHtml($_value)) ?></option>'
+<?php endforeach ?>
+                + '</select></td>'
+                        + '<td class="col-qty">'
+                        + '<select class="custgroup required-entry" name="storetime[<%- data.index %>][open_hour]" id="time_row_<%- data.index %>_open_hour" style="width:40px">'
+<?php for ($i = 0; $i < 24; $i++) { ?>
+    <?php $hour = str_pad($i, 2, '0', STR_PAD_LEFT); ?>
+                    + '<option value="<?php echo $hour ?>"><?php echo $block->escapeJsQuote($block->escapeHtml($hour)) ?></option>'
+<?php } ?>
+                + '</select><select class="custgroup required-entry" name="storetime[<%- data.index %>][open_minute]" id="time_row_<%- data.index %>_open_minute" style="width:40px">'
+<?php for ($i = 0; $i < 60; $i++) { ?>
+    <?php $hour = str_pad($i, 2, '0', STR_PAD_LEFT); ?>
+                    + '<option value="<?php echo $hour ?>"><?php echo $block->escapeJsQuote($block->escapeHtml($hour)) ?></option>'
+<?php } ?>
+                + '</select>'
+                        + '</td>'
+                        + '<td class="col-price"><select class="custgroup required-entry" name="storetime[<%- data.index %>][close_hour]" id="time_row_<%- data.index %>_close_hour" style="width:40px">'
+<?php for ($i = 0; $i < 24; $i++) { ?>
+    <?php $hour = str_pad($i, 2, '0', STR_PAD_LEFT); ?>
+                    + '<option value="<?php echo $hour ?>"><?php echo $block->escapeJsQuote($block->escapeHtml($hour)) ?></option>'
+<?php } ?>
+                + '</select><select class="custgroup required-entry" name="storetime[<%- data.index %>][close_minute]" id="time_row_<%- data.index %>_close_minute" style="width:40px">'
+<?php for ($i = 0; $i < 60; $i++) { ?>
+    <?php $hour = str_pad($i, 2, '0', STR_PAD_LEFT); ?>
+                    + '<option value="<?php echo $hour ?>"><?php echo $block->escapeJsQuote($block->escapeHtml($hour)) ?></option>'
+<?php } ?>
+                + '</select></td>'
+                        + '<td class="col-delete"><input type="hidden" name="storetime[<%- data.index %>][delete]" class="delete" value="" id="time_row_<%- data.index %>_delete" />'
+                        + '<button title="<?php echo $block->escapeHtml(__('Delete')); ?>" type="button" class="action- scalable delete icon-btn delete-product-option" id="time_row_delete_button" onclick="return storeTimeControl.deleteItem(event);">'
+                        + '<span><?php echo __("Delete") ?></span></button></td>'
+                        + '</tr>';
+
+                var storeTimeControl = {
+                    template: mageTemplate(storeTimeRowTemplate),
+                    itemsCount: 0,
+                    itemsCounts: 0,
+                    addItem: function () {
+
+                        var data = {
+                            days: 'Monday',
+                            day_status: '1',
+                            open_hour: '00',
+                            open_minute: '00',
+                            close_hour: '00',
+                            close_minute: '00',
+                            index: this.itemsCount++,
+                            myindex: this.itemsCounts++
+                        };
+
+                        if (arguments.length >= 4) {
+                            data.days = arguments[0];
+                            data.day_status = arguments[1];
+                            data.open_hour = arguments[2];
+                            data.open_minute = arguments[3];
+                            data.close_hour = arguments[4];
+                            data.close_minute = arguments[5];
+                        }
+                        if (arguments.length == 7) {
+                            data.readOnly = arguments[6];
+                        }
+
+                        Element.insert($('tabel-container'), {
+                            bottom: this.template({
+                                data: data
+                            })
+                        });
+
+                        $('time_row_' + data.index + '_days').value = data.days;
+                        $('time_row_' + data.index + '_day_status').value = data.day_status;
+                        $('time_row_' + data.index + '_open_hour').value = data.open_hour;
+                        $('time_row_' + data.index + '_open_minute').value = data.open_minute;
+                        $('time_row_' + data.index + '_close_hour').value = data.close_hour;
+                        $('time_row_' + data.index + '_close_minute').value = data.close_minute;
+
+                        if (data.myindex >= '6') {
+                            $('add_new_defined_option').hide();
+                        }
+
+                    },
+                    disableElement: function (el) {
+                        el.disabled = true;
+                        el.addClassName('disabled');
+                    },
+                    deleteItem: function (event) {
+                        var tr = Event.findElement(event, 'tr');
+                        if (tr) {
+                            Element.select(tr, '.delete').each(function (elem) {
+                                elem.value = '1'
+                            });
+                            Element.select(tr, ['input', 'select']).each(function (elem) {
+                                elem.hide()
+                            });
+                            Element.hide(tr);
+                            Element.addClassName(tr, 'no-display template');
+                        }
+                        myindex: this.itemsCounts--
+                        $('add_new_defined_option').show();
+                        return false;
+                    }
+                };
+                /*set data */
+<?php if (!empty($field['data'])) {
+    foreach ($field['data'] as $_item) :
+    
+        ?>
+                        storeTimeControl.addItem('<?php echo $_item['days'] ?>',
+                        '<?php if(isset($_item['day_status'])){
+                            echo $_item['day_status'];
+                        }else {
+                            echo $_item['day_status'] = 0;
+                        }?>',
+                        '<?php if(isset($_item['open_hour'])){ echo sprintf("%02d",$_item['open_hour']); }else{ echo sprintf("%02d",0);}  ?>',
+                        '<?php if(isset($_item['open_minute'])){ echo sprintf("%02d",$_item['open_minute']); }else{ echo sprintf("%02d",0);}  ?>',
+                        '<?php if(isset($_item['close_hour'])){ echo sprintf("%02d",$_item['close_hour']); }else{ echo sprintf("%02d",0);}  ?>',
+                        '<?php if(isset($_item['close_minute'])){ echo sprintf("%02d",$_item['close_minute']); }else{ echo sprintf("%02d",0);}  ?>',
+                        <?php echo (int) !empty($_item['readonly']) ?>);
+    <?php                                                                                                         endforeach;
+}; ?>
+
+                window.storeTimeControl = storeTimeControl;
+                //]]>
+
+            });
+        </script>
+    </div>
+</div>

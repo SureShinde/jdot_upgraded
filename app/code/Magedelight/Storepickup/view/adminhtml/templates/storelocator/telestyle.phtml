@@ -1,0 +1,55 @@
+<?php
+
+/**
+ * Magedelight
+ * Copyright (C) 2016 Magedelight <info@magedelight.com>
+ *
+ * NOTICE OF LICENSE
+ *
+ * This program is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License as published by
+ * the Free Software Foundation, either version 3 of the License, or
+ * (at your option) any later version.
+ *
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
+ * GNU General Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public License
+ * along with this program. If not, see http://opensource.org/licenses/gpl-3.0.html.
+ *
+ * @category Magedelight
+ * @package Magedelight_Storepickup
+ * @copyright Copyright (c) 2016 Mage Delight (http://www.magedelight.com/)
+ * @license http://opensource.org/licenses/gpl-3.0.html GNU General Public License,version 3 (GPL-3.0)
+ * @author Magedelight <info@magedelight.com>
+ */
+$field = $this->getField();
+
+$html = "";
+$html .= "<style type='text/css'>
+        #storelocator_address { width:100%; }
+        #storelocator_address input{ margin-bottom: 0.5cm; }
+        #storelocator_telephone { width: 100%; }
+        #storelocator_telephone input{ padding: 4px 10px; width: 90%; background-color: #fff; border: 1px solid #adadad; border-radius: 1px; box-sizing: border-box; color: #303030; font-size: 14px; font-weight: 500; height: 33px; padding: 4px; }
+         #storelocator_telephone .action-delete::before{ color: #b7b3ad; content: ''; font-family: 'MUI-Icons'; font-size: 18px; font-style: normal; font-weight: normal; }
+         #storelocator_telephone .action-delete { background:none; border:none; }
+         #storelocator_telephone .action-delete span{ display:none; }
+         #storelocator_telephone .actions{ margin-top: 10px; width: 90%; }
+         #storelocator_telephone .actions button{ float:right; }
+    </style>
+    <script type='text/javascript'>
+          var inputhtml = '" . "<input id=" . '"' . $field['name'] . '"' . " class=" . '"validate-number"' . " name=" . '"' . $field['name'] . "[]" . '"' . "/><button onclick=" . '"' . "deleteInput(this)" . '"' . " class=" . '"' . "action-delete" . '"' . " title=" . '"' . "Delete Telephone" . '"' . " type=" . '"' . "button" . '"' . "><span>Delete Contact</span></button>" . "';
+          function addNewInput()
+          {
+            jQuery('#tele-input-cont').append(inputhtml);
+          }
+          function deleteInput(ref)
+          {
+            jQuery(ref).prev().remove();
+            jQuery(ref).remove();
+          }
+    </script>";
+echo $html;
+?>

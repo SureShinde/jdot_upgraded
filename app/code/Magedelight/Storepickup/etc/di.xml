@@ -1,0 +1,146 @@
+<?xml version="1.0"?>
+
+<!--
+/**
+ * Magedelight
+ * Copyright (C) 2016 Magedelight <info@magedelight.com>
+ *
+ * NOTICE OF LICENSE
+ *
+ * This program is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License as published by
+ * the Free Software Foundation, either version 3 of the License, or
+ * (at your option) any later version.
+ *
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
+ * GNU General Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public License
+ * along with this program. If not, see http://opensource.org/licenses/gpl-3.0.html.
+ *
+ * @category Magedelight
+ * @package Magedelight_Storepickup
+ * @copyright Copyright (c) 2016 Mage Delight (http://www.magedelight.com/)
+ * @license http://opensource.org/licenses/gpl-3.0.html GNU General Public License,version 3 (GPL-3.0)
+ * @author Magedelight <info@magedelight.com>
+ */
+-->
+
+<config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:framework:ObjectManager/etc/config.xsd">
+
+    <virtualType name="StorepickupGirdFilterPool" type="Magento\Framework\View\Element\UiComponent\DataProvider\FilterPool">
+        <arguments>
+            <argument name="appliers" xsi:type="array">
+                <item name="regular" xsi:type="object">Magento\Framework\View\Element\UiComponent\DataProvider\RegularFilter</item>
+                <item name="fulltext" xsi:type="object">Magento\Framework\View\Element\UiComponent\DataProvider\FulltextFilter</item>
+            </argument>
+        </arguments>
+    </virtualType>
+    <virtualType name="StorepickupGridDataProvider" type="Magento\Framework\View\Element\UiComponent\DataProvider\DataProvider">
+        <arguments>
+            <argument name="collection" xsi:type="object" shared="false">Magedelight\Storepickup\Model\ResourceModel\Storelocator\Collection</argument>
+            <argument name="filterPool" xsi:type="object" shared="false">StorepickupGirdFilterPool</argument>
+        </arguments>
+    </virtualType>
+    <type name="Magedelight\Storepickup\Model\ResourceModel\Storelocator\Grid\Collection">
+        <arguments>
+            <argument name="mainTable" xsi:type="string">magedelight_storelocator</argument>
+            <argument name="eventPrefix" xsi:type="string">magedelight_storepickup_grid_collection</argument>
+            <argument name="eventObject" xsi:type="string">storepickup_grid_collection</argument>
+            <argument name="resourceModel" xsi:type="string">Magedelight\Storepickup\Model\ResourceModel\Storepickup</argument>
+        </arguments>
+    </type>
+    <type name="Magento\Framework\View\Element\UiComponent\DataProvider\CollectionFactory">
+        <arguments>
+            <argument name="collections" xsi:type="array">
+                <item name="storepickupadmin_storeinfo_listing_data_source" xsi:type="string">Magedelight\Storepickup\Model\ResourceModel\Storelocator\Grid\Collection</item>
+            </argument>
+        </arguments>
+    </type>
+
+
+    <virtualType name="StorelocatorGirdFilterPool" type="Magento\Framework\View\Element\UiComponent\DataProvider\FilterPool">
+        <arguments>
+            <argument name="appliers" xsi:type="array">
+                <item name="regular" xsi:type="object">Magento\Framework\View\Element\UiComponent\DataProvider\RegularFilter</item>
+                <item name="fulltext" xsi:type="object">Magento\Framework\View\Element\UiComponent\DataProvider\FulltextFilter</item>
+            </argument>
+        </arguments>
+    </virtualType>
+    <virtualType name="StorelocatorGridDataProvider" type="Magento\Framework\View\Element\UiComponent\DataProvider\DataProvider">
+        <arguments>
+            <argument name="collection" xsi:type="object" shared="false">Magedelight\Storepickup\Model\ResourceModel\Storelocator\Collection</argument>
+            <argument name="filterPool" xsi:type="object" shared="false">StorelocatorGirdFilterPool</argument>
+        </arguments>
+    </virtualType>
+    
+    <type name="Magedelight\Storepickup\Model\ResourceModel\Storeholiday\Grid\Collection">
+        <arguments>
+            <argument name="mainTable" xsi:type="string">magedelight_store_holiday</argument>
+            <argument name="eventPrefix" xsi:type="string">magedelight_storelocator_grid_collection</argument>
+            <argument name="eventObject" xsi:type="string">storeholiday_grid_collection</argument>
+            <argument name="resourceModel" xsi:type="string">Magedelight\Storepickup\Model\ResourceModel\Storeholiday</argument>
+        </arguments>
+    </type>
+    <type name="Magento\Framework\View\Element\UiComponent\DataProvider\CollectionFactory">
+        <arguments>
+            <argument name="collections" xsi:type="array">
+                <item name="storepickupadmin_storeholiday_listing_data_source" xsi:type="string">Magedelight\Storepickup\Model\ResourceModel\Storeholiday\Grid\Collection</item>
+            </argument>
+        </arguments>
+    </type>
+
+<!--    <type name="Magento\Checkout\Model\ShippingInformationManagement">-->
+<!--        <plugin name="save-in-quote" type="Magedelight\Storepickup\Model\Checkout\ShippingInformationManagementPlugin" sortOrder="10"/>-->
+<!--    </type>-->
+
+<!--    <type name="Magento\Sales\Model\Order">-->
+<!--        <plugin name="add-pickup-details" type="Magedelight\Storepickup\Plugin\OrderShippingInformationPlugin" sortOrder="10"/>-->
+<!--    </type>       -->
+
+    <virtualType name="Magento\Sales\Model\ResourceModel\Order\Grid" type="Magento\Sales\Model\ResourceModel\Grid">
+        <arguments>
+            <argument name="columns" xsi:type="array">
+                <item name="pickup_store" xsi:type="string">sales_order.pickup_store</item>
+                <item name="pickup_date" xsi:type="string">sales_order.pickup_date</item>
+            </argument>
+        </arguments>
+    </virtualType>
+
+
+
+    <!-- Manage Tag Start -->
+    <virtualType name="TagGirdFilterPool" type="Magento\Framework\View\Element\UiComponent\DataProvider\FilterPool">
+        <arguments>
+            <argument name="appliers" xsi:type="array">
+                <item name="regular" xsi:type="object">Magento\Framework\View\Element\UiComponent\DataProvider\RegularFilter</item>
+                <item name="fulltext" xsi:type="object">Magento\Framework\View\Element\UiComponent\DataProvider\FulltextFilter</item>
+            </argument>
+        </arguments>
+    </virtualType>
+    <virtualType name="TagGridDataProvider" type="Magento\Framework\View\Element\UiComponent\DataProvider\DataProvider">
+        <arguments>
+            <argument name="collection" xsi:type="object" shared="false">Magedelight\Storepickup\Model\ResourceModel\Tag\Collection</argument>
+            <argument name="filterPool" xsi:type="object" shared="false">TagGirdFilterPool</argument>
+        </arguments>
+    </virtualType>
+    <type name="Magedelight\Storepickup\Model\ResourceModel\Tag\Grid\Collection">
+        <arguments>
+            <argument name="mainTable" xsi:type="string">magedelight_store_tag</argument>
+            <argument name="eventPrefix" xsi:type="string">magedelight_store_tag_grid_collection</argument>
+            <argument name="eventObject" xsi:type="string">tag_grid_collection</argument>
+            <argument name="resourceModel" xsi:type="string">Magedelight\Storepickup\Model\ResourceModel\Tag</argument>
+        </arguments>
+    </type>
+    <type name="Magento\Framework\View\Element\UiComponent\DataProvider\CollectionFactory">
+        <arguments>
+            <argument name="collections" xsi:type="array">
+                <item name="storepickupadmin_tag_listing_data_source" xsi:type="string">Magedelight\Storepickup\Model\ResourceModel\Tag\Grid\Collection</item>
+            </argument>
+        </arguments>
+    </type>
+
+    <!-- Manage Tag End -->
+</config>
