@@ -9,7 +9,7 @@
         <dl class="admin__payment-methods control">
             <?php
             $_methods = $block->getMethods();
-            unset($_methods[0]);
+            //unset($_methods[0]);
             $_methodsCount = count($_methods);
             $_counter = 0;
             $currentSelectedMethod = $block->getSelectedMethodCode();
