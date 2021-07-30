@@ -104,3 +104,16 @@ body .container-v3.module-split span a {
         text-shadow: none;
     }
 }
+
+/* Whatsapp icon style fix */
+
+.page-wrapper .page-footer .footer.content .footer-v3 .fa-whatsapp:before {
+    line-height: 38px;
+}
+.si-whatsapp:hover {
+    background: rgb(21, 195, 154);
+}
+.fa-whatsapp:before {
+    content: "\f232";
+    font: normal normal normal 22px/1 FontAwesome;
+}
