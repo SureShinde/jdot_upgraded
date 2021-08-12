@@ -49,7 +49,7 @@ define(['jquery', 'uiComponent'], function ($, Component) {
                 var buttom = $('.pschart-sizechart-link-'+id);
 
                 for (var i = 0; i < params.attributesIds.length; i++) {
-                    var element = $('div [data-attribute-id=' + params.attributesIds[i] + ']');
+                    var element = $('div [attribute-id=' + params.attributesIds[i] + ']');
                     if (element.length) {
                         buttom.appendTo(element);
                         found = true;
